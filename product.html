@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organic Tomatoes - Kebun Rakyat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: linear-gradient(to bottom right, #fef3c7, #ffffff, #d1fae5); }
+    nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 16px 24px; }
+    .nav-content { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo-icon { width: 48px; height: 48px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+    .logo-text h1 { font-size: 24px; font-weight: 700; background: linear-gradient(to right, #15803d, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: Georgia, serif; }
+    .logo-text p { font-size: 10px; color: #16a34a; font-weight: 600; letter-spacing: 2px; }
+    .btn { padding: 10px 24px; border-radius: 9999px; font-weight: 600; text-decoration: none; background: linear-gradient(to right, #16a34a, #10b981); color: white; display: inline-block; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 120px 24px 80px; }
+    .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+    .product-image { background: linear-gradient(to bottom right, #fef3c7, #d1fae5); border-radius: 24px; padding: 80px; text-align: center; font-size: 160px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); }
+    .badge { display: inline-block; padding: 8px 16px; background: #16a34a; color: white; border-radius: 9999px; font-size: 12px; font-weight: 700; margin-right: 8px; }
+    .badge-stock { background: #dcfce7; color: #15803d; }
+    h1 { font-size: 42px; font-weight: 700; color: #111827; margin: 16px 0 24px; font-family: Georgia, serif; }
+    .rating { display: flex; align-items: center; gap: 8px; font-size: 16px; margin-bottom: 24px; }
+    .price { font-size: 48px; font-weight: 700; color: #16a34a; margin-bottom: 8px; }
+    .unit { font-size: 18px; color: #6b7280; margin-bottom: 32px; }
+    .farmer-box { background: #dcfce7; border-radius: 16px; padding: 24px; margin-bottom: 32px; }
+    .farmer-info { display: flex; align-items: center; gap: 16px; }
+    .farmer-avatar { width: 64px; height: 64px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700; }
+    .btn-cart { padding: 20px 40px; background: linear-gradient(to right, #16a34a, #10b981); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 18px; cursor: pointer; width: 100%; margin-top: 24px; transition: transform 0.3s; }
+    .btn-cart:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(22, 163, 74, 0.3); }
+    footer { background: #111827; color: white; padding: 48px 24px; text-align: center; margin-top: 80px; }
+    @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-content">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🌱</div>
+        <div class="logo-text"><h1>Kebun Rakyat</h1><p>PASARAN PETANI</p></div>
+      </a>
+      <a href="login.html" class="btn">Sign In</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div style="font-size: 14px; color: #6b7280; margin-bottom: 24px;">
+      <a href="index.html" style="color: #6b7280; text-decoration: none;">Home</a> / 
+      <a href="marketplace.html" style="color: #6b7280; text-decoration: none;">Marketplace</a> / 
+      <span style="color: #111827; font-weight: 600;">Organic Tomatoes</span>
+    </div>
+
+    <div class="product-grid">
+      <div>
+        <div class="product-image">🍅</div>
+      </div>
+
+      <div>
+        <div style="margin-bottom: 16px;">
+          <span class="badge">🛡️ Verified Farmer</span>
+          <span class="badge badge-stock">In Stock</span>
+        </div>
+
+        <h1>Organic Tomatoes</h1>
+
+        <div class="rating">
+          <span>⭐⭐⭐⭐⭐</span>
+          <span style="font-weight: 700;">4.8</span>
+          <span style="color: #6b7280;">(124 reviews)</span>
+        </div>
+
+        <div class="price">RM 4.50</div>
+        <div class="unit">per kg</div>
+
+        <div class="farmer-box">
+          <div style="font-weight: 600; color: #111827; margin-bottom: 16px;">Sold by:</div>
+          <div class="farmer-info">
+            <div class="farmer-avatar">GV</div>
+            <div>
+              <div style="font-weight: 700; color: #111827; font-size: 18px;">Green Valley Farms</div>
+              <div style="color: #6b7280;">📍 Cameron Highlands, Pahang</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 24px;">
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+            <span style="font-size: 20px;">🚚</span>
+            <span style="color: #374151;">Delivery in 1-2 days</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+            <span style="font-size: 20px;">⏰</span>
+            <span style="color: #374151;">Freshly harvested within 24 hours</span>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <span style="font-size: 20px;">🛡️</span>
+            <span style="color: #374151;">Quality guaranteed or money back</span>
+          </div>
+        </div>
+
+        <button class="btn-cart">🛒 Add to Cart</button>
+
+        <div style="background: white; border-radius: 16px; padding: 32px; margin-top: 32px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+          <h3 style="font-size: 24px; font-weight: 700; color: #111827; margin-bottom: 16px;">Product Details</h3>
+          <p style="color: #6b7280; line-height: 1.8; margin-bottom: 24px;">
+            Premium organic tomatoes grown in the cool climate of Cameron Highlands. Our tomatoes are cultivated using sustainable farming practices without synthetic pesticides or fertilizers. Handpicked at peak ripeness to ensure maximum flavor and nutritional value.
+          </p>
+          <h4 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 12px;">Key Features:</h4>
+          <ul style="color: #374151; line-height: 2; margin-left: 24px;">
+            <li>100% Organic - No pesticides</li>
+            <li>Freshly harvested within 24 hours</li>
+            <li>Rich in vitamins A, C, and lycopene</li>
+            <li>Perfect for salads, cooking, and sauces</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px;">
+      <div class="logo-icon">🌱</div><h3 style="font-size: 24px; font-family: Georgia, serif;">Kebun Rakyat</h3>
+    </div>
+    <p style="color: #9ca3af;">Menghubungkan petani dan pembeli untuk masa depan yang lestari</p>
+  </footer>
+</body>
+</html>

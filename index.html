@@ -4,331 +4,114 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Kebun Rakyat - Pasaran Petani Malaysia</title>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * {
-      font-family: 'Inter', sans-serif;
-    }
-    
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    .animate-fadeIn {
-      animation: fadeIn 0.8s ease-out;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: linear-gradient(to bottom right, #fef3c7, #ffffff, #d1fae5); min-height: 100vh; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); z-index: 1000; }
+    .nav-content { max-width: 1280px; margin: 0 auto; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo-icon { width: 48px; height: 48px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+    .logo-text h1 { font-size: 24px; font-weight: 700; background: linear-gradient(to right, #15803d, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: Georgia, serif; }
+    .logo-text p { font-size: 10px; color: #16a34a; font-weight: 600; letter-spacing: 2px; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { color: #374151; text-decoration: none; font-weight: 500; font-size: 14px; transition: color 0.3s; }
+    .nav-links a:hover { color: #16a34a; }
+    .nav-buttons { display: flex; gap: 12px; align-items: center; }
+    .btn { padding: 10px 24px; border-radius: 9999px; font-weight: 600; text-decoration: none; transition: all 0.3s; display: inline-block; }
+    .btn-primary { background: linear-gradient(to right, #16a34a, #10b981); color: white; }
+    .btn-primary:hover { box-shadow: 0 10px 20px rgba(22, 163, 74, 0.3); transform: scale(1.05); }
+    .btn-secondary { color: #15803d; }
+    .hero { padding-top: 128px; padding-bottom: 80px; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .badge { display: inline-block; padding: 8px 16px; background: #dcfce7; color: #15803d; border-radius: 9999px; font-size: 14px; font-weight: 600; margin-bottom: 24px; }
+    h1 { font-size: 56px; font-weight: 700; line-height: 1.1; color: #111827; margin-bottom: 24px; font-family: Georgia, serif; }
+    .gradient-text { background: linear-gradient(to right, #16a34a, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-description { font-size: 20px; color: #4b5563; line-height: 1.6; margin-bottom: 32px; }
+    .hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-large { padding: 16px 32px; font-size: 16px; border-radius: 12px; }
+    .btn-outline { background: white; color: #15803d; border: 2px solid #bbf7d0; }
+    .featured-box { background: white; border-radius: 24px; padding: 32px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); border: 1px solid #d1fae5; }
+    .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .product-card { background: linear-gradient(to bottom right, #fef3c7, #d1fae5); border-radius: 16px; padding: 16px; cursor: pointer; transition: transform 0.3s; }
+    .product-card:hover { transform: scale(1.05); }
+    .product-icon { font-size: 48px; margin-bottom: 8px; }
+    .product-name { font-size: 14px; font-weight: 600; color: #1f2937; margin-bottom: 4px; }
+    .product-price { font-size: 18px; font-weight: 700; color: #16a34a; margin-bottom: 8px; }
+    .product-location { font-size: 12px; color: #6b7280; }
+    .stats-section { padding: 48px 0; background: rgba(255, 255, 255, 0.5); }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
+    .stat-card { text-align: center; }
+    .stat-icon { width: 64px; height: 64px; background: linear-gradient(to bottom right, #dcfce7, #d1fae5); border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px; font-size: 28px; }
+    .stat-value { font-size: 36px; font-weight: 700; color: #111827; margin-bottom: 4px; }
+    .stat-label { font-size: 14px; color: #6b7280; font-weight: 500; }
+    footer { background: #111827; color: white; padding: 48px 0; text-align: center; }
+    .footer-logo { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 24px; }
+    .footer-description { color: #9ca3af; margin-bottom: 24px; }
+    @media (max-width: 768px) { .nav-links { display: none; } .hero-grid { grid-template-columns: 1fr; } h1 { font-size: 36px; } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
   </style>
 </head>
 <body>
-  <div id="root"></div>
+  <nav>
+    <div class="nav-content">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🌱</div>
+        <div class="logo-text"><h1>Kebun Rakyat</h1><p>PASARAN PETANI</p></div>
+      </a>
+      <div class="nav-links">
+        <a href="marketplace.html">Marketplace</a>
+        <a href="about.html">About Us</a>
+        <a href="dashboard.html">For Farmers</a>
+      </div>
+      <div class="nav-buttons">
+        <a href="login.html" class="btn btn-secondary">Sign In</a>
+        <a href="login.html" class="btn btn-primary">Get Started</a>
+      </div>
+    </div>
+  </nav>
 
-  <script type="text/babel">
-    const { useState, useEffect } = React;
-    const { Sprout, TrendingUp, ShieldCheck, Users, Package, ArrowRight, ChevronRight, Star, MapPin, Clock } = window.lucide;
-
-    function FarmerMarketplace() {
-      const [activeCategory, setActiveCategory] = useState(0);
-      const [scrolled, setScrolled] = useState(false);
-
-      useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 20);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-      }, []);
-
-      const categories = [
-        { name: 'Fresh Vegetables', count: '2,340', icon: '🥬' },
-        { name: 'Fruits', count: '1,890', icon: '🍎' },
-        { name: 'Grains & Seeds', count: '3,120', icon: '🌾' },
-        { name: 'Dairy Products', count: '980', icon: '🥛' },
-        { name: 'Livestock', count: '560', icon: '🐄' },
-        { name: 'Organic Produce', count: '1,450', icon: '🌿' },
-      ];
-
-      const featuredProducts = [
-        { name: 'Organic Tomatoes', farmer: 'Green Valley Farms', price: 'RM 4.50/kg', location: 'Cameron Highlands', rating: 4.8, image: '🍅', verified: true },
-        { name: 'Fresh Corn', farmer: 'Sunrise Agriculture', price: 'RM 3.20/kg', location: 'Kedah', rating: 4.9, image: '🌽', verified: true },
-        { name: 'Premium Rice', farmer: 'Golden Harvest', price: 'RM 6.80/kg', location: 'Sekinchan', rating: 4.7, image: '🌾', verified: true },
-        { name: 'Fresh Lettuce', farmer: 'Highland Greens', price: 'RM 5.50/kg', location: 'Genting Highlands', rating: 4.6, image: '🥬', verified: false },
-      ];
-
-      const stats = [
-        { value: '5,000+', label: 'Active Farmers', icon: 'Users' },
-        { value: '15,000+', label: 'Products Listed', icon: 'Package' },
-        { value: 'RM 2.5M+', label: 'Monthly Transactions', icon: 'TrendingUp' },
-        { value: '98%', label: 'Satisfaction Rate', icon: 'Star' },
-      ];
-
-      const IconComponent = ({ name, size = 24, className = "" }) => {
-        const icons = { Users, Package, TrendingUp, Star, ShieldCheck, Clock, Sprout, ArrowRight, ChevronRight, MapPin };
-        const Icon = icons[name];
-        return Icon ? <Icon size={size} className={className} /> : null;
-      };
-
-      return (
-        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-green-50">
-          {/* Navigation */}
-          <nav className={`fixed w-full top-0 z-50 transition-all duration-500 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
-            <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-              <div className="flex items-center gap-3 group">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-500 rounded-2xl flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
-                  <Sprout className="text-white" size={24} />
-                </div>
-                <div>
-                  <h1 className="text-2xl font-bold bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent" style={{ fontFamily: 'Georgia, serif' }}>
-                    Kebun Rakyat
-                  </h1>
-                  <p className="text-xs text-green-600 font-medium tracking-wider">PASARAN PETANI</p>
-                </div>
-              </div>
-              <div className="hidden md:flex items-center gap-8 text-sm font-medium">
-                <a href="marketplace.html" className="text-gray-700 hover:text-green-600 transition-colors">Marketplace</a>
-                <a href="about.html" className="text-gray-700 hover:text-green-600 transition-colors">About Us</a>
-                <a href="dashboard.html" className="text-gray-700 hover:text-green-600 transition-colors">For Farmers</a>
-              </div>
-              <div className="flex items-center gap-3">
-                <a href="login.html" className="px-4 py-2 text-green-700 font-medium hover:text-green-800 transition-colors">
-                  Sign In
-                </a>
-                <a href="login.html" className="px-6 py-2.5 bg-gradient-to-r from-green-600 to-emerald-500 text-white rounded-full font-medium hover:shadow-lg hover:scale-105 transition-all duration-300">
-                  Get Started
-                </a>
-              </div>
-            </div>
-          </nav>
-
-          {/* Hero Section */}
-          <section className="pt-32 pb-20 px-6">
-            <div className="max-w-7xl mx-auto">
-              <div className="grid md:grid-cols-2 gap-12 items-center">
-                <div className="space-y-6 animate-fadeIn">
-                  <div className="inline-block">
-                    <span className="px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-semibold tracking-wide">
-                      🌱 Connecting Farmers & Buyers
-                    </span>
-                  </div>
-                  <h1 className="text-5xl md:text-6xl font-bold leading-tight text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
-                    Fresh Harvests,
-                    <span className="block mt-2 bg-gradient-to-r from-green-600 to-emerald-500 bg-clip-text text-transparent">
-                      Direct from Farm
-                    </span>
-                  </h1>
-                  <p className="text-xl text-gray-600 leading-relaxed">
-                    A transparent marketplace where farmers sell directly to buyers. Better prices for farmers, fresher produce for buyers, zero middlemen.
-                  </p>
-                  <div className="flex flex-wrap gap-4 pt-4">
-                    <a href="marketplace.html" className="px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-500 text-white rounded-xl font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2">
-                      Browse Products <ArrowRight size={20} />
-                    </a>
-                    <a href="login.html" className="px-8 py-4 bg-white text-green-700 rounded-xl font-semibold border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-300">
-                      Sell Your Harvest
-                    </a>
-                  </div>
-                </div>
-                
-                <div className="relative">
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-emerald-300 rounded-3xl blur-3xl opacity-20 animate-pulse"></div>
-                  <div className="relative bg-white rounded-3xl shadow-2xl p-8 border border-green-100">
-                    <div className="grid grid-cols-2 gap-4">
-                      {featuredProducts.slice(0, 4).map((product, idx) => (
-                        <div key={idx} className="bg-gradient-to-br from-amber-50 to-green-50 rounded-2xl p-4 hover:scale-105 transition-transform duration-300 cursor-pointer">
-                          <div className="text-5xl mb-2">{product.image}</div>
-                          <div className="text-sm font-semibold text-gray-800 mb-1">{product.name}</div>
-                          <div className="text-green-600 font-bold text-lg">{product.price}</div>
-                          <div className="flex items-center gap-1 mt-2 text-xs text-gray-600">
-                            <MapPin size={12} />
-                            {product.location}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Stats Section */}
-          <section className="py-12 px-6 bg-white/50 backdrop-blur-sm">
-            <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                {stats.map((stat, idx) => (
-                  <div key={idx} className="text-center group hover:scale-105 transition-transform duration-300">
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-50 rounded-2xl mb-3 group-hover:shadow-lg transition-shadow">
-                      <IconComponent name={stat.icon} size={28} className="text-green-600" />
-                    </div>
-                    <div className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</div>
-                    <div className="text-sm text-gray-600 font-medium">{stat.label}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* Categories Section */}
-          <section className="py-20 px-6">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center mb-12">
-                <h2 className="text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
-                  Browse by Category
-                </h2>
-                <p className="text-gray-600 text-lg">Discover fresh produce from verified farmers across the region</p>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                {categories.map((cat, idx) => (
-                  <div
-                    key={idx}
-                    onClick={() => setActiveCategory(idx)}
-                    className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 transform hover:scale-105 ${
-                      activeCategory === idx
-                        ? 'bg-gradient-to-br from-green-600 to-emerald-500 text-white shadow-xl'
-                        : 'bg-white text-gray-700 hover:shadow-lg border border-gray-200'
-                    }`}
-                  >
-                    <div className="text-4xl mb-3">{cat.icon}</div>
-                    <div className="font-semibold mb-1">{cat.name}</div>
-                    <div className={`text-sm ${activeCategory === idx ? 'text-green-100' : 'text-gray-500'}`}>
-                      {cat.count} products
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* How It Works */}
-          <section className="py-20 px-6 bg-gradient-to-br from-green-50 to-emerald-50">
-            <div className="max-w-7xl mx-auto">
-              <div className="text-center mb-16">
-                <h2 className="text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
-                  Cara Kebun Rakyat Berfungsi
-                </h2>
-                <p className="text-gray-600 text-lg">Mudah, telus, dan terus dari ladang</p>
-              </div>
-              <div className="grid md:grid-cols-3 gap-8">
-                {[
-                  { 
-                    step: '01', 
-                    title: 'Farmers List Products', 
-                    desc: 'Farmers create listings with photos, prices, and availability. Our verification system ensures quality and authenticity.',
-                    icon: 'Package'
-                  },
-                  { 
-                    step: '02', 
-                    title: 'Buyers Browse & Order', 
-                    desc: 'Buyers discover fresh produce, compare prices, and place orders directly with farmers. Real-time inventory updates.',
-                    icon: 'Users'
-                  },
-                  { 
-                    step: '03', 
-                    title: 'Direct Delivery', 
-                    desc: 'Secure payment processing and logistics coordination. Track orders in real-time from farm to destination.',
-                    icon: 'TrendingUp'
-                  },
-                ].map((item, idx) => (
-                  <div key={idx} className="relative bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                    <div className="absolute -top-4 -left-4 w-16 h-16 bg-gradient-to-br from-green-600 to-emerald-500 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg">
-                      {item.step}
-                    </div>
-                    <div className="mt-4">
-                      <IconComponent name={item.icon} size={40} className="text-green-600 mb-4" />
-                      <h3 className="text-2xl font-bold text-gray-900 mb-3">{item.title}</h3>
-                      <p className="text-gray-600 leading-relaxed">{item.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          {/* Trust & Safety */}
-          <section className="py-20 px-6">
-            <div className="max-w-7xl mx-auto">
-              <div className="bg-gradient-to-r from-green-600 to-emerald-500 rounded-3xl p-12 text-white relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32"></div>
-                <div className="absolute bottom-0 left-0 w-96 h-96 bg-white/5 rounded-full -ml-48 -mb-48"></div>
-                <div className="relative z-10 grid md:grid-cols-3 gap-8">
-                  {[
-                    { icon: 'ShieldCheck', title: 'Verified Farmers', desc: 'All farmers undergo strict verification to ensure quality and authenticity' },
-                    { icon: 'Star', title: 'Quality Guarantee', desc: 'Rating system and buyer protection ensures you get what you ordered' },
-                    { icon: 'Clock', title: 'Fresh Delivery', desc: 'Direct from farm ensures maximum freshness and minimal transit time' },
-                  ].map((item, idx) => (
-                    <div key={idx} className="text-center">
-                      <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-2xl mb-4 backdrop-blur-sm">
-                        <IconComponent name={item.icon} size={40} />
-                      </div>
-                      <h3 className="text-2xl font-bold mb-3">{item.title}</h3>
-                      <p className="text-green-50 leading-relaxed">{item.desc}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* CTA Section */}
-          <section className="py-20 px-6 bg-gradient-to-br from-amber-50 to-green-50">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>
-                Ready to Join the Movement?
-              </h2>
-              <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-                Sama ada anda seorang petani yang ingin mencapai lebih ramai pembeli atau pembeli yang mencari hasil segar berkualiti, Kebun Rakyat adalah platform anda.
-              </p>
-              <div className="flex flex-wrap gap-4 justify-center">
-                <a href="login.html" className="px-10 py-5 bg-gradient-to-r from-green-600 to-emerald-500 text-white rounded-xl font-semibold text-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2">
-                  Start Selling <ChevronRight size={24} />
-                </a>
-                <a href="marketplace.html" className="px-10 py-5 bg-white text-green-700 rounded-xl font-semibold text-lg border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all duration-300">
-                  Browse Products
-                </a>
-              </div>
-            </div>
-          </section>
-
-          {/* Footer */}
-          <footer className="bg-gray-900 text-white py-12 px-6">
-            <div className="max-w-7xl mx-auto text-center">
-              <div className="flex items-center justify-center gap-3 mb-6">
-                <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-500 rounded-2xl flex items-center justify-center">
-                  <Sprout size={24} />
-                </div>
-                <h3 className="text-2xl font-bold" style={{ fontFamily: 'Georgia, serif' }}>Kebun Rakyat</h3>
-              </div>
-              <p className="text-gray-400 mb-6">Menghubungkan petani dan pembeli untuk masa depan yang lestari</p>
-              <div className="flex justify-center gap-8 text-sm text-gray-400">
-                <a href="#" className="hover:text-green-400 transition-colors">Privacy Policy</a>
-                <a href="#" className="hover:text-green-400 transition-colors">Terms of Service</a>
-                <a href="about.html" className="hover:text-green-400 transition-colors">About Us</a>
-              </div>
-              <div className="mt-8 pt-8 border-t border-gray-800 text-gray-500 text-sm">
-                © 2026 Kebun Rakyat. Hak cipta terpelihara.
-              </div>
-            </div>
-          </footer>
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="badge">🌱 Connecting Farmers & Buyers</div>
+          <h1>Fresh Harvests,<br><span class="gradient-text">Direct from Farm</span></h1>
+          <p class="hero-description">A transparent marketplace where farmers sell directly to buyers. Better prices for farmers, fresher produce for buyers, zero middlemen.</p>
+          <div class="hero-buttons">
+            <a href="marketplace.html" class="btn btn-primary btn-large">Browse Products →</a>
+            <a href="login.html" class="btn btn-outline btn-large">Sell Your Harvest</a>
+          </div>
         </div>
-      );
-    }
+        <div class="featured-box">
+          <div class="product-grid">
+            <div class="product-card"><div class="product-icon">🍅</div><div class="product-name">Organic Tomatoes</div><div class="product-price">RM 4.50/kg</div><div class="product-location">📍 Cameron Highlands</div></div>
+            <div class="product-card"><div class="product-icon">🌽</div><div class="product-name">Fresh Corn</div><div class="product-price">RM 3.20/kg</div><div class="product-location">📍 Kedah</div></div>
+            <div class="product-card"><div class="product-icon">🌾</div><div class="product-name">Premium Rice</div><div class="product-price">RM 6.80/kg</div><div class="product-location">📍 Sekinchan</div></div>
+            <div class="product-card"><div class="product-icon">🥬</div><div class="product-name">Fresh Lettuce</div><div class="product-price">RM 5.50/kg</div><div class="product-location">📍 Genting</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<FarmerMarketplace />);
-  </script>
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <script>
-    lucide.createIcons();
-  </script>
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-value">5,000+</div><div class="stat-label">Active Farmers</div></div>
+        <div class="stat-card"><div class="stat-icon">📦</div><div class="stat-value">15,000+</div><div class="stat-label">Products Listed</div></div>
+        <div class="stat-card"><div class="stat-icon">📈</div><div class="stat-value">RM 2.5M+</div><div class="stat-label">Monthly Transactions</div></div>
+        <div class="stat-card"><div class="stat-icon">⭐</div><div class="stat-value">98%</div><div class="stat-label">Satisfaction Rate</div></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-logo"><div class="logo-icon">🌱</div><h3>Kebun Rakyat</h3></div>
+      <p class="footer-description">Menghubungkan petani dan pembeli untuk masa depan yang lestari</p>
+      <div style="padding-top: 32px; border-top: 1px solid #374151; color: #6b7280; font-size: 14px;">© 2026 Kebun Rakyat. Hak cipta terpelihara.</div>
+    </div>
+  </footer>
 </body>
 </html>
