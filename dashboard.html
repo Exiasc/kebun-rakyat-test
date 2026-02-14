@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Kebun Rakyat</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { Sprout, Target, Users, TrendingUp, Heart, Shield, Leaf, CheckCircle, ArrowRight } = window.lucide;
+
+    function AboutPage() {
+      const values = [
+        { icon: 'Leaf', title: 'Sustainability', desc: 'Promoting eco-friendly farming practices and reducing environmental impact through direct connections.' },
+        { icon: 'Heart', title: 'Community First', desc: 'Building strong relationships between farmers and buyers for mutual growth and prosperity.' },
+        { icon: 'Shield', title: 'Trust & Transparency', desc: 'Ensuring every transaction is secure, verified, and transparent for all parties involved.' },
+        { icon: 'TrendingUp', title: 'Growth & Innovation', desc: 'Continuously improving our platform with technology to better serve our farming community.' },
+      ];
+
+      const team = [
+        { name: 'Ahmad Zaki', role: 'Founder & CEO', bio: '15 years of agricultural experience', image: '👨‍💼' },
+        { name: 'Sarah Lim', role: 'Head of Operations', bio: 'Former supply chain specialist', image: '👩‍💼' },
+        { name: 'Raj Kumar', role: 'Technology Lead', bio: 'Expert in marketplace platforms', image: '👨‍💻' },
+        { name: 'Nurul Aina', role: 'Farmer Relations', bio: 'Connecting with rural communities', image: '👩‍🌾' },
+      ];
+
+      const milestones = [
+        { year: '2024', title: 'Platform Launch', desc: 'Kebun Rakyat officially launches in Malaysia' },
+        { year: '2025', title: '5,000 Farmers', desc: 'Reached 5,000 active farmers on the platform' },
+        { year: '2025', title: 'RM 2.5M+ Monthly', desc: 'Achieved RM 2.5M in monthly transactions' },
+        { year: '2026', title: 'Regional Expansion', desc: 'Expanding to neighboring countries' },
+      ];
+
+      const IconComponent = ({ name, size = 24, className = "" }) => {
+        const icons = { Leaf, Heart, Shield, TrendingUp, Target, Users, Sprout, CheckCircle, ArrowRight };
+        const Icon = icons[name];
+        return Icon ? <Icon size={size} className={className} /> : null;
+      };
+
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-green-50">
+          {/* Navigation */}
+          <nav className="bg-white/95 backdrop-blur-md shadow-lg fixed w-full top-0 z-50">
+            <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+              <a href="index.html" className="flex items-center gap-3 group">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-500 rounded-2xl flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
+                  <Sprout className="text-white" size={24} />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent" style={{ fontFamily: 'Georgia, serif' }}>
+                    Kebun Rakyat
+                  </h1>
+                  <p className="text-xs text-green-600 font-medium tracking-wider">PASARAN PETANI</p>
+                </div>
+              </a>
+              <div className="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="index.html" className="text-gray-700 hover:text-green-600 transition-colors">Home</a>
+                <a href="marketplace.html" className="text-gray-700 hover:text-green-600 transition-colors">Marketplace</a>
+                <a href="about.html" className="text-green-600 font-semibold">About Us</a>
+                <a href="dashboard.html" className="text-gray-700 hover:text-green-600 transition-colors">For Farmers</a>
+              </div>
+              <a href="login.html" className="px-6 py-2.5 bg-gradient-to-r from-green-600 to-emerald-500 text-white rounded-full font-medium hover:shadow-lg hover:scale-105 transition-all duration-300">
+                Get Started
+              </a>
+            </div>
+          </nav>
+
+          {/* Hero Section */}
+          <section className="pt-32 pb-20 px-6 bg-gradient-to-r from-green-600 to-emerald-500 text-white">
+            <div className="max-w-7xl mx-auto text-center">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6" style={{ fontFamily: 'Georgia, serif' }}>
+                About Kebun Rakyat
+              </h1>
+              <p className="text-2xl text-green-50 max-w-3xl mx-auto leading-relaxed">
+                Empowering farmers, connecting communities, and building a sustainable food ecosystem for Malaysia.
+              </p>
+            </div>
+          </section>
+
+          {/* Mission & Vision */}
+          <section className="py-20 px-6">
+            <div className="max-w-7xl mx-auto">
+              <div className="grid md:grid-cols-2 gap-12">
+                <div className="bg-white rounded-3xl p-10 shadow-xl">
+                  <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-emerald-500 rounded-2xl flex items-center justify-center mb-6">
+                    <Target className="text-white" size={32} />
+                  </div>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+                    Our Mission
+                  </h2>
+                  <p className="text-gray-600 text-lg leading-relaxed">
+                    To revolutionize Malaysia's agricultural marketplace by creating direct, transparent connections between farmers and buyers. We eliminate middlemen, ensure fair prices, and guarantee fresh produce reaches consumers faster than ever before.
+                  </p>
+                </div>
+
+                <div className="bg-white rounded-3xl p-10 shadow-xl">
+                  <div className="w-16 h-16 bg-gradient-to-br from-green-600 to-emerald-500 rounded-2xl flex items-center justify-center mb-6">
+                    <Users className="text-white" size={32} />
+                  </div>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+                    Our Vision
+                  </h2>
+                  <p className="text-gray-600 text-lg leading-relaxed">
+                    To become Southeast Asia's leading agricultural marketplace, empowering millions of farmers with technology and creating a sustainable, transparent food supply chain that benefits everyone from farm to table.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Story */}
+          <section className="py-20 px-6 bg-gradient-to-br from-green-50 to-emerald-50">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-4xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>
+                Our Story
+              </h2>
+              <div className="text-lg text-gray-700 leading-relaxed space-y-6 text-left">
+                <p>
+                  Kebun Rakyat was born from a simple observation: farmers were receiving unfair prices for their hard work, while consumers were paying premium prices for produce that wasn't always fresh. The problem? Too many middlemen in the supply chain.
+                </p>
+                <p>
+                  In 2024, we set out to change this. We built a platform that connects farmers directly with buyers—whether they're restaurants, retailers, or individual consumers. By cutting out the middlemen, we ensure farmers get fair compensation while buyers receive fresher produce at better prices.
+                </p>
+                <p>
+                  Today, Kebun Rakyat serves over 5,000 farmers across Malaysia, processing more than RM 2.5 million in transactions monthly. But we're just getting started. Our vision is to expand across Southeast Asia, empowering farmers and transforming the agricultural industry one connection at a time.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Values */}
+          <section className="py-20 px-6">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+                  Our Core Values
+                </h2>
+                <p className="text-xl text-gray-600">The principles that guide everything we do</p>
+              </div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {values.map((value, idx) => (
+                  <div key={idx} className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-50 rounded-2xl flex items-center justify-center mb-6">
+                      <IconComponent name={value.icon} size={32} className="text-green-600" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-3">{value.title}</h3>
+                    <p className="text-gray-600 leading-relaxed">{value.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Timeline */}
+          <section className="py-20 px-6 bg-gradient-to-br from-amber-50 to-green-50">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+                  Our Journey
+                </h2>
+                <p className="text-xl text-gray-600">Key milestones in our growth</p>
+              </div>
+
+              <div className="relative">
+                <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-green-200"></div>
+                <div className="space-y-12">
+                  {milestones.map((milestone, idx) => (
+                    <div key={idx} className={`flex items-center gap-8 ${idx % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
+                      <div className={`flex-1 ${idx % 2 === 0 ? 'text-right' : 'text-left'}`}>
+                        <div className="bg-white rounded-2xl p-6 shadow-lg inline-block">
+                          <div className="text-3xl font-bold text-green-600 mb-2">{milestone.year}</div>
+                          <div className="text-xl font-bold text-gray-900 mb-2">{milestone.title}</div>
+                          <div className="text-gray-600">{milestone.desc}</div>
+                        </div>
+                      </div>
+                      <div className="w-6 h-6 bg-green-600 rounded-full border-4 border-white shadow-lg z-10"></div>
+                      <div className="flex-1"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Team */}
+          <section className="py-20 px-6">
+            <div className="max-w-7xl mx-auto">
+              <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+                  Meet Our Team
+                </h2>
+                <p className="text-xl text-gray-600">The people behind Kebun Rakyat</p>
+              </div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {team.map((member, idx) => (
+                  <div key={idx} className="bg-white rounded-3xl p-8 shadow-xl text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                    <div className="text-7xl mb-4">{member.image}</div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
+                    <div className="text-green-600 font-semibold mb-3">{member.role}</div>
+                    <p className="text-gray-600 text-sm">{member.bio}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* CTA */}
+          <section className="py-20 px-6 bg-gradient-to-r from-green-600 to-emerald-500 text-white">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ fontFamily: 'Georgia, serif' }}>
+                Join Our Growing Community
+              </h2>
+              <p className="text-xl text-green-50 mb-8 leading-relaxed">
+                Whether you're a farmer looking to expand your reach or a buyer seeking quality produce, Kebun Rakyat welcomes you.
+              </p>
+              <div className="flex flex-wrap gap-4 justify-center">
+                <a href="login.html" className="px-10 py-5 bg-white text-green-700 rounded-xl font-semibold text-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-2">
+                  Get Started <ArrowRight size={24} />
+                </a>
+                <a href="marketplace.html" className="px-10 py-5 bg-green-700 text-white rounded-xl font-semibold text-lg border-2 border-green-400 hover:bg-green-800 transition-all duration-300">
+                  Browse Marketplace
+                </a>
+              </div>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="bg-gray-900 text-white py-12 px-6">
+            <div className="max-w-7xl mx-auto text-center">
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-500 rounded-2xl flex items-center justify-center">
+                  <Sprout size={24} />
+                </div>
+                <h3 className="text-2xl font-bold" style={{ fontFamily: 'Georgia, serif' }}>Kebun Rakyat</h3>
+              </div>
+              <p className="text-gray-400 mb-6">Menghubungkan petani dan pembeli untuk masa depan yang lestari</p>
+              <div className="mt-8 pt-8 border-t border-gray-800 text-gray-500 text-sm">
+                © 2026 Kebun Rakyat. Hak cipta terpelihara.
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<AboutPage />);
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

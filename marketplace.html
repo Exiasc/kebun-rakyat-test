@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace - Kebun Rakyat</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+    const { Sprout, Search, Filter, Star, MapPin, ShoppingCart, Heart, TrendingUp } = window.lucide;
+
+    function Marketplace() {
+      const [selectedCategory, setSelectedCategory] = useState('all');
+      const [searchQuery, setSearchQuery] = useState('');
+      const [priceRange, setPriceRange] = useState('all');
+
+      const categories = [
+        { id: 'all', name: 'All Products', icon: '🛒' },
+        { id: 'vegetables', name: 'Vegetables', icon: '🥬' },
+        { id: 'fruits', name: 'Fruits', icon: '🍎' },
+        { id: 'grains', name: 'Grains', icon: '🌾' },
+        { id: 'dairy', name: 'Dairy', icon: '🥛' },
+        { id: 'livestock', name: 'Livestock', icon: '🐄' },
+        { id: 'organic', name: 'Organic', icon: '🌿' },
+      ];
+
+      const products = [
+        { id: 1, name: 'Organic Tomatoes', category: 'vegetables', farmer: 'Green Valley Farms', price: 4.50, unit: 'kg', location: 'Cameron Highlands', rating: 4.8, reviews: 124, image: '🍅', stock: 'In Stock', verified: true, trending: true },
+        { id: 2, name: 'Fresh Corn', category: 'vegetables', farmer: 'Sunrise Agriculture', price: 3.20, unit: 'kg', location: 'Kedah', rating: 4.9, reviews: 89, image: '🌽', stock: 'In Stock', verified: true },
+        { id: 3, name: 'Premium Rice', category: 'grains', farmer: 'Golden Harvest', price: 6.80, unit: 'kg', location: 'Sekinchan', rating: 4.7, reviews: 203, image: '🌾', stock: 'In Stock', verified: true },
+        { id: 4, name: 'Fresh Lettuce', category: 'vegetables', farmer: 'Highland Greens', price: 5.50, unit: 'kg', location: 'Genting Highlands', rating: 4.6, reviews: 67, image: '🥬', stock: 'In Stock', verified: false },
+        { id: 5, name: 'Sweet Potatoes', category: 'vegetables', farmer: 'Earth Farm', price: 3.80, unit: 'kg', location: 'Perak', rating: 4.5, reviews: 45, image: '🍠', stock: 'Low Stock', verified: true, trending: true },
+        { id: 6, name: 'Fresh Apples', category: 'fruits', farmer: 'Mountain Orchards', price: 8.90, unit: 'kg', location: 'Cameron Highlands', rating: 4.9, reviews: 156, image: '🍎', stock: 'In Stock', verified: true },
+        { id: 7, name: 'Organic Carrots', category: 'vegetables', farmer: 'Roots & Shoots', price: 4.20, unit: 'kg', location: 'Pahang', rating: 4.7, reviews: 98, image: '🥕', stock: 'In Stock', verified: true },
+        { id: 8, name: 'Fresh Milk', category: 'dairy', farmer: 'Dairy Delight', price: 7.50, unit: 'liter', location: 'Johor', rating: 4.8, reviews: 132, image: '🥛', stock: 'In Stock', verified: true },
+        { id: 9, name: 'Watermelon', category: 'fruits', farmer: 'Melon Masters', price: 5.00, unit: 'kg', location: 'Melaka', rating: 4.6, reviews: 76, image: '🍉', stock: 'In Stock', verified: false },
+        { id: 10, name: 'Fresh Eggs', category: 'dairy', farmer: 'Happy Hens Farm', price: 12.00, unit: 'dozen', location: 'Selangor', rating: 4.9, reviews: 201, image: '🥚', stock: 'In Stock', verified: true, trending: true },
+        { id: 11, name: 'Chili Peppers', category: 'vegetables', farmer: 'Spice Valley', price: 15.00, unit: 'kg', location: 'Terengganu', rating: 4.5, reviews: 34, image: '🌶️', stock: 'In Stock', verified: true },
+        { id: 12, name: 'Bananas', category: 'fruits', farmer: 'Tropical Treats', price: 3.50, unit: 'kg', location: 'Kedah', rating: 4.7, reviews: 145, image: '🍌', stock: 'In Stock', verified: true },
+      ];
+
+      const filteredProducts = products.filter(p => {
+        const matchesCategory = selectedCategory === 'all' || p.category === selectedCategory;
+        const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                             p.farmer.toLowerCase().includes(searchQuery.toLowerCase());
+        return matchesCategory && matchesSearch;
+      });
+
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-green-50">
+          {/* Navigation */}
+          <nav className="bg-white/95 backdrop-blur-md shadow-lg fixed w-full top-0 z-50">
+            <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+              <a href="index.html" className="flex items-center gap-3 group">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-500 rounded-2xl flex items-center justify-center transform group-hover:rotate-12 transition-transform duration-300">
+                  <Sprout className="text-white" size={24} />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold bg-gradient-to-r from-green-700 to-emerald-600 bg-clip-text text-transparent" style={{ fontFamily: 'Georgia, serif' }}>
+                    Kebun Rakyat
+                  </h1>
+                  <p className="text-xs text-green-600 font-medium tracking-wider">PASARAN PETANI</p>
+                </div>
+              </a>
+              <div className="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="index.html" className="text-gray-700 hover:text-green-600 transition-colors">Home</a>
+                <a href="marketplace.html" className="text-green-600 font-semibold">Marketplace</a>
+                <a href="about.html" className="text-gray-700 hover:text-green-600 transition-colors">About Us</a>
+                <a href="dashboard.html" className="text-gray-700 hover:text-green-600 transition-colors">For Farmers</a>
+              </div>
+              <div className="flex items-center gap-3">
+                <button className="p-2 hover:bg-green-50 rounded-full transition-colors relative">
+                  <ShoppingCart className="text-gray-700" size={24} />
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-green-600 text-white text-xs rounded-full flex items-center justify-center">3</span>
+                </button>
+                <a href="login.html" className="px-6 py-2.5 bg-gradient-to-r from-green-600 to-emerald-500 text-white rounded-full font-medium hover:shadow-lg hover:scale-105 transition-all duration-300">
+                  Sign In
+                </a>
+              </div>
+            </div>
+          </nav>
+
+          {/* Hero Banner */}
+          <section className="pt-24 pb-12 px-6 bg-gradient-to-r from-green-600 to-emerald-500 text-white">
+            <div className="max-w-7xl mx-auto">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4" style={{ fontFamily: 'Georgia, serif' }}>
+                Fresh Produce Marketplace
+              </h1>
+              <p className="text-xl text-green-50 mb-8">Browse thousands of products from verified farmers across Malaysia</p>
+              
+              {/* Search Bar */}
+              <div className="max-w-3xl bg-white rounded-2xl p-2 flex items-center gap-2 shadow-xl">
+                <Search className="text-gray-400 ml-4" size={24} />
+                <input
+                  type="text"
+                  placeholder="Search for products or farmers..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="flex-1 px-4 py-3 text-gray-900 outline-none"
+                />
+                <button className="px-8 py-3 bg-gradient-to-r from-green-600 to-emerald-500 text-white rounded-xl font-semibold hover:shadow-lg transition-all">
+                  Search
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {/* Main Content */}
+          <section className="py-12 px-6">
+            <div className="max-w-7xl mx-auto">
+              <div className="grid lg:grid-cols-4 gap-8">
+                {/* Sidebar Filters */}
+                <div className="lg:col-span-1">
+                  <div className="bg-white rounded-2xl p-6 shadow-lg sticky top-24">
+                    <div className="flex items-center gap-2 mb-6">
+                      <Filter className="text-green-600" size={24} />
+                      <h3 className="text-xl font-bold text-gray-900">Filters</h3>
+                    </div>
+
+                    {/* Categories */}
+                    <div className="mb-6">
+                      <h4 className="font-semibold text-gray-900 mb-3">Categories</h4>
+                      <div className="space-y-2">
+                        {categories.map(cat => (
+                          <button
+                            key={cat.id}
+                            onClick={() => setSelectedCategory(cat.id)}
+                            className={`w-full text-left px-4 py-3 rounded-xl transition-all flex items-center gap-3 ${
+                              selectedCategory === cat.id
+                                ? 'bg-green-600 text-white shadow-lg'
+                                : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
+                            }`}
+                          >
+                            <span className="text-2xl">{cat.icon}</span>
+                            <span className="font-medium">{cat.name}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Price Range */}
+                    <div>
+                      <h4 className="font-semibold text-gray-900 mb-3">Price Range</h4>
+                      <select 
+                        value={priceRange}
+                        onChange={(e) => setPriceRange(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 outline-none focus:border-green-500"
+                      >
+                        <option value="all">All Prices</option>
+                        <option value="0-5">RM 0 - RM 5</option>
+                        <option value="5-10">RM 5 - RM 10</option>
+                        <option value="10+">RM 10+</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Products Grid */}
+                <div className="lg:col-span-3">
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-2xl font-bold text-gray-900">
+                      {filteredProducts.length} Products Found
+                    </h2>
+                    <select className="px-4 py-2 rounded-xl border border-gray-200 outline-none focus:border-green-500 font-medium">
+                      <option>Sort by: Featured</option>
+                      <option>Price: Low to High</option>
+                      <option>Price: High to Low</option>
+                      <option>Rating</option>
+                      <option>Newest</option>
+                    </select>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredProducts.map(product => (
+                      <a href="product.html" key={product.id} className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group">
+                        <div className="relative">
+                          <div className="bg-gradient-to-br from-amber-50 to-green-50 p-8 flex items-center justify-center h-48">
+                            <div className="text-7xl group-hover:scale-110 transition-transform duration-300">{product.image}</div>
+                          </div>
+                          {product.trending && (
+                            <div className="absolute top-3 left-3 px-3 py-1 bg-orange-500 text-white text-xs font-bold rounded-full flex items-center gap-1">
+                              <TrendingUp size={12} />
+                              Trending
+                            </div>
+                          )}
+                          {product.verified && (
+                            <div className="absolute top-3 right-3 px-3 py-1 bg-green-600 text-white text-xs font-bold rounded-full">
+                              ✓ Verified
+                            </div>
+                          )}
+                          <button className="absolute bottom-3 right-3 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-green-50 transition-colors">
+                            <Heart className="text-gray-600" size={20} />
+                          </button>
+                        </div>
+                        
+                        <div className="p-5">
+                          <h3 className="text-lg font-bold text-gray-900 mb-2">{product.name}</h3>
+                          <p className="text-sm text-gray-600 mb-3">{product.farmer}</p>
+                          
+                          <div className="flex items-center gap-2 mb-3">
+                            <div className="flex items-center gap-1">
+                              <Star className="text-yellow-400 fill-yellow-400" size={16} />
+                              <span className="font-semibold text-gray-900">{product.rating}</span>
+                            </div>
+                            <span className="text-gray-500 text-sm">({product.reviews})</span>
+                          </div>
+                          
+                          <div className="flex items-center gap-2 text-sm text-gray-600 mb-4">
+                            <MapPin size={16} className="text-green-600" />
+                            {product.location}
+                          </div>
+                          
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="text-2xl font-bold text-green-600">RM {product.price.toFixed(2)}</div>
+                              <div className="text-sm text-gray-500">per {product.unit}</div>
+                            </div>
+                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                              product.stock === 'In Stock' 
+                                ? 'bg-green-100 text-green-700' 
+                                : 'bg-orange-100 text-orange-700'
+                            }`}>
+                              {product.stock}
+                            </span>
+                          </div>
+                        </div>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer className="bg-gray-900 text-white py-12 px-6 mt-20">
+            <div className="max-w-7xl mx-auto text-center">
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-emerald-500 rounded-2xl flex items-center justify-center">
+                  <Sprout size={24} />
+                </div>
+                <h3 className="text-2xl font-bold" style={{ fontFamily: 'Georgia, serif' }}>Kebun Rakyat</h3>
+              </div>
+              <p className="text-gray-400 mb-6">Menghubungkan petani dan pembeli untuk masa depan yang lestari</p>
+              <div className="mt-8 pt-8 border-t border-gray-800 text-gray-500 text-sm">
+                © 2026 Kebun Rakyat. Hak cipta terpelihara.
+              </div>
+            </div>
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<Marketplace />);
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>
