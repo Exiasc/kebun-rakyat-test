@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - Kebun Rakyat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: linear-gradient(to bottom right, #fef3c7, #ffffff, #d1fae5); min-height: 100vh; }
+    nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 16px 24px; position: sticky; top: 0; z-index: 100; }
+    .nav-content { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo-icon { width: 48px; height: 48px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+    .logo-text h1 { font-size: 24px; font-weight: 700; background: linear-gradient(to right, #15803d, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: Georgia, serif; }
+    .logo-text p { font-size: 10px; color: #16a34a; font-weight: 600; letter-spacing: 2px; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 48px 24px; }
+    .checkout-layout { display: grid; grid-template-columns: 1fr 400px; gap: 32px; }
+    .checkout-form { background: white; border-radius: 16px; padding: 32px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+    .section-title { font-size: 20px; font-weight: 700; color: #111827; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #e5e7eb; }
+    .form-section { margin-bottom: 32px; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 20px; }
+    .form-group.full-width { grid-column: 1 / -1; }
+    label { display: block; font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 8px; }
+    label span { color: #dc2626; }
+    input, select, textarea { width: 100%; padding: 12px 16px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 16px; outline: none; font-family: 'Inter', sans-serif; }
+    input:focus, select:focus, textarea:focus { border-color: #16a34a; }
+    .payment-methods { display: grid; gap: 12px; }
+    .payment-method { border: 2px solid #e5e7eb; border-radius: 12px; padding: 16px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all 0.3s; }
+    .payment-method:hover { border-color: #16a34a; }
+    .payment-method.selected { border-color: #16a34a; background: #dcfce7; }
+    .payment-method input[type="radio"] { width: auto; }
+    .payment-icon { font-size: 24px; }
+    .order-summary { background: white; border-radius: 16px; padding: 32px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); position: sticky; top: 100px; }
+    .summary-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f3f4f6; }
+    .summary-item:last-child { border-bottom: none; }
+    .summary-item-icon { font-size: 32px; }
+    .summary-item-info { flex: 1; }
+    .summary-item-name { font-weight: 600; color: #111827; margin-bottom: 4px; }
+    .summary-item-qty { font-size: 14px; color: #6b7280; }
+    .summary-item-price { font-weight: 700; color: #16a34a; }
+    .summary-row { display: flex; justify-content: space-between; margin-bottom: 12px; color: #374151; }
+    .summary-row.total { font-size: 24px; font-weight: 700; color: #111827; padding-top: 16px; border-top: 2px solid #e5e7eb; margin-top: 16px; }
+    .btn-place-order { width: 100%; padding: 16px; background: linear-gradient(to right, #16a34a, #10b981); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; margin-top: 24px; }
+    .btn-place-order:hover { box-shadow: 0 10px 30px rgba(22, 163, 74, 0.3); transform: scale(1.02); }
+    .btn-place-order:disabled { opacity: 0.5; cursor: not-allowed; }
+    footer { background: #111827; color: white; padding: 48px 24px; text-align: center; margin-top: 80px; }
+    @media (max-width: 768px) { .checkout-layout { grid-template-columns: 1fr; } .form-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-content">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">🌱</div>
+        <div class="logo-text"><h1>Kebun Rakyat</h1><p>PASARAN PETANI</p></div>
+      </a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 style="font-size: 36px; font-weight: 700; margin-bottom: 8px; font-family: Georgia, serif;">Checkout</h1>
+    <p style="color: #6b7280; margin-bottom: 32px;">Complete your order by filling in the details below</p>
+    
+    <div class="checkout-layout">
+      <div class="checkout-form">
+        <form id="checkoutForm">
+          <!-- Personal Information -->
+          <div class="form-section">
+            <h2 class="section-title">👤 Personal Information</h2>
+            <div class="form-grid">
+              <div class="form-group">
+                <label>Full Name <span>*</span></label>
+                <input type="text" id="fullName" placeholder="Ahmad bin Abdullah" required>
+              </div>
+              <div class="form-group">
+                <label>Phone Number <span>*</span></label>
+                <input type="tel" id="phone" placeholder="012-345 6789" required>
+              </div>
+              <div class="form-group full-width">
+                <label>Email Address <span>*</span></label>
+                <input type="email" id="email" placeholder="ahmad@example.com" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Delivery Address -->
+          <div class="form-section">
+            <h2 class="section-title">📍 Delivery Address</h2>
+            <div class="form-grid">
+              <div class="form-group full-width">
+                <label>Street Address <span>*</span></label>
+                <textarea id="address" rows="2" placeholder="No. 123, Jalan Merdeka" required></textarea>
+              </div>
+              <div class="form-group">
+                <label>City <span>*</span></label>
+                <input type="text" id="city" placeholder="Kuala Lumpur" required>
+              </div>
+              <div class="form-group">
+                <label>State <span>*</span></label>
+                <select id="state" required>
+                  <option value="">Select State</option>
+                  <option value="Johor">Johor</option>
+                  <option value="Kedah">Kedah</option>
+                  <option value="Kelantan">Kelantan</option>
+                  <option value="Melaka">Melaka</option>
+                  <option value="Negeri Sembilan">Negeri Sembilan</option>
+                  <option value="Pahang">Pahang</option>
+                  <option value="Penang">Penang</option>
+                  <option value="Perak">Perak</option>
+                  <option value="Perlis">Perlis</option>
+                  <option value="Sabah">Sabah</option>
+                  <option value="Sarawak">Sarawak</option>
+                  <option value="Selangor">Selangor</option>
+                  <option value="Terengganu">Terengganu</option>
+                  <option value="Kuala Lumpur">Kuala Lumpur</option>
+                  <option value="Labuan">Labuan</option>
+                  <option value="Putrajaya">Putrajaya</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Postcode <span>*</span></label>
+                <input type="text" id="postcode" placeholder="50000" required maxlength="5">
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="form-section">
+            <h2 class="section-title">💳 Payment Method</h2>
+            <div class="payment-methods">
+              <label class="payment-method selected">
+                <input type="radio" name="payment" value="online" checked>
+                <span class="payment-icon">💳</span>
+                <div style="flex: 1;">
+                  <div style="font-weight: 600;">Online Banking / FPX</div>
+                  <div style="font-size: 12px; color: #6b7280;">Pay securely with your bank</div>
+                </div>
+              </label>
+
+              <label class="payment-method">
+                <input type="radio" name="payment" value="card">
+                <span class="payment-icon">💰</span>
+                <div style="flex: 1;">
+                  <div style="font-weight: 600;">Credit / Debit Card</div>
+                  <div style="font-size: 12px; color: #6b7280;">Visa, Mastercard accepted</div>
+                </div>
+              </label>
+
+              <label class="payment-method">
+                <input type="radio" name="payment" value="ewallet">
+                <span class="payment-icon">📱</span>
+                <div style="flex: 1;">
+                  <div style="font-weight: 600;">E-Wallet</div>
+                  <div style="font-size: 12px; color: #6b7280;">Touch 'n Go, GrabPay, Boost</div>
+                </div>
+              </label>
+
+              <label class="payment-method">
+                <input type="radio" name="payment" value="cod">
+                <span class="payment-icon">💵</span>
+                <div style="flex: 1;">
+                  <div style="font-weight: 600;">Cash on Delivery</div>
+                  <div style="font-size: 12px; color: #6b7280;">Pay when you receive</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Additional Notes -->
+          <div class="form-section">
+            <h2 class="section-title">📝 Additional Notes (Optional)</h2>
+            <textarea id="notes" rows="3" placeholder="Any special instructions for delivery?" style="width: 100%;"></textarea>
+          </div>
+        </form>
+      </div>
+
+      <div>
+        <div class="order-summary">
+          <h2 style="font-size: 24px; font-weight: 700; margin-bottom: 24px;">Order Summary</h2>
+          
+          <div id="orderItems" style="margin-bottom: 24px; max-height: 250px; overflow-y: auto;"></div>
+          
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span style="font-weight: 600;" id="subtotal">RM 0.00</span>
+          </div>
+          
+          <div class="summary-row">
+            <span>Delivery Fee</span>
+            <span style="font-weight: 600;" id="deliveryFee">RM 0.00</span>
+          </div>
+          
+          <div class="summary-row total">
+            <span>Total</span>
+            <span id="total">RM 0.00</span>
+          </div>
+          
+          <button type="submit" form="checkoutForm" class="btn-place-order" id="placeOrderBtn">
+            Place Order
+          </button>
+          
+          <a href="cart.html" style="display: block; text-align: center; margin-top: 16px; color: #16a34a; font-weight: 600; text-decoration: none;">← Back to Cart</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px;">
+      <div class="logo-icon">🌱</div><h3 style="font-size: 24px; font-family: Georgia, serif;">Kebun Rakyat</h3>
+    </div>
+    <p style="color: #9ca3af;">Menghubungkan petani dan pembeli untuk masa depan yang lestari</p>
+  </footer>
+
+  <script type="module">
+    import { db } from './firebase-config.js';
+    import { collection, addDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    if (cart.length === 0) {
+      window.location.href = 'cart.html';
+    }
+
+    // Group cart items
+    function groupCart() {
+      const grouped = {};
+      cart.forEach(item => {
+        if (grouped[item.id]) {
+          grouped[item.id].quantity++;
+        } else {
+          grouped[item.id] = { ...item, quantity: 1 };
+        }
+      });
+      return Object.values(grouped);
+    }
+
+    // Load order summary
+    function loadOrderSummary() {
+      const groupedCart = groupCart();
+      let subtotal = 0;
+
+      const itemsHTML = groupedCart.map(item => {
+        const itemTotal = item.price * item.quantity;
+        subtotal += itemTotal;
+        
+        return `
+          <div class="summary-item">
+            <div class="summary-item-icon">${item.emoji}</div>
+            <div class="summary-item-info">
+              <div class="summary-item-name">${item.name}</div>
+              <div class="summary-item-qty">${item.quantity} kg × RM ${item.price.toFixed(2)}</div>
+            </div>
+            <div class="summary-item-price">RM ${itemTotal.toFixed(2)}</div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('orderItems').innerHTML = itemsHTML;
+
+      const deliveryFee = subtotal > 50 ? 0 : 5;
+      const total = subtotal + deliveryFee;
+
+      document.getElementById('subtotal').textContent = `RM ${subtotal.toFixed(2)}`;
+      document.getElementById('deliveryFee').textContent = deliveryFee === 0 ? 'FREE' : `RM ${deliveryFee.toFixed(2)}`;
+      document.getElementById('total').textContent = `RM ${total.toFixed(2)}`;
+    }
+
+    // Payment method selection styling
+    document.querySelectorAll('.payment-method').forEach(method => {
+      method.addEventListener('click', function() {
+        document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+        this.classList.add('selected');
+        this.querySelector('input[type="radio"]').checked = true;
+      });
+    });
+
+    // Handle form submission
+    document.getElementById('checkoutForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const btn = document.getElementById('placeOrderBtn');
+      btn.disabled = true;
+      btn.textContent = 'Processing...';
+
+      try {
+        const groupedCart = groupCart();
+        const subtotal = groupedCart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const deliveryFee = subtotal > 50 ? 0 : 5;
+        const total = subtotal + deliveryFee;
+
+        const orderData = {
+          // Customer Info
+          customerName: document.getElementById('fullName').value,
+          customerPhone: document.getElementById('phone').value,
+          customerEmail: document.getElementById('email').value,
+          
+          // Delivery Address
+          deliveryAddress: {
+            street: document.getElementById('address').value,
+            city: document.getElementById('city').value,
+            state: document.getElementById('state').value,
+            postcode: document.getElementById('postcode').value
+          },
+          
+          // Order Details
+          items: groupedCart,
+          subtotal: subtotal,
+          deliveryFee: deliveryFee,
+          total: total,
+          
+          // Payment
+          paymentMethod: document.querySelector('input[name="payment"]:checked').value,
+          
+          // Additional
+          notes: document.getElementById('notes').value || '',
+          status: 'pending',
+          createdAt: new Date(),
+          orderNumber: 'ORD' + Date.now()
+        };
+
+        // Save to Firebase
+        const docRef = await addDoc(collection(db, 'orders'), orderData);
+
+        // Clear cart
+        localStorage.removeItem('cart');
+
+        // Redirect to confirmation
+        window.location.href = `order-confirmation.html?id=${docRef.id}`;
+
+      } catch (error) {
+        alert('Error placing order: ' + error.message);
+        btn.disabled = false;
+        btn.textContent = 'Place Order';
+      }
+    });
+
+    loadOrderSummary();
+  </script>
+</body>
+</html>

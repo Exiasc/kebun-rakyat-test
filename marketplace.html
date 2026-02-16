@@ -37,6 +37,7 @@
     .btn-add-cart { width: 100%; padding: 12px; background: linear-gradient(to right, #16a34a, #10b981); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
     .loading { text-align: center; padding: 48px; color: #6b7280; }
     footer { background: #111827; color: white; padding: 48px 24px; text-align: center; margin-top: 80px; }
+    @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     @media (max-width: 768px) { .nav-links { display: none; } .hero-banner h1 { font-size: 32px; } }
   </style>
 </head>
@@ -52,7 +53,7 @@
         <a href="marketplace-working.html" style="color: #16a34a; font-weight: 700;">Marketplace</a>
         <a href="about.html">About Us</a>
       </div>
-      <a href="#" class="btn" onclick="viewCart()">🛒 Cart <span class="cart-badge" id="cartCount">0</span></a>
+      <a href="cart.html" class="btn">🛒 Cart <span class="cart-badge" id="cartCount">0</span></a>
     </div>
   </nav>
 
@@ -78,7 +79,7 @@
 
   <script type="module">
     import { db } from './firebase-config.js';
-    import { collection, getDocs, addDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+    import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     updateCartCount();
@@ -131,41 +132,25 @@
       cart.push({ id, name, price, emoji });
       localStorage.setItem('cart', JSON.stringify(cart));
       updateCartCount();
-      alert(`${emoji} ${name} added to cart!`);
+      
+      // Show simple notification
+      const notification = document.createElement('div');
+      notification.style.cssText = 'position: fixed; top: 100px; right: 24px; background: white; padding: 16px 24px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 1000; animation: slideIn 0.3s;';
+      notification.innerHTML = `<strong>${emoji} ${name}</strong><br><span style="color: #6b7280; font-size: 14px;">Added to cart</span>`;
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.remove();
+      }, 2000);
     };
 
     function updateCartCount() {
-      document.getElementById('cartCount').textContent = cart.length;
+      const grouped = {};
+      cart.forEach(item => {
+        grouped[item.id] = (grouped[item.id] || 0) + 1;
+      });
+      document.getElementById('cartCount').textContent = Object.keys(grouped).length;
     }
-
-    window.viewCart = async () => {
-      if (cart.length === 0) {
-        alert('Your cart is empty!');
-        return;
-      }
-
-      const total = cart.reduce((sum, item) => sum + item.price, 0);
-      const items = cart.map(item => `${item.emoji} ${item.name} - RM ${item.price.toFixed(2)}`).join('\n');
-      
-      if (confirm(`Your Cart:\n\n${items}\n\nTotal: RM ${total.toFixed(2)}\n\nSimulate purchase?`)) {
-        try {
-          // Save order to Firebase
-          await addDoc(collection(db, 'orders'), {
-            items: cart,
-            total: total,
-            status: 'completed',
-            createdAt: new Date()
-          });
-
-          alert('🎉 Order placed successfully! (Demo simulation)');
-          cart = [];
-          localStorage.setItem('cart', JSON.stringify(cart));
-          updateCartCount();
-        } catch (error) {
-          alert('Error placing order: ' + error.message);
-        }
-      }
-    };
 
     // Load products on page load
     loadProducts();
