@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Kebun Rakyat</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: linear-gradient(to bottom right, #fef3c7, #ffffff, #d1fae5); min-height: 100vh; padding: 24px; }
+    .container { max-width: 1400px; margin: 0 auto; }
+    .header { background: white; border-radius: 16px; padding: 32px; margin-bottom: 32px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { font-size: 32px; font-weight: 700; color: #111827; font-family: Georgia, serif; }
+    .btn-logout { padding: 12px 24px; background: #dc2626; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 32px; }
+    .stat-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
+    .stat-icon { width: 48px; height: 48px; background: linear-gradient(to bottom right, #dcfce7, #d1fae5); border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px; }
+    .stat-value { font-size: 36px; font-weight: 700; color: #111827; margin-bottom: 4px; }
+    .stat-label { font-size: 14px; color: #6b7280; font-weight: 500; }
+    .card { background: white; border-radius: 16px; padding: 32px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); margin-bottom: 24px; }
+    .card-title { font-size: 20px; font-weight: 700; color: #111827; margin-bottom: 24px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; padding: 12px; border-bottom: 2px solid #e5e7eb; font-size: 14px; font-weight: 600; color: #6b7280; }
+    td { padding: 16px 12px; border-bottom: 1px solid #f3f4f6; color: #374151; }
+    .badge { display: inline-block; padding: 6px 12px; border-radius: 9999px; font-size: 12px; font-weight: 600; }
+    .badge-farmer { background: #dcfce7; color: #166534; }
+    .badge-customer { background: #dbeafe; color: #1e40af; }
+    .loading { text-align: center; padding: 48px; color: #6b7280; }
+    @media (max-width: 768px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+        <h1>🔒 Admin Dashboard</h1>
+        <p style="color: #6b7280; margin-top: 8px;">Ministry of Agriculture Analytics Portal</p>
+      </div>
+      <button class="btn-logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value" id="totalUsers">--</div>
+        <div class="stat-label">Total Users</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">👨‍🌾</div>
+        <div class="stat-value" id="totalFarmers">--</div>
+        <div class="stat-label">Active Farmers</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📦</div>
+        <div class="stat-value" id="totalProducts">--</div>
+        <div class="stat-label">Listed Products</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🛒</div>
+        <div class="stat-value" id="totalOrders">--</div>
+        <div class="stat-label">Total Orders</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">Registered Users</h3>
+      <div id="usersTable">
+        <div class="loading">Loading user data...</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">Products by Farm</h3>
+      <div id="productsTable">
+        <div class="loading">Loading product data...</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="card-title">Recent Orders</h3>
+      <div id="ordersTable">
+        <div class="loading">Loading order data...</div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db } from './firebase-config.js';
+    import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+    import { collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+    // Check authentication
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Check if admin (simple check for demo - in production, check role from database)
+        if (!user.email.includes('admin')) {
+          alert('Access denied. Admin only.');
+          window.location.href = 'login-working.html';
+          return;
+        }
+        loadDashboard();
+      } else {
+        window.location.href = 'login-working.html';
+      }
+    });
+
+    async function loadDashboard() {
+      try {
+        // Load users
+        const usersSnapshot = await getDocs(collection(db, 'users'));
+        const users = [];
+        let farmerCount = 0;
+        
+        usersSnapshot.forEach(doc => {
+          const userData = doc.data();
+          users.push({...userData, id: doc.id});
+          if (userData.role === 'farmer') farmerCount++;
+        });
+
+        document.getElementById('totalUsers').textContent = users.length;
+        document.getElementById('totalFarmers').textContent = farmerCount;
+
+        // Display users table
+        if (users.length > 0) {
+          let tableHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Farm Name</th>
+                  <th>Joined</th>
+                </tr>
+              </thead>
+              <tbody>
+          `;
+          
+          users.forEach(user => {
+            tableHTML += `
+              <tr>
+                <td style="font-weight: 600;">${user.email}</td>
+                <td><span class="badge badge-${user.role}">${user.role}</span></td>
+                <td>${user.farmName || '-'}</td>
+                <td style="font-size: 14px; color: #6b7280;">${user.createdAt ? new Date(user.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}</td>
+              </tr>
+            `;
+          });
+          
+          tableHTML += '</tbody></table>';
+          document.getElementById('usersTable').innerHTML = tableHTML;
+        }
+
+        // Load products
+        const productsSnapshot = await getDocs(collection(db, 'products'));
+        const products = [];
+        
+        productsSnapshot.forEach(doc => {
+          products.push({...doc.data(), id: doc.id});
+        });
+
+        document.getElementById('totalProducts').textContent = products.length;
+
+        // Display products table
+        if (products.length > 0) {
+          let tableHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Product</th>
+                  <th>Farmer</th>
+                  <th>Location</th>
+                  <th>Price</th>
+                  <th>Added</th>
+                </tr>
+              </thead>
+              <tbody>
+          `;
+          
+          products.forEach(product => {
+            tableHTML += `
+              <tr>
+                <td><span style="font-size: 20px; margin-right: 8px;">${product.emoji}</span> ${product.name}</td>
+                <td>${product.farmerName}</td>
+                <td>📍 ${product.location}</td>
+                <td style="font-weight: 700; color: #16a34a;">RM ${product.price.toFixed(2)}</td>
+                <td style="font-size: 14px; color: #6b7280;">${product.createdAt ? new Date(product.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}</td>
+              </tr>
+            `;
+          });
+          
+          tableHTML += '</tbody></table>';
+          document.getElementById('productsTable').innerHTML = tableHTML;
+        } else {
+          document.getElementById('productsTable').innerHTML = '<p style="color: #6b7280;">No products listed yet.</p>';
+        }
+
+        // Load orders
+        const ordersSnapshot = await getDocs(collection(db, 'orders'));
+        const orders = [];
+        let totalRevenue = 0;
+        
+        ordersSnapshot.forEach(doc => {
+          const orderData = doc.data();
+          orders.push({...orderData, id: doc.id});
+          totalRevenue += orderData.total || 0;
+        });
+
+        document.getElementById('totalOrders').textContent = orders.length;
+
+        // Display orders table
+        if (orders.length > 0) {
+          let tableHTML = `
+            <table>
+              <thead>
+                <tr>
+                  <th>Order ID</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+          `;
+          
+          orders.forEach(order => {
+            const itemsList = order.items.map(item => `${item.emoji} ${item.name}`).join(', ');
+            tableHTML += `
+              <tr>
+                <td style="font-weight: 600;">#${order.id.substring(0, 8)}</td>
+                <td>${itemsList}</td>
+                <td style="font-weight: 700; color: #16a34a;">RM ${order.total.toFixed(2)}</td>
+                <td><span class="badge badge-farmer">${order.status}</span></td>
+                <td style="font-size: 14px; color: #6b7280;">${order.createdAt ? new Date(order.createdAt.seconds * 1000).toLocaleString() : 'N/A'}</td>
+              </tr>
+            `;
+          });
+          
+          tableHTML += '</tbody></table>';
+          document.getElementById('ordersTable').innerHTML = tableHTML;
+        } else {
+          document.getElementById('ordersTable').innerHTML = '<p style="color: #6b7280;">No orders placed yet.</p>';
+        }
+
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+        alert('Error loading dashboard data: ' + error.message);
+      }
+    }
+
+    window.logout = async () => {
+      await signOut(auth);
+      window.location.href = 'login-working.html';
+    };
+  </script>
+</body>
+</html>

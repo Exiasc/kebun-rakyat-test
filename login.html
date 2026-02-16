@@ -26,6 +26,12 @@
     input:focus { border-color: #16a34a; }
     .btn { width: 100%; padding: 16px; background: linear-gradient(to right, #16a34a, #10b981); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.3s; }
     .btn:hover { box-shadow: 0 10px 30px rgba(22, 163, 74, 0.3); transform: scale(1.02); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .error { background: #fee2e2; color: #dc2626; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
+    .success { background: #dcfce7; color: #16a34a; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; }
+    .tabs { display: flex; gap: 16px; margin-bottom: 32px; border-bottom: 2px solid #e5e7eb; }
+    .tab { padding: 12px 24px; cursor: pointer; font-weight: 600; color: #6b7280; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+    .tab.active { color: #16a34a; border-bottom-color: #16a34a; }
     @media (max-width: 768px) { .login-container { grid-template-columns: 1fr; } .login-side { display: none; } }
   </style>
 </head>
@@ -65,37 +71,166 @@
     </div>
 
     <div class="form-side">
-      <h2>Sign In</h2>
-      <p>Don't have an account? <a href="#">Sign up</a></p>
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('login')">Sign In</div>
+        <div class="tab" onclick="switchTab('signup')">Sign Up</div>
+      </div>
 
-      <form>
+      <div id="message"></div>
+
+      <!-- LOGIN FORM -->
+      <form id="loginForm">
         <div class="form-group">
           <label>Email Address</label>
-          <input type="email" placeholder="Enter your email" required>
+          <input type="email" id="loginEmail" placeholder="Enter your email" required>
         </div>
 
         <div class="form-group">
           <label>Password</label>
-          <input type="password" placeholder="Enter your password" required>
+          <input type="password" id="loginPassword" placeholder="Enter your password" required>
         </div>
 
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; font-size: 14px;">
-          <label style="display: flex; align-items: center; gap: 8px; font-weight: 400;">
-            <input type="checkbox" style="width: auto;"> Remember me
-          </label>
-          <a href="#" style="font-size: 14px;">Forgot password?</a>
-        </div>
-
-        <button type="submit" class="btn">Sign In</button>
+        <button type="submit" class="btn" id="loginBtn">Sign In</button>
       </form>
 
-      <div style="text-align: center; margin: 32px 0 24px; color: #9ca3af; font-size: 14px;">Or continue with</div>
+      <!-- SIGNUP FORM -->
+      <form id="signupForm" style="display: none;">
+        <div class="form-group">
+          <label>User Type</label>
+          <select id="userRole" style="width: 100%; padding: 14px 16px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 16px; outline: none;">
+            <option value="customer">Customer</option>
+            <option value="farmer">Farmer</option>
+          </select>
+        </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-        <button style="padding: 12px; border: 2px solid #e5e7eb; border-radius: 12px; background: white; font-weight: 600; color: #374151; cursor: pointer;">Google</button>
-        <button style="padding: 12px; border: 2px solid #e5e7eb; border-radius: 12px; background: white; font-weight: 600; color: #374151; cursor: pointer;">Facebook</button>
-      </div>
+        <div class="form-group" id="farmNameGroup" style="display: none;">
+          <label>Farm Name</label>
+          <input type="text" id="farmName" placeholder="Enter your farm name">
+        </div>
+
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="signupEmail" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="signupPassword" placeholder="At least 6 characters" required>
+        </div>
+
+        <button type="submit" class="btn" id="signupBtn">Create Account</button>
+      </form>
     </div>
   </div>
+
+  <script type="module">
+    import { auth, db } from './firebase-config.js';
+    import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+    import { doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+    // Show/hide farm name field based on user role
+    document.getElementById('userRole').addEventListener('change', (e) => {
+      const farmNameGroup = document.getElementById('farmNameGroup');
+      if (e.target.value === 'farmer') {
+        farmNameGroup.style.display = 'block';
+      } else {
+        farmNameGroup.style.display = 'none';
+      }
+    });
+
+    // LOGIN
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const btn = document.getElementById('loginBtn');
+      
+      btn.disabled = true;
+      btn.textContent = 'Signing in...';
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        showMessage('Success! Redirecting...', 'success');
+        
+        // Redirect based on email (simple demo logic)
+        setTimeout(() => {
+          if (email.includes('admin')) {
+            window.location.href = 'admin.html';
+          } else if (email.includes('farmer')) {
+            window.location.href = 'farmer-dashboard.html';
+          } else {
+            window.location.href = 'marketplace.html';
+          }
+        }, 1000);
+      } catch (error) {
+        showMessage(error.message, 'error');
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    });
+
+    // SIGNUP
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const role = document.getElementById('userRole').value;
+      const farmName = document.getElementById('farmName').value;
+      const btn = document.getElementById('signupBtn');
+      
+      btn.disabled = true;
+      btn.textContent = 'Creating account...';
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        
+        // Save user data to Firestore
+        await setDoc(doc(db, 'users', userCredential.user.uid), {
+          email: email,
+          role: role,
+          farmName: role === 'farmer' ? farmName : null,
+          createdAt: new Date()
+        });
+
+        showMessage('Account created! Redirecting...', 'success');
+        
+        setTimeout(() => {
+          if (role === 'farmer') {
+            window.location.href = 'farmer-dashboard.html';
+          } else {
+            window.location.href = 'marketplace.html';
+          }
+        }, 1000);
+      } catch (error) {
+        showMessage(error.message, 'error');
+        btn.disabled = false;
+        btn.textContent = 'Create Account';
+      }
+    });
+
+    function showMessage(msg, type) {
+      const messageDiv = document.getElementById('message');
+      messageDiv.className = type;
+      messageDiv.textContent = msg;
+      messageDiv.style.display = 'block';
+    }
+
+    window.switchTab = (tab) => {
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(t => t.classList.remove('active'));
+      
+      if (tab === 'login') {
+        tabs[0].classList.add('active');
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('signupForm').style.display = 'none';
+      } else {
+        tabs[1].classList.add('active');
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('signupForm').style.display = 'block';
+      }
+      
+      document.getElementById('message').style.display = 'none';
+    };
+  </script>
 </body>
 </html>
