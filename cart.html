@@ -41,7 +41,34 @@
     .empty-cart-icon { font-size: 80px; margin-bottom: 24px; }
     .btn-continue { padding: 14px 32px; background: linear-gradient(to right, #16a34a, #10b981); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; }
     footer { background: #111827; color: white; padding: 48px 24px; text-align: center; margin-top: 80px; }
-    @media (max-width: 768px) { .cart-layout { grid-template-columns: 1fr; } .cart-item { grid-template-columns: 80px 1fr; } .item-actions { grid-column: 1 / -1; text-align: left; margin-top: 12px; } }
+    @media (max-width: 768px) { 
+      .container { padding: 24px 16px; }
+      h1 { font-size: 28px !important; }
+      .cart-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; margin-top: 24px; }
+      .cart-item { 
+        grid-template-columns: 80px 1fr; 
+        gap: 16px;
+        padding: 16px;
+      }
+      .item-image { width: 80px; height: 80px; font-size: 36px; }
+      .item-info h3 { font-size: 16px; }
+      .item-info p { font-size: 13px; }
+      .item-price { font-size: 18px; }
+      .item-actions { 
+        grid-column: 1 / -1; 
+        text-align: left; 
+        margin-top: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .quantity-controls { margin-top: 8px; }
+      .qty-btn { width: 36px; height: 36px; font-size: 18px; }
+      .btn-checkout { padding: 14px; font-size: 15px; }
+      .summary-row { font-size: 14px; }
+      .summary-row.total { font-size: 20px; }
+    }
   </style>
 </head>
 <body>

@@ -49,7 +49,37 @@
     footer { background: #111827; color: white; padding: 48px 0; text-align: center; }
     .footer-logo { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 24px; }
     .footer-description { color: #9ca3af; margin-bottom: 24px; }
-    @media (max-width: 768px) { .nav-links { display: none; } .hero-grid { grid-template-columns: 1fr; } h1 { font-size: 36px; } .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 768px) { 
+      .container { padding: 0 16px; }
+      .nav-content { padding: 12px 16px; }
+      .nav-links { display: none; }
+      .nav-buttons { gap: 8px; }
+      .btn { padding: 8px 16px; font-size: 14px; }
+      .logo-icon { width: 40px; height: 40px; font-size: 20px; }
+      .logo-text h1 { font-size: 20px; }
+      .logo-text p { font-size: 9px; }
+      .hero { padding-top: 100px; padding-bottom: 48px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+      .badge { font-size: 12px; padding: 6px 12px; margin-bottom: 16px; }
+      h1 { font-size: 32px; margin-bottom: 16px; }
+      .hero-description { font-size: 16px; margin-bottom: 24px; }
+      .hero-buttons { flex-direction: column; width: 100%; }
+      .btn-large { width: 100%; text-align: center; padding: 14px 24px; font-size: 15px; }
+      .featured-box { padding: 20px; }
+      .product-grid { gap: 12px; }
+      .product-icon { font-size: 40px; }
+      .product-name { font-size: 13px; }
+      .product-price { font-size: 16px; }
+      .product-location { font-size: 11px; }
+      .stats-section { padding: 32px 0; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+      .stat-icon { width: 56px; height: 56px; font-size: 24px; margin-bottom: 8px; }
+      .stat-value { font-size: 28px; }
+      .stat-label { font-size: 13px; }
+      footer { padding: 32px 0; }
+      .footer-logo h3 { font-size: 20px; }
+      .footer-description { font-size: 14px; }
+    }
   </style>
 </head>
 <body>

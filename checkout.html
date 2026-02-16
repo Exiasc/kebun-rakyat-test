@@ -46,7 +46,25 @@
     .btn-place-order:hover { box-shadow: 0 10px 30px rgba(22, 163, 74, 0.3); transform: scale(1.02); }
     .btn-place-order:disabled { opacity: 0.5; cursor: not-allowed; }
     footer { background: #111827; color: white; padding: 48px 24px; text-align: center; margin-top: 80px; }
-    @media (max-width: 768px) { .checkout-layout { grid-template-columns: 1fr; } .form-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) { 
+      .container { padding: 24px 16px; }
+      h1 { font-size: 28px !important; }
+      .checkout-layout { grid-template-columns: 1fr; }
+      .order-summary { position: static; margin-top: 24px; }
+      .checkout-form { padding: 24px 16px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .section-title { font-size: 18px; }
+      input, select, textarea { font-size: 16px; padding: 12px; }
+      .payment-method { padding: 12px; }
+      .payment-icon { font-size: 20px; }
+      .btn-place-order { padding: 14px; font-size: 15px; }
+      .summary-item { padding: 12px 0; }
+      .summary-item-icon { font-size: 28px; }
+      .summary-item-name { font-size: 14px; }
+      .summary-item-qty { font-size: 12px; }
+      .summary-row { font-size: 14px; }
+      .summary-row.total { font-size: 20px; }
+    }
   </style>
 </head>
 <body>

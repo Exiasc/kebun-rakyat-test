@@ -26,6 +26,28 @@
     .badge-farmer { background: #dcfce7; color: #166534; }
     .badge-customer { background: #dbeafe; color: #1e40af; }
     .loading { text-align: center; padding: 48px; color: #6b7280; }
+    @media (max-width: 768px) { 
+      body { padding: 16px; }
+      .container { padding: 0; }
+      .header { padding: 20px 16px; margin-bottom: 20px; flex-direction: column; gap: 16px; align-items: flex-start; }
+      .header h1 { font-size: 24px; }
+      .header p { font-size: 14px; }
+      .btn-logout { padding: 10px 20px; font-size: 14px; align-self: stretch; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+      .stat-card { padding: 16px; }
+      .stat-icon { width: 40px; height: 40px; font-size: 20px; margin-bottom: 12px; }
+      .stat-value { font-size: 28px; }
+      .stat-label { font-size: 13px; }
+      .card { padding: 20px 16px; margin-bottom: 20px; }
+      .card-title { font-size: 18px; margin-bottom: 16px; }
+      table { font-size: 13px; }
+      th { padding: 10px 8px; font-size: 12px; }
+      td { padding: 12px 8px; font-size: 13px; }
+      .badge { font-size: 11px; padding: 4px 10px; }
+      /* Make tables scrollable on mobile */
+      .card > div { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      table { min-width: 600px; }
+    }
     @media (max-width: 768px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
   </style>
 </head>
