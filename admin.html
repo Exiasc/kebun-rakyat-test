@@ -87,20 +87,23 @@
   <script type="module">
     import { auth, db } from './firebase-config.js';
     import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-    import { collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+    import { collection, getDocs, query, where, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
     // Check authentication
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        // Check if admin (simple check for demo - in production, check role from database)
-        if (!user.email.includes('admin')) {
+        // Check if admin by reading role from database
+        const userDoc = await getDoc(doc(db, 'users', user.uid));
+        
+        if (!userDoc.exists() || userDoc.data().role !== 'admin') {
           alert('Access denied. Admin only.');
-          window.location.href = 'login-working.html';
+          window.location.href = 'login.html';
           return;
         }
+        
         loadDashboard();
       } else {
-        window.location.href = 'login-working.html';
+        window.location.href = 'login.html';
       }
     });
 
@@ -250,7 +253,7 @@
 
     window.logout = async () => {
       await signOut(auth);
-      window.location.href = 'login-working.html';
+      window.location.href = 'login.html';
     };
   </script>
 </body>

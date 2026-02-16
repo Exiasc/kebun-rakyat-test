@@ -100,6 +100,7 @@
           <select id="userRole" style="width: 100%; padding: 14px 16px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 16px; outline: none;">
             <option value="customer">Customer</option>
             <option value="farmer">Farmer</option>
+            <option value="admin">Admin (Ministry)</option>
           </select>
         </div>
 
@@ -126,7 +127,7 @@
   <script type="module">
     import { auth, db } from './firebase-config.js';
     import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-    import { doc, setDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+    import { doc, setDoc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
     // Show/hide farm name field based on user role
     document.getElementById('userRole').addEventListener('change', (e) => {
@@ -149,15 +150,20 @@
       btn.textContent = 'Signing in...';
 
       try {
-        await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        
+        // Get user role from database
+        const userDoc = await getDoc(doc(db, 'users', userCredential.user.uid));
+        const userRole = userDoc.exists() ? userDoc.data().role : 'customer';
+        
         showMessage('Success! Redirecting...', 'success');
         
-        // Redirect based on email (simple demo logic)
+        // Redirect based on role
         setTimeout(() => {
-          if (email.includes('admin')) {
+          if (userRole === 'admin') {
             window.location.href = 'admin.html';
-          } else if (email.includes('farmer')) {
-            window.location.href = 'farmer-dashboard.html';
+          } else if (userRole === 'farmer') {
+            window.location.href = 'dashboard.html';
           } else {
             window.location.href = 'marketplace.html';
           }
@@ -195,8 +201,10 @@
         showMessage('Account created! Redirecting...', 'success');
         
         setTimeout(() => {
-          if (role === 'farmer') {
-            window.location.href = 'farmer-dashboard.html';
+          if (role === 'admin') {
+            window.location.href = 'admin.html';
+          } else if (role === 'farmer') {
+            window.location.href = 'dashboard.html';
           } else {
             window.location.href = 'marketplace.html';
           }
