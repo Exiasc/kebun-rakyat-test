@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database Setup - Kebun Rakyat</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body { background: linear-gradient(to bottom right, #fef3c7, #ffffff, #d1fae5); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .container { max-width: 800px; background: white; border-radius: 24px; padding: 48px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15); }
+    h1 { font-size: 32px; font-weight: 700; color: #111827; margin-bottom: 16px; }
+    p { color: #6b7280; margin-bottom: 32px; line-height: 1.6; }
+    .warning { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 16px; border-radius: 8px; margin-bottom: 24px; }
+    .warning strong { color: #92400e; }
+    .btn { padding: 16px 32px; background: linear-gradient(to right, #16a34a, #10b981); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; width: 100%; transition: all 0.3s; }
+    .btn:hover { box-shadow: 0 10px 30px rgba(22, 163, 74, 0.3); transform: scale(1.02); }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-danger { background: linear-gradient(to right, #dc2626, #b91c1c); margin-top: 16px; }
+    .success { background: #dcfce7; color: #16a34a; padding: 16px; border-radius: 8px; margin-top: 24px; }
+    .error { background: #fee2e2; color: #dc2626; padding: 16px; border-radius: 8px; margin-top: 24px; }
+    .info { background: #dbeafe; color: #1e40af; padding: 16px; border-radius: 8px; margin-bottom: 24px; }
+    #log { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin-top: 24px; max-height: 300px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+    .log-item { margin-bottom: 8px; }
+    .log-success { color: #16a34a; }
+    .log-error { color: #dc2626; }
+    .accounts { background: #f3f4f6; padding: 16px; border-radius: 8px; margin-top: 24px; }
+    .accounts h3 { font-size: 18px; margin-bottom: 12px; color: #111827; }
+    .account-item { background: white; padding: 12px; border-radius: 8px; margin-bottom: 8px; font-family: monospace; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌱 Database Setup Tool</h1>
+    <p>Populate your Firebase database with sample data for demo purposes.</p>
+
+    <div class="info">
+      <strong>ℹ️ This will create:</strong><br>
+      • 1 Admin account<br>
+      • 5 Farmer accounts<br>
+      • 3 Customer accounts<br>
+      • 15+ Product listings<br>
+      • 5+ Sample orders
+    </div>
+
+    <div class="warning">
+      <strong>⚠️ Warning:</strong> This will create real accounts in Firebase Authentication. Use strong passwords or delete test accounts after demo.
+    </div>
+
+    <button class="btn" id="populateBtn" onclick="populateDatabase()">
+      🚀 Populate Database
+    </button>
+
+    <button class="btn btn-danger" id="clearBtn" onclick="clearDatabase()" style="display: none;">
+      🗑️ Clear All Sample Data
+    </button>
+
+    <div id="message"></div>
+    <div id="log" style="display: none;"></div>
+
+    <div class="accounts" id="accountsList" style="display: none;">
+      <h3>📋 Created Accounts (Save These!)</h3>
+      <div id="accountsContent"></div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db } from './firebase-config.js';
+    import { createUserWithEmailAndPassword } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+    import { collection, addDoc, doc, setDoc, getDocs, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+
+    const sampleData = {
+      admin: {
+        email: 'admin@kebunrakyat.my',
+        password: 'Admin123!',
+        role: 'admin'
+      },
+      farmers: [
+        { email: 'greenvalley@farm.my', password: 'Farmer123!', farmName: 'Green Valley Farms', location: 'Cameron Highlands' },
+        { email: 'sunrise@farm.my', password: 'Farmer123!', farmName: 'Sunrise Agriculture', location: 'Kedah' },
+        { email: 'golden@farm.my', password: 'Farmer123!', farmName: 'Golden Harvest', location: 'Sekinchan' },
+        { email: 'highland@farm.my', password: 'Farmer123!', farmName: 'Highland Greens', location: 'Genting Highlands' },
+        { email: 'tropical@farm.my', password: 'Farmer123!', farmName: 'Tropical Treats', location: 'Johor' }
+      ],
+      customers: [
+        { email: 'customer1@test.my', password: 'Customer123!', role: 'customer' },
+        { email: 'customer2@test.my', password: 'Customer123!', role: 'customer' },
+        { email: 'customer3@test.my', password: 'Customer123!', role: 'customer' }
+      ],
+      products: [
+        { name: 'Organic Tomatoes', emoji: '🍅', price: 4.50, harvestTime: '2-3 days', description: 'Fresh organic tomatoes from the highlands' },
+        { name: 'Fresh Corn', emoji: '🌽', price: 3.20, harvestTime: '1 day', description: 'Sweet corn freshly harvested' },
+        { name: 'Premium Rice', emoji: '🌾', price: 6.80, harvestTime: 'Ready to ship', description: 'Premium quality white rice' },
+        { name: 'Fresh Lettuce', emoji: '🥬', price: 5.50, harvestTime: '3-4 days', description: 'Crispy fresh lettuce' },
+        { name: 'Organic Carrots', emoji: '🥕', price: 4.20, harvestTime: '5-7 days', description: 'Organic carrots, pesticide-free' },
+        { name: 'Fresh Apples', emoji: '🍎', price: 8.90, harvestTime: 'Ready to ship', description: 'Crispy apples from the highlands' },
+        { name: 'Bananas', emoji: '🍌', price: 3.50, harvestTime: '2 days', description: 'Sweet bananas' },
+        { name: 'Fresh Strawberries', emoji: '🍓', price: 12.00, harvestTime: '1-2 days', description: 'Premium strawberries' },
+        { name: 'Cucumbers', emoji: '🥒', price: 3.00, harvestTime: '2-3 days', description: 'Fresh cucumbers' },
+        { name: 'Potatoes', emoji: '🥔', price: 2.80, harvestTime: 'Ready to ship', description: 'Quality potatoes' },
+        { name: 'Pumpkins', emoji: '🎃', price: 5.00, harvestTime: '1 week', description: 'Fresh pumpkins' },
+        { name: 'Chili Peppers', emoji: '🌶️', price: 15.00, harvestTime: '3-4 days', description: 'Spicy chili peppers' },
+        { name: 'Cabbage', emoji: '🥬', price: 3.50, harvestTime: '4-5 days', description: 'Fresh cabbage' },
+        { name: 'Watermelon', emoji: '🍉', price: 4.00, harvestTime: '1-2 days', description: 'Sweet watermelons' },
+        { name: 'Papayas', emoji: '🍈', price: 5.50, harvestTime: 'Ready to ship', description: 'Ripe papayas' }
+      ]
+    };
+
+    let createdAccounts = [];
+
+    window.populateDatabase = async () => {
+      const btn = document.getElementById('populateBtn');
+      const logDiv = document.getElementById('log');
+      const messageDiv = document.getElementById('message');
+      
+      btn.disabled = true;
+      btn.textContent = 'Populating...';
+      logDiv.style.display = 'block';
+      logDiv.innerHTML = '';
+      createdAccounts = [];
+
+      try {
+        log('🚀 Starting database population...', 'success');
+
+        // Create admin account
+        log('Creating admin account...', 'info');
+        const adminUser = await createUserWithEmailAndPassword(
+          auth, 
+          sampleData.admin.email, 
+          sampleData.admin.password
+        );
+        await setDoc(doc(db, 'users', adminUser.user.uid), {
+          email: sampleData.admin.email,
+          role: 'admin',
+          createdAt: new Date()
+        });
+        createdAccounts.push({ type: 'Admin', email: sampleData.admin.email, password: sampleData.admin.password });
+        log('✅ Admin account created', 'success');
+
+        // Create farmer accounts and their products
+        for (let i = 0; i < sampleData.farmers.length; i++) {
+          const farmer = sampleData.farmers[i];
+          log(`Creating farmer: ${farmer.farmName}...`, 'info');
+          
+          const farmerUser = await createUserWithEmailAndPassword(
+            auth,
+            farmer.email,
+            farmer.password
+          );
+
+          await setDoc(doc(db, 'users', farmerUser.user.uid), {
+            email: farmer.email,
+            role: 'farmer',
+            farmName: farmer.farmName,
+            createdAt: new Date()
+          });
+
+          createdAccounts.push({ type: 'Farmer', email: farmer.email, password: farmer.password, farm: farmer.farmName });
+          log(`✅ ${farmer.farmName} created`, 'success');
+
+          // Add 3 products per farmer
+          const farmerProducts = sampleData.products.slice(i * 3, (i * 3) + 3);
+          for (const product of farmerProducts) {
+            await addDoc(collection(db, 'products'), {
+              name: product.name,
+              emoji: product.emoji,
+              price: product.price,
+              description: product.description,
+              location: farmer.location,
+              harvestTime: product.harvestTime,
+              farmerId: farmerUser.user.uid,
+              farmerName: farmer.farmName,
+              farmerEmail: farmer.email,
+              createdAt: new Date(),
+              rating: 4.5 + Math.random() * 0.5
+            });
+          }
+          log(`✅ Added ${farmerProducts.length} products for ${farmer.farmName}`, 'success');
+        }
+
+        // Create customer accounts
+        for (const customer of sampleData.customers) {
+          log(`Creating customer: ${customer.email}...`, 'info');
+          const customerUser = await createUserWithEmailAndPassword(
+            auth,
+            customer.email,
+            customer.password
+          );
+
+          await setDoc(doc(db, 'users', customerUser.user.uid), {
+            email: customer.email,
+            role: 'customer',
+            createdAt: new Date()
+          });
+
+          createdAccounts.push({ type: 'Customer', email: customer.email, password: customer.password });
+          log(`✅ Customer created: ${customer.email}`, 'success');
+        }
+
+        // Create sample orders
+        log('Creating sample orders...', 'info');
+        for (let i = 0; i < 5; i++) {
+          const randomProducts = sampleData.products
+            .sort(() => 0.5 - Math.random())
+            .slice(0, Math.floor(Math.random() * 3) + 1);
+          
+          const orderItems = randomProducts.map(p => ({
+            name: p.name,
+            emoji: p.emoji,
+            price: p.price
+          }));
+
+          const total = orderItems.reduce((sum, item) => sum + item.price, 0);
+
+          await addDoc(collection(db, 'orders'), {
+            items: orderItems,
+            total: total,
+            status: 'completed',
+            createdAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000) // Random date within last week
+          });
+        }
+        log('✅ Created 5 sample orders', 'success');
+
+        log('🎉 Database population complete!', 'success');
+        
+        messageDiv.innerHTML = '<div class="success"><strong>Success!</strong> Database populated with sample data. You can now test the platform!</div>';
+        
+        // Show accounts
+        showAccounts();
+        
+        btn.style.display = 'none';
+        document.getElementById('clearBtn').style.display = 'block';
+
+      } catch (error) {
+        log(`❌ Error: ${error.message}`, 'error');
+        messageDiv.innerHTML = `<div class="error"><strong>Error:</strong> ${error.message}</div>`;
+        btn.disabled = false;
+        btn.textContent = '🚀 Populate Database';
+      }
+    };
+
+    window.clearDatabase = async () => {
+      if (!confirm('⚠️ This will delete all products and orders. Users must be deleted manually from Firebase Console. Continue?')) {
+        return;
+      }
+
+      const btn = document.getElementById('clearBtn');
+      const logDiv = document.getElementById('log');
+      
+      btn.disabled = true;
+      btn.textContent = 'Clearing...';
+      logDiv.innerHTML = '';
+
+      try {
+        log('🗑️ Clearing products...', 'info');
+        const productsSnapshot = await getDocs(collection(db, 'products'));
+        for (const doc of productsSnapshot.docs) {
+          await deleteDoc(doc.ref);
+        }
+        log(`✅ Deleted ${productsSnapshot.size} products`, 'success');
+
+        log('🗑️ Clearing orders...', 'info');
+        const ordersSnapshot = await getDocs(collection(db, 'orders'));
+        for (const doc of ordersSnapshot.docs) {
+          await deleteDoc(doc.ref);
+        }
+        log(`✅ Deleted ${ordersSnapshot.size} orders`, 'success');
+
+        log('⚠️ Note: Users must be deleted from Firebase Console → Authentication', 'info');
+        log('✅ Cleanup complete!', 'success');
+
+        document.getElementById('message').innerHTML = '<div class="success"><strong>Success!</strong> Sample data cleared. Delete users manually from Firebase Console.</div>';
+
+      } catch (error) {
+        log(`❌ Error: ${error.message}`, 'error');
+      }
+
+      btn.disabled = false;
+      btn.textContent = '🗑️ Clear All Sample Data';
+    };
+
+    function log(message, type = 'info') {
+      const logDiv = document.getElementById('log');
+      const logItem = document.createElement('div');
+      logItem.className = `log-item log-${type}`;
+      logItem.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logDiv.appendChild(logItem);
+      logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    function showAccounts() {
+      const accountsList = document.getElementById('accountsList');
+      const accountsContent = document.getElementById('accountsContent');
+      
+      accountsContent.innerHTML = createdAccounts.map(acc => `
+        <div class="account-item">
+          <strong>${acc.type}:</strong> ${acc.email}<br>
+          Password: ${acc.password}${acc.farm ? `<br>Farm: ${acc.farm}` : ''}
+        </div>
+      `).join('');
+      
+      accountsList.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
