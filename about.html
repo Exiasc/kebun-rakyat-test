@@ -8,57 +8,86 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body { background: linear-gradient(to bottom right, #fef3c7, #ffffff, #d1fae5); }
-    nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 16px 24px; }
+    
+    /* Navigation - Mobile First */
+    nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 12px 16px; }
     .nav-content { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .logo-icon { width: 48px; height: 48px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
-    .logo-text h1 { font-size: 24px; font-weight: 700; background: linear-gradient(to right, #15803d, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: Georgia, serif; }
-    .logo-text p { font-size: 10px; color: #16a34a; font-weight: 600; letter-spacing: 2px; }
-    .nav-links { display: flex; gap: 32px; align-items: center; }
-    .nav-links a { color: #374151; text-decoration: none; font-weight: 500; font-size: 14px; }
-    .btn { padding: 10px 24px; border-radius: 9999px; font-weight: 600; text-decoration: none; background: linear-gradient(to right, #16a34a, #10b981); color: white; display: inline-block; }
-    .hero-banner { background: linear-gradient(to right, #16a34a, #10b981); color: white; padding: 120px 24px 80px; text-align: center; }
-    .hero-banner h1 { font-size: 56px; font-weight: 700; margin-bottom: 24px; font-family: Georgia, serif; }
-    .hero-banner p { font-size: 24px; color: #d1fae5; max-width: 800px; margin: 0 auto; line-height: 1.6; }
-    .container { max-width: 1280px; margin: 0 auto; padding: 80px 24px; }
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
-    .card { background: white; border-radius: 24px; padding: 48px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); }
-    .card-icon { width: 64px; height: 64px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 24px; }
-    .card h2 { font-size: 32px; font-weight: 700; color: #111827; margin-bottom: 16px; font-family: Georgia, serif; }
-    .card p { font-size: 18px; color: #6b7280; line-height: 1.8; }
-    .section-title { font-size: 42px; font-weight: 700; color: #111827; text-align: center; margin-bottom: 16px; font-family: Georgia, serif; }
-    .section-subtitle { font-size: 20px; color: #6b7280; text-align: center; margin-bottom: 64px; }
-    .values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; }
-    .value-card { background: white; border-radius: 24px; padding: 32px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); text-align: center; }
-    .value-icon { width: 64px; height: 64px; background: linear-gradient(to bottom right, #dcfce7, #d1fae5); border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 20px; }
+    .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-icon { width: 40px; height: 40px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+    .logo-text h1 { font-size: 16px; font-weight: 700; background: linear-gradient(to right, #15803d, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: Georgia, serif; }
+    .logo-text p { font-size: 7px; color: #16a34a; font-weight: 600; letter-spacing: 1.2px; }
+    .nav-links { display: none; }
+    .btn { padding: 10px 18px; border-radius: 24px; font-weight: 600; text-decoration: none; background: linear-gradient(to right, #16a34a, #10b981); color: white; display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; }
+    
+    /* Hero Banner - Mobile First */
+    .hero-banner { background: linear-gradient(to right, #16a34a, #10b981); color: white; padding: 90px 16px 56px; text-align: center; }
+    .hero-banner h1 { font-size: 36px; font-weight: 700; margin-bottom: 20px; font-family: Georgia, serif; line-height: 1.2; }
+    .hero-banner p { font-size: 18px; color: #d1fae5; max-width: 800px; margin: 0 auto; line-height: 1.6; }
+    
+    /* Container */
+    .container { max-width: 1280px; margin: 0 auto; padding: 48px 16px; }
+    
+    /* Cards - Mobile First (1 column) */
+    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    .card { background: white; border-radius: 20px; padding: 28px 20px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); }
+    .card-icon { width: 64px; height: 64px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 20px; }
+    .card h2 { font-size: 26px; font-weight: 700; color: #111827; margin-bottom: 14px; font-family: Georgia, serif; }
+    .card p { font-size: 17px; color: #6b7280; line-height: 1.7; }
+    
+    /* Section Titles */
+    .section-title { font-size: 32px; font-weight: 700; color: #111827; text-align: center; margin-bottom: 14px; font-family: Georgia, serif; }
+    .section-subtitle { font-size: 17px; color: #6b7280; text-align: center; margin-bottom: 48px; line-height: 1.6; }
+    
+    /* Values Grid - Mobile First (1 column) */
+    .values-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    .value-card { background: white; border-radius: 20px; padding: 28px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); text-align: center; }
+    .value-icon { width: 64px; height: 64px; background: linear-gradient(to bottom right, #dcfce7, #d1fae5); border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 18px; }
     .value-card h3 { font-size: 20px; font-weight: 700; color: #111827; margin-bottom: 12px; }
-    .value-card p { font-size: 14px; color: #6b7280; line-height: 1.6; }
-    footer { background: #111827; color: white; padding: 48px 24px; text-align: center; }
-    @media (max-width: 768px) { 
-      nav { padding: 12px 16px; }
-      .nav-content { padding: 0; }
-      .nav-links { display: none; }
-      .btn { padding: 8px 16px; font-size: 14px; }
-      .logo-icon { width: 40px; height: 40px; font-size: 20px; }
-      .logo-text h1 { font-size: 20px; }
-      .logo-text p { font-size: 9px; }
-      .hero-banner { padding: 100px 16px 60px; }
-      .hero-banner h1 { font-size: 32px; margin-bottom: 16px; }
-      .hero-banner p { font-size: 18px; }
-      .container { padding: 48px 16px; }
-      .grid-2 { grid-template-columns: 1fr; gap: 24px; }
-      .card { padding: 32px 24px; }
-      .card-icon { width: 56px; height: 56px; font-size: 28px; margin-bottom: 20px; }
-      .card h2 { font-size: 24px; margin-bottom: 12px; }
-      .card p { font-size: 16px; }
-      .section-title { font-size: 28px; margin-bottom: 12px; }
-      .section-subtitle { font-size: 16px; margin-bottom: 40px; }
-      .values-grid { grid-template-columns: 1fr; gap: 20px; }
-      .value-card { padding: 24px; }
-      .value-icon { width: 56px; height: 56px; font-size: 28px; margin-bottom: 16px; }
-      .value-card h3 { font-size: 18px; }
-      .value-card p { font-size: 13px; }
-      footer { padding: 32px 16px; }
+    .value-card p { font-size: 15px; color: #6b7280; line-height: 1.6; }
+    
+    /* Footer */
+    footer { background: #111827; color: white; padding: 40px 16px; text-align: center; }
+    .footer-logo { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .footer-logo h3 { font-size: 22px; font-family: Georgia, serif; }
+    
+    /* Tablet (640px+) */
+    @media (min-width: 640px) {
+      .hero-banner { padding: 100px 20px 64px; }
+      .hero-banner h1 { font-size: 44px; }
+      .hero-banner p { font-size: 20px; }
+      .container { padding: 56px 20px; }
+      .values-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    }
+    
+    /* Desktop (1024px+) */
+    @media (min-width: 1024px) {
+      nav { padding: 16px 24px; }
+      .logo-icon { width: 48px; height: 48px; font-size: 24px; }
+      .logo-text h1 { font-size: 24px; }
+      .logo-text p { font-size: 10px; letter-spacing: 2px; }
+      .nav-links { display: flex; gap: 28px; align-items: center; }
+      .nav-links a { color: #374151; text-decoration: none; font-weight: 500; font-size: 15px; }
+      .btn { font-size: 16px; }
+      
+      .hero-banner { padding: 140px 24px 96px; }
+      .hero-banner h1 { font-size: 60px; }
+      .hero-banner p { font-size: 24px; }
+      
+      .container { padding: 80px 24px; }
+      .grid-2 { grid-template-columns: 1fr 1fr; gap: 48px; }
+      .card { padding: 48px; }
+      .card h2 { font-size: 36px; margin-bottom: 18px; }
+      .card p { font-size: 19px; }
+      
+      .section-title { font-size: 48px; margin-bottom: 18px; }
+      .section-subtitle { font-size: 21px; margin-bottom: 72px; }
+      
+      .values-grid { grid-template-columns: repeat(4, 1fr); gap: 32px; }
+      .value-card { padding: 36px; }
+      .value-card h3 { font-size: 22px; }
+      .value-card p { font-size: 16px; }
+      
+      footer { padding: 56px 24px; }
     }
   </style>
 </head>
@@ -89,60 +118,49 @@
       <div class="card">
         <div class="card-icon">🎯</div>
         <h2>Our Mission</h2>
-        <p>To revolutionize Malaysia's agricultural marketplace by creating direct, transparent connections between farmers and buyers. We eliminate middlemen, ensure fair prices, and guarantee fresh produce reaches consumers faster than ever before.</p>
+        <p>To create a transparent, farmer-first marketplace that eliminates middlemen, ensures fair prices for producers, and delivers fresh, quality produce directly to Malaysian consumers.</p>
       </div>
       <div class="card">
-        <div class="card-icon">👥</div>
+        <div class="card-icon">👁️</div>
         <h2>Our Vision</h2>
-        <p>To become Southeast Asia's leading agricultural marketplace, empowering millions of farmers with technology and creating a sustainable, transparent food supply chain that benefits everyone from farm to table.</p>
-      </div>
-    </div>
-  </div>
-
-  <div style="background: linear-gradient(to bottom right, #dcfce7, #d1fae5); padding: 80px 0;">
-    <div class="container">
-      <h2 class="section-title">Our Story</h2>
-      <div style="max-width: 900px; margin: 0 auto; font-size: 18px; color: #374151; line-height: 1.8; text-align: center;">
-        <p style="margin-bottom: 24px;">Kebun Rakyat was born from a simple observation: farmers were receiving unfair prices for their hard work, while consumers were paying premium prices for produce that wasn't always fresh. The problem? Too many middlemen in the supply chain.</p>
-        <p style="margin-bottom: 24px;">In 2024, we set out to change this. We built a platform that connects farmers directly with buyers—whether they're restaurants, retailers, or individual consumers. By cutting out the middlemen, we ensure farmers get fair compensation while buyers receive fresher produce at better prices.</p>
-        <p>Today, Kebun Rakyat serves over 5,000 farmers across Malaysia, processing more than RM 2.5 million in transactions monthly. But we're just getting started.</p>
+        <p>To become Malaysia's leading agricultural marketplace, where every farmer has direct market access and every buyer enjoys farm-fresh produce at fair prices.</p>
       </div>
     </div>
   </div>
 
   <div class="container">
-    <h2 class="section-title">Our Core Values</h2>
+    <h2 class="section-title">Our Values</h2>
     <p class="section-subtitle">The principles that guide everything we do</p>
     <div class="values-grid">
       <div class="value-card">
-        <div class="value-icon">🌿</div>
+        <div class="value-icon">🤝</div>
+        <h3>Fairness</h3>
+        <p>Fair prices for farmers, fair prices for buyers, no hidden fees or middlemen taking cuts.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🔍</div>
+        <h3>Transparency</h3>
+        <p>Complete visibility into product origins, farming practices, and pricing structures.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon">🌱</div>
         <h3>Sustainability</h3>
-        <p>Promoting eco-friendly farming practices and reducing environmental impact through direct connections.</p>
+        <p>Supporting sustainable farming practices that protect our environment for future generations.</p>
       </div>
       <div class="value-card">
-        <div class="value-icon">❤️</div>
-        <h3>Community First</h3>
-        <p>Building strong relationships between farmers and buyers for mutual growth and prosperity.</p>
-      </div>
-      <div class="value-card">
-        <div class="value-icon">🛡️</div>
-        <h3>Trust & Transparency</h3>
-        <p>Ensuring every transaction is secure, verified, and transparent for all parties involved.</p>
-      </div>
-      <div class="value-card">
-        <div class="value-icon">📈</div>
-        <h3>Growth & Innovation</h3>
-        <p>Continuously improving our platform with technology to better serve our farming community.</p>
+        <div class="value-icon">💚</div>
+        <h3>Community</h3>
+        <p>Building strong connections between farmers and buyers to strengthen local food systems.</p>
       </div>
     </div>
   </div>
 
   <footer>
-    <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px;">
-      <div class="logo-icon">🌱</div><h3 style="font-size: 24px; font-family: Georgia, serif;">Kebun Rakyat</h3>
+    <div class="footer-logo">
+      <div class="logo-icon">🌱</div>
+      <h3>Kebun Rakyat</h3>
     </div>
-    <p style="color: #9ca3af;">Menghubungkan petani dan pembeli untuk masa depan yang lestari</p>
-    <div style="margin-top: 32px; padding-top: 32px; border-top: 1px solid #374151; color: #6b7280; font-size: 14px;">© 2026 Kebun Rakyat. Hak cipta terpelihara.</div>
+    <p style="color: #9ca3af; font-size: 15px;">Menghubungkan petani dan pembeli untuk masa depan yang lestari</p>
   </footer>
 </body>
 </html>
