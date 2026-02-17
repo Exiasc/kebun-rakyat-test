@@ -250,7 +250,7 @@
           
           orders.forEach(order => {
             const itemsList = order.items.map(item => `${item.emoji} ${item.name}`).join(', ');
-            tableHTML += `                                                                                                        
+            tableHTML += `
               <tr>
                 <td style="font-weight: 600;">#${order.id.substring(0, 8)}</td>
                 <td>${itemsList}</td>
