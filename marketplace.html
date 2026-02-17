@@ -9,16 +9,56 @@
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
     body { background: linear-gradient(to bottom right, #fef3c7, #ffffff, #d1fae5); min-height: 100vh; }
     
-    /* Navigation - Mobile First */
+    /* Navigation - Works on ALL screen sizes */
     nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 12px 16px; position: sticky; top: 0; z-index: 100; }
     .nav-content { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-    .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
-    .logo-icon { width: 40px; height: 40px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-    .logo-text h1 { font-size: 16px; font-weight: 700; background: linear-gradient(to right, #15803d, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: Georgia, serif; }
-    .logo-text p { font-size: 7px; color: #16a34a; font-weight: 600; letter-spacing: 1.2px; }
+    .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
+    .logo-icon { width: 36px; height: 36px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .logo-text h1 { font-size: 16px; font-weight: 700; background: linear-gradient(to right, #15803d, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: Georgia, serif; white-space: nowrap; }
+    .logo-text p { font-size: 7px; color: #16a34a; font-weight: 600; letter-spacing: 1px; white-space: nowrap; }
     .nav-links { display: none; }
-    .btn-cart { padding: 10px 18px; border-radius: 24px; background: linear-gradient(to right, #16a34a, #10b981); color: white; text-decoration: none; font-weight: 600; font-size: 15px; position: relative; display: flex; align-items: center; gap: 6px; min-height: 44px; }
-    .cart-badge { position: absolute; top: -6px; right: -6px; background: #dc2626; color: white; width: 20px; height: 20px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    .btn-cart { padding: 8px 14px; border-radius: 20px; background: linear-gradient(to right, #16a34a, #10b981); color: white; text-decoration: none; font-weight: 600; font-size: 14px; position: relative; display: flex; align-items: center; gap: 4px; min-height: 40px; white-space: nowrap; flex-shrink: 0; }
+    .cart-badge { position: absolute; top: -6px; right: -6px; background: #dc2626; color: white; width: 18px; height: 18px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+    
+    @media (max-width: 374px) {
+      nav { padding: 10px 12px; }
+      .logo-icon { width: 32px; height: 32px; font-size: 16px; }
+      .logo-text h1 { font-size: 14px; }
+      .logo-text p { font-size: 6px; }
+      .btn-cart { padding: 6px 10px; font-size: 13px; min-height: 36px; }
+    }
+    @media (min-width: 375px) and (max-width: 639px) {
+      .logo-icon { width: 38px; height: 38px; font-size: 19px; }
+      .logo-text h1 { font-size: 17px; }
+    }
+    @media (min-width: 640px) and (max-width: 767px) {
+      nav { padding: 14px 20px; }
+      .logo-icon { width: 42px; height: 42px; font-size: 21px; }
+      .logo-text h1 { font-size: 19px; }
+      .logo-text p { font-size: 8px; }
+      .btn-cart { padding: 9px 16px; font-size: 15px; min-height: 42px; }
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      nav { padding: 14px 24px; }
+      .nav-content { gap: 20px; }
+      .logo-icon { width: 44px; height: 44px; font-size: 22px; }
+      .logo-text h1 { font-size: 21px; }
+      .logo-text p { font-size: 9px; }
+      .nav-links { display: flex; gap: 16px; align-items: center; }
+      .nav-links a { color: #374151; text-decoration: none; font-weight: 500; font-size: 14px; white-space: nowrap; }
+      .btn-cart { padding: 10px 18px; font-size: 15px; }
+    }
+    @media (min-width: 1024px) {
+      nav { padding: 16px 24px; }
+      .nav-content { gap: 32px; }
+      .logo-icon { width: 48px; height: 48px; font-size: 24px; border-radius: 12px; }
+      .logo-text h1 { font-size: 24px; }
+      .logo-text p { font-size: 10px; letter-spacing: 2px; }
+      .nav-links { display: flex; gap: 28px; align-items: center; }
+      .nav-links a { color: #374151; text-decoration: none; font-weight: 500; font-size: 15px; transition: color 0.2s; white-space: nowrap; }
+      .nav-links a:hover { color: #16a34a; }
+      .btn-cart { padding: 10px 24px; font-size: 16px; min-height: 44px; }
+    }
     
     /* Hero Banner */
     .hero-banner { background: linear-gradient(135deg, #16a34a 0%, #10b981 100%); padding: 28px 16px; color: white; }
