@@ -1,242 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Marketplace - Kebun Rakyat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background: linear-gradient(to bottom right, #fef3c7, #ffffff, #d1fae5); min-height: 100vh; }
-    
-    /* Navigation - Works on ALL screen sizes */
-    nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 12px 16px; position: sticky; top: 0; z-index: 100; }
-    .nav-content { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-    .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; flex-shrink: 0; }
-    .logo-icon { width: 36px; height: 36px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
-    .logo-text h1 { font-size: 16px; font-weight: 700; background: linear-gradient(to right, #15803d, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: Georgia, serif; white-space: nowrap; }
-    .logo-text p { font-size: 7px; color: #16a34a; font-weight: 600; letter-spacing: 1px; white-space: nowrap; }
-    .nav-links { display: none; }
-    .btn-cart { padding: 8px 14px; border-radius: 20px; background: linear-gradient(to right, #16a34a, #10b981); color: white; text-decoration: none; font-weight: 600; font-size: 14px; position: relative; display: flex; align-items: center; gap: 4px; min-height: 40px; white-space: nowrap; flex-shrink: 0; }
-    .cart-badge { position: absolute; top: -6px; right: -6px; background: #dc2626; color: white; width: 18px; height: 18px; border-radius: 50%; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
-    
-    @media (max-width: 374px) {
-      nav { padding: 10px 12px; }
-      .logo-icon { width: 32px; height: 32px; font-size: 16px; }
-      .logo-text h1 { font-size: 14px; }
-      .logo-text p { font-size: 6px; }
-      .btn-cart { padding: 6px 10px; font-size: 13px; min-height: 36px; }
-    }
-    @media (min-width: 375px) and (max-width: 639px) {
-      .logo-icon { width: 38px; height: 38px; font-size: 19px; }
-      .logo-text h1 { font-size: 17px; }
-    }
-    @media (min-width: 640px) and (max-width: 767px) {
-      nav { padding: 14px 20px; }
-      .logo-icon { width: 42px; height: 42px; font-size: 21px; }
-      .logo-text h1 { font-size: 19px; }
-      .logo-text p { font-size: 8px; }
-      .btn-cart { padding: 9px 16px; font-size: 15px; min-height: 42px; }
-    }
-    @media (min-width: 768px) and (max-width: 1023px) {
-      nav { padding: 14px 24px; }
-      .nav-content { gap: 20px; }
-      .logo-icon { width: 44px; height: 44px; font-size: 22px; }
-      .logo-text h1 { font-size: 21px; }
-      .logo-text p { font-size: 9px; }
-      .nav-links { display: flex; gap: 16px; align-items: center; }
-      .nav-links a { color: #374151; text-decoration: none; font-weight: 500; font-size: 14px; white-space: nowrap; }
-      .btn-cart { padding: 10px 18px; font-size: 15px; }
-    }
-    @media (min-width: 1024px) {
-      nav { padding: 16px 24px; }
-      .nav-content { gap: 32px; }
-      .logo-icon { width: 48px; height: 48px; font-size: 24px; border-radius: 12px; }
-      .logo-text h1 { font-size: 24px; }
-      .logo-text p { font-size: 10px; letter-spacing: 2px; }
-      .nav-links { display: flex; gap: 28px; align-items: center; }
-      .nav-links a { color: #374151; text-decoration: none; font-weight: 500; font-size: 15px; transition: color 0.2s; white-space: nowrap; }
-      .nav-links a:hover { color: #16a34a; }
-      .btn-cart { padding: 10px 24px; font-size: 16px; min-height: 44px; }
-    }
-    
-    /* Hero Banner */
-    .hero-banner { background: linear-gradient(135deg, #16a34a 0%, #10b981 100%); padding: 28px 16px; color: white; }
-    .hero-content { max-width: 1280px; margin: 0 auto; }
-    .hero-badge { display: inline-block; background: rgba(255, 255, 255, 0.25); padding: 8px 14px; border-radius: 24px; font-size: 13px; font-weight: 600; margin-bottom: 14px; }
-    .hero-banner h1 { font-size: 30px; font-weight: 700; margin-bottom: 10px; font-family: Georgia, serif; line-height: 1.2; }
-    .hero-banner p { font-size: 15px; opacity: 0.95; line-height: 1.5; }
-    
-    /* Container */
-    .container { max-width: 1280px; margin: 0 auto; padding: 20px 16px 40px; }
-    
-    /* Search Bar */
-    .search-section { background: white; border-radius: 16px; padding: 16px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); margin-bottom: 16px; }
-    .search-bar { position: relative; margin-bottom: 14px; }
-    .search-bar input { width: 100%; padding: 16px 16px 16px 48px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 16px; outline: none; }
-    .search-bar input:focus { border-color: #16a34a; }
-    .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-size: 22px; }
-    
-    /* Filter Chips */
-    .filter-chips { display: flex; gap: 10px; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
-    .filter-chips::-webkit-scrollbar { display: none; }
-    .filter-chip { padding: 10px 18px; border: 2px solid #e5e7eb; border-radius: 24px; background: white; font-size: 15px; font-weight: 600; white-space: nowrap; cursor: pointer; transition: all 0.2s; min-height: 44px; display: inline-flex; align-items: center; }
-    .filter-chip.active { background: #16a34a; color: white; border-color: #16a34a; }
-    
-    /* Sort Section */
-    .sort-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 12px; }
-    .result-count { font-size: 17px; font-weight: 700; color: #111827; }
-    .sort-dropdown { padding: 10px 14px; border: 2px solid #e5e7eb; border-radius: 10px; font-size: 15px; font-weight: 600; background: white; outline: none; cursor: pointer; min-height: 44px; }
-    
-    /* Products Grid - Mobile First (1 column) */
-    .products-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-    
-    /* Product Card - Spacious Mobile Design */
-    .product-card { background: white; border-radius: 18px; overflow: hidden; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); transition: all 0.3s; }
-    .product-card:active { transform: scale(0.98); }
-    .product-card a { display: block; text-decoration: none; color: inherit; }
-    
-    .product-image { background: linear-gradient(135deg, #fef3c7 0%, #d1fae5 100%); padding: 40px; text-align: center; font-size: 100px; min-height: 200px; display: flex; align-items: center; justify-content: center; }
-    
-    .product-info { padding: 20px; }
-    .product-name { font-size: 20px; font-weight: 700; color: #111827; margin-bottom: 8px; line-height: 1.3; }
-    .product-farmer { font-size: 15px; color: #6b7280; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-    
-    .product-meta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
-    .meta-tag { padding: 6px 12px; background: #dcfce7; color: #15803d; border-radius: 8px; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
-    
-    .product-rating { display: flex; align-items: center; gap: 8px; font-size: 15px; margin-bottom: 12px; font-weight: 600; }
-    .product-location { font-size: 14px; color: #6b7280; margin-bottom: 16px; }
-    
-    .product-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; border-top: 2px solid #f3f4f6; }
-    .product-price-section { flex: 1; }
-    .product-price { font-size: 28px; font-weight: 700; color: #16a34a; line-height: 1.1; }
-    .product-unit { font-size: 14px; color: #6b7280; margin-top: 2px; }
-    
-    .btn-add-cart { padding: 14px 24px; background: linear-gradient(to right, #16a34a, #10b981); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 8px; min-height: 48px; width: 100%; justify-content: center; }
-    .btn-add-cart:active { transform: scale(0.96); }
-    
-    /* Empty State */
-    .empty-state { text-align: center; padding: 80px 20px; }
-    .empty-icon { font-size: 72px; margin-bottom: 20px; }
-    .empty-state h3 { font-size: 22px; color: #111827; margin-bottom: 10px; font-weight: 700; }
-    .empty-state p { font-size: 16px; color: #6b7280; line-height: 1.5; }
-    
-    /* Loading */
-    .loading { text-align: center; padding: 60px 20px; color: #6b7280; font-size: 16px; }
-    
-    /* Footer */
-    footer { background: #111827; color: white; padding: 40px 16px; text-align: center; margin-top: 60px; }
-    .footer-logo { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-    .footer-logo h3 { font-size: 22px; font-family: Georgia, serif; }
-    
-    /* Notification */
-    @keyframes slideIn { from { transform: translateX(400px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-    
-    /* Tablet - 2 columns (640px+) */
-    @media (min-width: 640px) {
-      .products-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-      .product-image { font-size: 120px; min-height: 220px; }
-      .hero-banner h1 { font-size: 40px; }
-      .hero-banner p { font-size: 17px; }
-      .hero-banner { padding: 36px 20px; }
-      .container { padding: 28px 20px 50px; }
-    }
-    
-    /* Desktop - 3 columns (1024px+) */
-    @media (min-width: 1024px) {
-      nav { padding: 16px 24px; }
-      .logo-icon { width: 48px; height: 48px; font-size: 24px; }
-      .logo-text h1 { font-size: 24px; }
-      .logo-text p { font-size: 10px; letter-spacing: 2px; }
-      .nav-links { display: flex; gap: 28px; align-items: center; }
-      .nav-links a { color: #374151; text-decoration: none; font-weight: 500; font-size: 15px; transition: color 0.2s; }
-      .nav-links a:hover { color: #16a34a; }
-      
-      .hero-banner { padding: 56px 24px; }
-      .hero-banner h1 { font-size: 52px; }
-      .hero-banner p { font-size: 20px; }
-      
-      .container { padding: 40px 24px 80px; }
-      .products-grid { grid-template-columns: repeat(3, 1fr); gap: 28px; }
-      .search-section { padding: 24px; }
-      .filter-chips { gap: 14px; }
-      .product-image { font-size: 140px; }
-    }
-    
-    /* Large Desktop - 4 columns (1280px+) */
-    @media (min-width: 1280px) {
-      .products-grid { grid-template-columns: repeat(4, 1fr); gap: 32px; }
-    }
+    body { font-family: 'Inter', sans-serif; }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+    #filterChips::-webkit-scrollbar { display: none; }
+    #filterChips { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes slideIn { from { transform: translateX(120%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .notif { animation: slideIn 0.3s ease-out; }
   </style>
 </head>
-<body>
-  <nav>
-    <div class="nav-content">
-      <a href="index.html" class="logo">
-        <div class="logo-icon">🌱</div>
-        <div class="logo-text"><h1>Kebun Rakyat</h1><p>PASARAN PETANI</p></div>
-      </a>
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="marketplace.html">Marketplace</a>
-        <a href="about.html">About Us</a>
+<body class="bg-gradient-to-br from-amber-50 via-white to-green-50 min-h-screen">
+
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        <a href="index.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div class="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center text-lg sm:text-xl flex-shrink-0">🌱</div>
+          <div class="hidden sm:flex flex-col leading-tight">
+            <span class="font-bold text-lg sm:text-xl text-green-600" style="font-family: Georgia, serif;">Kebun Rakyat</span>
+            <span class="text-[9px] text-green-600 font-semibold tracking-widest">PASARAN PETANI</span>
+          </div>
+        </a>
+        <ul class="hidden lg:flex items-center gap-8">
+          <li><a href="index.html" class="text-gray-600 hover:text-green-600 font-medium transition-colors">Home</a></li>
+          <li><a href="marketplace.html" class="text-green-600 font-semibold transition-colors">Marketplace</a></li>
+          <li><a href="about.html" class="text-gray-600 hover:text-green-600 font-medium transition-colors">About Us</a></li>
+        </ul>
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="cart.html" class="relative inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-green-600 to-green-500 text-white font-semibold text-sm rounded-full hover:shadow-lg transition-all">
+            🛒 Cart
+            <span id="cartCount" class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+          </a>
+          <button id="mobile-menu-btn" class="hamburger lg:hidden flex flex-col gap-1.5 p-2" onclick="toggleMenu()">
+            <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300"></span>
+            <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300"></span>
+            <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300"></span>
+          </button>
+        </div>
       </div>
-      <a href="cart.html" class="btn-cart">
-        🛒 <span class="cart-badge" id="cartCount">0</span>
-      </a>
+    </div>
+    <div id="mobile-menu" class="hidden lg:hidden bg-gradient-to-br from-green-600 to-green-500 shadow-lg">
+      <ul class="container mx-auto px-4 py-4 space-y-1">
+        <li><a href="index.html" class="block text-white font-semibold text-base py-3 px-3 rounded-lg hover:bg-white/10 transition-colors">Home</a></li>
+        <li><a href="marketplace.html" class="block text-white font-semibold text-base py-3 px-3 rounded-lg hover:bg-white/10 transition-colors">Marketplace</a></li>
+        <li><a href="about.html" class="block text-white font-semibold text-base py-3 px-3 rounded-lg hover:bg-white/10 transition-colors">About Us</a></li>
+        <li><a href="cart.html" class="block text-white font-semibold text-base py-3 px-3 rounded-lg hover:bg-white/10 transition-colors">Cart</a></li>
+      </ul>
     </div>
   </nav>
 
-  <div class="hero-banner">
-    <div class="hero-content">
-      <div class="hero-badge">🌾 Fresh from Malaysian Farms</div>
-      <h1>Fresh Harvests, Direct from Farm</h1>
-      <p>Browse quality produce from verified farmers across Malaysia</p>
+  <!-- Hero Banner -->
+  <div class="bg-gradient-to-r from-green-600 to-green-400 text-white pt-20 sm:pt-24 pb-8 sm:pb-12">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="inline-block px-4 py-2 bg-white/20 text-white rounded-full text-sm font-semibold mb-4">🌾 Fresh from Malaysian Farms</div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-3" style="font-family: Georgia, serif;">Fresh Harvests, Direct from Farm</h1>
+      <p class="text-green-100 text-base sm:text-lg">Browse quality produce from verified farmers across Malaysia</p>
     </div>
   </div>
 
-  <div class="container">
-    <!-- Search & Filter Section -->
-    <div class="search-section">
-      <div class="search-bar">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="Search products, farms, or locations..." />
+  <!-- Main Content -->
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+    <!-- Search & Filters -->
+    <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-md mb-5 sm:mb-6">
+      <div class="relative mb-4">
+        <span class="absolute left-4 top-1/2 -translate-y-1/2 text-xl">🔍</span>
+        <input id="searchInput" type="text" placeholder="Search products, farms, or locations..."
+          class="w-full pl-12 pr-4 py-3 sm:py-4 border-2 border-gray-200 rounded-xl text-base focus:border-green-500 focus:outline-none transition-colors">
       </div>
-      
-      <div class="filter-chips">
-        <button class="filter-chip active" data-filter="all">All</button>
-        <button class="filter-chip" data-filter="ready">Ready Now</button>
-        <button class="filter-chip" data-filter="vegetables">Vegetables</button>
-        <button class="filter-chip" data-filter="fruits">Fruits</button>
-        <button class="filter-chip" data-filter="grains">Grains</button>
+      <div id="filterChips" class="flex gap-2 sm:gap-3 overflow-x-auto pb-1">
+        <button class="filter-chip flex-shrink-0 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border-2 border-green-600 bg-green-600 text-white font-semibold text-sm transition-all" data-filter="all">All</button>
+        <button class="filter-chip flex-shrink-0 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border-2 border-gray-200 text-gray-600 font-semibold text-sm hover:border-green-400 transition-all" data-filter="ready">Ready Now</button>
+        <button class="filter-chip flex-shrink-0 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border-2 border-gray-200 text-gray-600 font-semibold text-sm hover:border-green-400 transition-all" data-filter="vegetables">Vegetables</button>
+        <button class="filter-chip flex-shrink-0 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border-2 border-gray-200 text-gray-600 font-semibold text-sm hover:border-green-400 transition-all" data-filter="fruits">Fruits</button>
+        <button class="filter-chip flex-shrink-0 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full border-2 border-gray-200 text-gray-600 font-semibold text-sm hover:border-green-400 transition-all" data-filter="grains">Grains</button>
       </div>
     </div>
 
-    <!-- Sort & Count -->
-    <div class="sort-section">
-      <div class="result-count" id="resultCount">Loading...</div>
-      <select class="sort-dropdown" id="sortSelect">
+    <!-- Sort Bar -->
+    <div class="flex items-center justify-between mb-5 sm:mb-6 gap-3">
+      <span id="resultCount" class="text-base sm:text-lg font-bold text-gray-800">Loading...</span>
+      <select id="sortSelect" class="border-2 border-gray-200 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 text-sm sm:text-base font-semibold bg-white focus:border-green-500 focus:outline-none cursor-pointer">
         <option value="newest">Newest</option>
         <option value="price-low">Price ↑</option>
         <option value="price-high">Price ↓</option>
         <option value="rating">Top Rated</option>
-        <option value="name">A-Z</option>
+        <option value="name">A–Z</option>
       </select>
     </div>
 
     <!-- Products Grid -->
-    <div class="products-grid" id="productsList">
-      <div class="loading">Loading products...</div>
+    <div id="productsList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
+      <div class="col-span-full text-center py-16 text-gray-400 text-lg">Loading products...</div>
     </div>
   </div>
 
-  <footer>
-    <div class="footer-logo">
-      <div class="logo-icon">🌱</div>
-      <h3>Kebun Rakyat</h3>
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-10 sm:py-14 mt-10">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="flex items-center justify-center gap-3 mb-4">
+        <div class="w-10 h-10 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center">🌱</div>
+        <span class="font-bold text-lg" style="font-family: Georgia, serif;">Kebun Rakyat</span>
+      </div>
+      <p class="text-gray-400 text-sm">Menghubungkan petani dan pembeli untuk masa depan yang lestari</p>
     </div>
-    <p style="color: #9ca3af; font-size: 15px;">Menghubungkan petani dan pembeli untuk masa depan yang lestari</p>
   </footer>
 
   <script type="module">
@@ -244,200 +120,131 @@
     import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let allProducts = [];
-    let filteredProducts = [];
+    let allProducts = [], filtered = [];
 
-    // Update cart count
     function updateCartCount() {
-      const grouped = {};
-      cart.forEach(item => {
-        grouped[item.id] = (grouped[item.id] || 0) + 1;
-      });
-      document.getElementById('cartCount').textContent = Object.keys(grouped).length;
+      const unique = new Set(cart.map(i => i.id)).size;
+      document.getElementById('cartCount').textContent = unique;
     }
 
-    // Categorize products
-    function categorizeProduct(name) {
-      const vegetables = ['tomato', 'lettuce', 'cabbage', 'carrot', 'cucumber', 'pepper', 'chili'];
-      const fruits = ['apple', 'banana', 'strawberry', 'watermelon', 'papaya', 'orange'];
-      const grains = ['rice', 'corn', 'wheat'];
-      
-      const nameLower = name.toLowerCase();
-      if (vegetables.some(v => nameLower.includes(v))) return 'vegetables';
-      if (fruits.some(f => nameLower.includes(f))) return 'fruits';
-      if (grains.some(g => nameLower.includes(g))) return 'grains';
+    function categorize(name) {
+      const n = name.toLowerCase();
+      if (['tomato','lettuce','cabbage','carrot','cucumber','chili','pepper'].some(v => n.includes(v))) return 'vegetables';
+      if (['apple','banana','strawberry','watermelon','papaya','orange'].some(v => n.includes(v))) return 'fruits';
+      if (['rice','corn','wheat'].some(v => n.includes(v))) return 'grains';
       return 'other';
     }
 
-    // Load products
-    async function loadProducts() {
+    async function load() {
       try {
-        const querySnapshot = await getDocs(collection(db, 'products'));
-        allProducts = [];
-        
-        querySnapshot.forEach((doc) => {
-          const product = doc.data();
-          allProducts.push({
-            id: doc.id,
-            ...product,
-            category: categorizeProduct(product.name),
-            rating: product.rating || (4 + Math.random())
-          });
-        });
-
-        filteredProducts = [...allProducts];
-        sortAndDisplay();
+        const snap = await getDocs(collection(db, 'products'));
+        allProducts = snap.docs.map(d => ({ id: d.id, ...d.data(), category: categorize(d.data().name), rating: d.data().rating || (4 + Math.random()) }));
+        filtered = [...allProducts];
+        sortAndRender();
         updateCartCount();
-      } catch (error) {
-        document.getElementById('productsList').innerHTML = `
-          <div class="empty-state">
-            <div class="empty-icon">⚠️</div>
-            <h3>Error Loading Products</h3>
-            <p>${error.message}</p>
-          </div>
-        `;
+      } catch (e) {
+        document.getElementById('productsList').innerHTML = `<div class="col-span-full text-center py-16 text-red-400">Error: ${e.message}</div>`;
       }
     }
 
-    // Search functionality
-    document.getElementById('searchInput').addEventListener('input', (e) => {
-      const searchTerm = e.target.value.toLowerCase();
-      applyFilters(searchTerm);
-    });
-
-    // Filter chips
-    document.querySelectorAll('.filter-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        applyFilters(searchTerm);
+    function applyFilters() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const f = document.querySelector('.filter-chip.bg-green-600')?.dataset.filter || 'all';
+      filtered = allProducts.filter(p => {
+        const matchSearch = !q || p.name.toLowerCase().includes(q) || p.location?.toLowerCase().includes(q) || p.farmerName?.toLowerCase().includes(q);
+        const matchFilter = f === 'all' ? true : f === 'ready' ? p.harvestTime?.toLowerCase().includes('ready') : p.category === f;
+        return matchSearch && matchFilter;
       });
-    });
-
-    // Apply filters
-    function applyFilters(searchTerm = '') {
-      const activeFilter = document.querySelector('.filter-chip.active').dataset.filter;
-      
-      filteredProducts = allProducts.filter(product => {
-        // Search filter
-        const matchesSearch = searchTerm === '' || 
-          product.name.toLowerCase().includes(searchTerm) ||
-          product.location.toLowerCase().includes(searchTerm) ||
-          product.farmerName.toLowerCase().includes(searchTerm);
-        
-        // Category filter
-        let matchesFilter = true;
-        if (activeFilter === 'ready') {
-          matchesFilter = product.harvestTime.toLowerCase().includes('ready');
-        } else if (activeFilter !== 'all') {
-          matchesFilter = product.category === activeFilter;
-        }
-        
-        return matchesSearch && matchesFilter;
-      });
-      
-      sortAndDisplay();
+      sortAndRender();
     }
 
-    // Sort dropdown
-    document.getElementById('sortSelect').addEventListener('change', sortAndDisplay);
-
-    // Sort and display
-    function sortAndDisplay() {
-      const sortValue = document.getElementById('sortSelect').value;
-      
-      let sorted = [...filteredProducts];
-      
-      switch(sortValue) {
-        case 'price-low':
-          sorted.sort((a, b) => a.price - b.price);
-          break;
-        case 'price-high':
-          sorted.sort((a, b) => b.price - a.price);
-          break;
-        case 'rating':
-          sorted.sort((a, b) => b.rating - a.rating);
-          break;
-        case 'name':
-          sorted.sort((a, b) => a.name.localeCompare(b.name));
-          break;
-        case 'newest':
-        default:
-          sorted.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
-      }
-      
-      displayProducts(sorted);
+    function sortAndRender() {
+      const s = document.getElementById('sortSelect').value;
+      const sorted = [...filtered].sort((a, b) => {
+        if (s === 'price-low') return a.price - b.price;
+        if (s === 'price-high') return b.price - a.price;
+        if (s === 'rating') return b.rating - a.rating;
+        if (s === 'name') return a.name.localeCompare(b.name);
+        return (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+      });
+      render(sorted);
     }
 
-    // Display products
-    function displayProducts(products) {
-      const productsList = document.getElementById('productsList');
-      
-      // Update count
-      document.getElementById('resultCount').textContent = 
-        `${products.length} Product${products.length !== 1 ? 's' : ''}`;
-      
-      if (products.length === 0) {
-        productsList.innerHTML = `
-          <div class="empty-state">
-            <div class="empty-icon">🔍</div>
-            <h3>No Products Found</h3>
-            <p>Try adjusting your search or filters</p>
-          </div>
-        `;
+    function render(products) {
+      document.getElementById('resultCount').textContent = `${products.length} Product${products.length !== 1 ? 's' : ''}`;
+      if (!products.length) {
+        document.getElementById('productsList').innerHTML = `<div class="col-span-full text-center py-16"><div class="text-6xl mb-4">🔍</div><p class="text-gray-500 text-lg font-semibold">No products found</p><p class="text-gray-400 mt-1">Try adjusting your search or filters</p></div>`;
         return;
       }
-      
-      productsList.innerHTML = products.map(product => `
-        <div class="product-card">
-          <a href="product.html?id=${product.id}">
-            <div class="product-image">${product.emoji || '🌾'}</div>
-            <div class="product-info">
-              <h3 class="product-name">${product.name}</h3>
-              <p class="product-farmer">🌱 ${product.farmerName}</p>
-              
-              <div class="product-meta">
-                <span class="meta-tag">⏰ ${product.harvestTime}</span>
-              </div>
-              
-              <div class="product-rating">⭐ ${product.rating.toFixed(1)} <span style="color: #9ca3af; font-weight: 500;">(${Math.floor(Math.random() * 200 + 50)})</span></div>
-              
-              <p class="product-location">📍 ${product.location}</p>
-              
-              <div class="product-footer">
-                <div class="product-price-section">
-                  <div class="product-price">RM ${product.price.toFixed(2)}</div>
-                  <div class="product-unit">per kg</div>
-                </div>
+      document.getElementById('productsList').innerHTML = products.map(p => {
+        const emoji = p.emoji || '🌾';
+        const reviewCount = Math.floor(Math.random() * 150 + 30);
+        return `
+        <div class="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 flex flex-col">
+          <a href="product.html?id=${p.id}" class="block">
+            <div class="bg-gradient-to-br from-amber-50 to-green-50 flex items-center justify-center py-8 sm:py-10 text-7xl sm:text-8xl">${emoji}</div>
+            <div class="p-4 sm:p-5">
+              <h3 class="font-bold text-base sm:text-lg text-gray-800 mb-1 leading-snug">${p.name}</h3>
+              <p class="text-gray-400 text-sm mb-3">🌱 ${p.farmerName}</p>
+              <span class="inline-block bg-green-50 text-green-700 text-xs font-semibold px-3 py-1 rounded-lg mb-3">⏰ ${p.harvestTime}</span>
+              <div class="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-1">⭐ ${p.rating.toFixed(1)} <span class="text-gray-400 font-normal">(${reviewCount})</span></div>
+              <p class="text-gray-400 text-sm mb-3">📍 ${p.location}</p>
+              <div class="border-t pt-3">
+                <span class="text-xl sm:text-2xl font-bold text-green-600">RM ${p.price.toFixed(2)}</span><span class="text-gray-400 text-xs ml-1">/kg</span>
               </div>
             </div>
           </a>
-          <div style="padding: 0 20px 20px;">
-            <button class="btn-add-cart" onclick="event.stopPropagation(); addToCart('${product.id}', '${product.name}', ${product.price}, '${product.emoji}')">
-              🛒 Add to Cart
-            </button>
+          <div class="px-4 sm:px-5 pb-4 sm:pb-5 mt-auto">
+            <button class="cart-btn w-full py-3 bg-gradient-to-r from-green-600 to-green-500 text-white font-bold rounded-xl hover:shadow-lg active:scale-95 transition-all text-sm sm:text-base"
+              data-id="${p.id}" data-name="${p.name}" data-price="${p.price}" data-emoji="${emoji}">🛒 Add to Cart</button>
           </div>
-        </div>
-      `).join('');
+        </div>`;
+      }).join('');
+
+      // Attach click handlers after rendering — avoids inline onclick issues
+      document.querySelectorAll('.cart-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          addToCart(btn.dataset.id, btn.dataset.name, parseFloat(btn.dataset.price), btn.dataset.emoji);
+        });
+      });
     }
 
-    // Add to cart with notification
-    window.addToCart = (id, name, price, emoji) => {
+    function addToCart(id, name, price, emoji) {
       cart.push({ id, name, price, emoji });
       localStorage.setItem('cart', JSON.stringify(cart));
       updateCartCount();
-      
-      const notification = document.createElement('div');
-      notification.style.cssText = 'position: fixed; top: 90px; right: 16px; background: white; padding: 18px 20px; border-radius: 14px; box-shadow: 0 10px 40px rgba(0,0,0,0.25); z-index: 1000; animation: slideIn 0.3s; max-width: calc(100vw - 32px);';
-      notification.innerHTML = `<strong style="font-size: 17px;">${emoji} ${name}</strong><br><span style="color: #6b7280; font-size: 15px;">Added to cart</span>`;
-      document.body.appendChild(notification);
-      
-      setTimeout(() => notification.remove(), 2500);
-    };
+      const n = document.createElement('div');
+      n.className = 'notif fixed top-20 right-4 bg-white rounded-2xl shadow-2xl p-4 z-50 max-w-xs border border-green-100';
+      n.innerHTML = `<div class="font-bold text-gray-800">${emoji} ${name}</div><div class="text-green-600 text-sm font-semibold">Added to cart ✓</div>`;
+      document.body.appendChild(n);
+      setTimeout(() => n.remove(), 2500);
+    }
 
-    loadProducts();
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.getElementById('sortSelect').addEventListener('change', sortAndRender);
+    document.querySelectorAll('.filter-chip').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(b => {
+          b.classList.remove('bg-green-600', 'text-white', 'border-green-600');
+          b.classList.add('border-gray-200', 'text-gray-600');
+        });
+        btn.classList.add('bg-green-600', 'text-white', 'border-green-600');
+        btn.classList.remove('border-gray-200', 'text-gray-600');
+        applyFilters();
+      });
+    });
+
+    load();
+  </script>
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+      document.getElementById('mobile-menu-btn').classList.toggle('active');
+    }
+    document.querySelectorAll('#mobile-menu a').forEach(l => l.addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.add('hidden');
+      document.getElementById('mobile-menu-btn').classList.remove('active');
+    }));
   </script>
 </body>
 </html>

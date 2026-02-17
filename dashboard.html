@@ -4,247 +4,168 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Farmer Dashboard - Kebun Rakyat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background: linear-gradient(to bottom right, #fef3c7, #ffffff, #d1fae5); display: flex; min-height: 100vh; }
-    .sidebar { width: 280px; background: white; box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; }
-    .sidebar-header { padding: 24px; border-bottom: 1px solid #e5e7eb; }
-    .logo { display: flex; align-items: center; gap: 12px; }
-    .logo-icon { width: 48px; height: 48px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
-    .logo-text h1 { font-size: 20px; font-weight: 700; background: linear-gradient(to right, #15803d, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: Georgia, serif; }
-    .logo-text p { font-size: 9px; color: #16a34a; font-weight: 600; letter-spacing: 2px; }
-    .sidebar-content { flex: 1; padding: 24px; overflow-y: auto; }
-    .farmer-card { background: linear-gradient(to bottom right, #dcfce7, #d1fae5); border-radius: 16px; padding: 20px; margin-bottom: 24px; text-align: center; }
-    .farmer-avatar { font-size: 72px; margin-bottom: 12px; }
-    .farmer-name { font-weight: 700; color: #111827; margin-bottom: 4px; }
-    .farmer-email { font-size: 12px; color: #6b7280; }
-    .btn-logout { width: 100%; padding: 12px; background: #dc2626; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 16px; }
-    .main-content { flex: 1; padding: 32px; overflow-y: auto; }
-    .top-bar { background: white; border-radius: 16px; padding: 24px; margin-bottom: 32px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); }
-    .top-bar h2 { font-size: 32px; font-weight: 700; color: #111827; font-family: Georgia, serif; }
-    .card { background: white; border-radius: 16px; padding: 32px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); margin-bottom: 24px; }
-    .card-title { font-size: 20px; font-weight: 700; color: #111827; margin-bottom: 24px; }
-    .form-group { margin-bottom: 20px; }
-    label { display: block; font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 8px; }
-    input, textarea { width: 100%; padding: 12px 16px; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 16px; outline: none; font-family: 'Inter', sans-serif; }
-    input:focus, textarea:focus { border-color: #16a34a; }
-    .btn { padding: 14px 32px; background: linear-gradient(to right, #16a34a, #10b981); color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 16px; }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .success { background: #dcfce7; color: #16a34a; padding: 12px; border-radius: 8px; margin-bottom: 16px; }
-    .error { background: #fee2e2; color: #dc2626; padding: 12px; border-radius: 8px; margin-bottom: 16px; }
-    .product-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
-    .product-item { background: linear-gradient(to bottom right, #fef3c7, #d1fae5); border-radius: 12px; padding: 20px; text-align: center; }
-    .product-item h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
-    .product-item p { font-size: 14px; color: #6b7280; margin-bottom: 8px; }
-    .product-price { font-size: 24px; font-weight: 700; color: #16a34a; }
-    @media (max-width: 768px) { 
-      body { flex-direction: column; }
-      .sidebar { width: 100%; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
-      .sidebar-header { padding: 16px; }
-      .logo-text h1 { font-size: 18px; }
-      .logo-icon { width: 40px; height: 40px; font-size: 20px; }
-      .sidebar-content { padding: 16px; }
-      .farmer-card { padding: 16px; margin-bottom: 16px; }
-      .farmer-avatar { font-size: 56px; }
-      .btn-logout { padding: 10px; font-size: 14px; }
-      .main-content { padding: 20px 16px; }
-      .top-bar { padding: 20px 16px; margin-bottom: 20px; }
-      .top-bar h2 { font-size: 24px; }
-      .card { padding: 20px 16px; }
-      .card-title { font-size: 18px; margin-bottom: 16px; }
-      .form-group { margin-bottom: 16px; }
-      label { font-size: 13px; }
-      input, textarea { padding: 10px 12px; font-size: 15px; }
-      .btn { padding: 12px 24px; font-size: 15px; }
-      .product-list { grid-template-columns: 1fr; gap: 16px; }
-      .product-item { padding: 16px; }
-      .product-item h3 { font-size: 16px; }
-      .product-item p { font-size: 13px; }
-      .product-price { font-size: 20px; }
-    }
-  </style>
+  <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
-<body>
-  <div class="sidebar">
-    <div class="sidebar-header">
-      <div class="logo">
-        <div class="logo-icon">🌱</div>
-        <div class="logo-text"><h1>Kebun Rakyat</h1><p>FARMER PORTAL</p></div>
+<body class="bg-gray-50 min-h-screen">
+
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        <a href="index.html" class="flex items-center gap-2 sm:gap-3">
+          <div class="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center text-lg sm:text-xl">🌱</div>
+          <div class="hidden sm:flex flex-col leading-tight">
+            <span class="font-bold text-lg sm:text-xl text-green-600" style="font-family: Georgia, serif;">Kebun Rakyat</span>
+            <span class="text-[9px] text-green-600 font-semibold tracking-widest">PASARAN PETANI</span>
+          </div>
+        </a>
+        <div class="flex items-center gap-2 sm:gap-4">
+          <span class="hidden sm:block text-sm text-gray-500 font-medium" id="farmerName">Farmer Dashboard</span>
+          <button onclick="signOut()" class="px-4 py-2 border-2 border-gray-200 text-gray-600 font-semibold text-sm rounded-full hover:border-red-300 hover:text-red-500 transition-all">Sign Out</button>
+        </div>
       </div>
     </div>
-    <div class="sidebar-content">
-      <div class="farmer-card">
-        <div class="farmer-avatar">👨‍🌾</div>
-        <div class="farmer-name" id="farmerName">Loading...</div>
-        <div class="farmer-email" id="farmerEmail">Loading...</div>
-        <button class="btn-logout" onclick="logout()">Logout</button>
+  </nav>
+
+  <div class="pt-16 sm:pt-20 container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-5 mb-6 sm:mb-8">
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-md text-center">
+        <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-600" id="productCount">0</div>
+        <div class="text-gray-500 text-sm sm:text-base mt-1">Products Listed</div>
+      </div>
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-md text-center">
+        <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-amber-500">🌱</div>
+        <div class="text-gray-500 text-sm sm:text-base mt-1">Active Farm</div>
+      </div>
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-md text-center col-span-2 sm:col-span-1">
+        <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-500">⭐</div>
+        <div class="text-gray-500 text-sm sm:text-base mt-1">Verified Seller</div>
       </div>
     </div>
-  </div>
 
-  <div class="main-content">
-    <div class="top-bar">
-      <h2>Farmer Dashboard</h2>
-    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
 
-    <div class="card">
-      <h3 class="card-title">Add New Product</h3>
-      <div id="message"></div>
-      <form id="addProductForm">
-        <div class="form-group">
-          <label>Product Name</label>
-          <input type="text" id="productName" placeholder="e.g., Organic Tomatoes" required>
+      <!-- Add Product Form -->
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-2xl shadow-md p-5 sm:p-6">
+          <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-5" style="font-family: Georgia, serif;">Add New Product</h2>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Product Name *</label>
+              <input type="text" id="productName" placeholder="e.g. Organic Tomatoes" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base focus:border-green-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Emoji</label>
+              <input type="text" id="productEmoji" placeholder="🍅" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base focus:border-green-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Price (RM/kg) *</label>
+              <input type="number" id="productPrice" placeholder="0.00" step="0.10" min="0" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base focus:border-green-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Location *</label>
+              <input type="text" id="productLocation" placeholder="e.g. Cameron Highlands" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base focus:border-green-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Harvest Time *</label>
+              <input type="text" id="productHarvest" placeholder="e.g. Ready to ship" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base focus:border-green-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+              <textarea id="productDesc" rows="3" placeholder="Describe your product..." class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-base focus:border-green-500 focus:outline-none resize-none"></textarea>
+            </div>
+            <button onclick="addProduct()" id="addBtn" class="w-full py-3 sm:py-4 bg-gradient-to-r from-green-600 to-green-500 text-white font-bold rounded-xl hover:shadow-lg active:scale-95 transition-all">Add Product</button>
+          </div>
+          <div id="formMsg" class="hidden mt-4 p-3 rounded-xl text-sm font-medium text-center"></div>
         </div>
+      </div>
 
-        <div class="form-group">
-          <label>Product Emoji (for demo)</label>
-          <input type="text" id="productEmoji" placeholder="e.g., 🍅" maxlength="2">
+      <!-- My Products -->
+      <div class="lg:col-span-2">
+        <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-4" style="font-family: Georgia, serif;">My Products</h2>
+        <div id="myProducts" class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+          <div class="col-span-full text-center py-12 text-gray-400">Loading products...</div>
         </div>
-
-        <div class="form-group">
-          <label>Price (RM per kg)</label>
-          <input type="number" id="productPrice" placeholder="e.g., 4.50" step="0.10" required>
-        </div>
-
-        <div class="form-group">
-          <label>Description</label>
-          <textarea id="productDescription" rows="4" placeholder="Describe your product..."></textarea>
-        </div>
-
-        <div class="form-group">
-          <label>Location</label>
-          <input type="text" id="productLocation" placeholder="e.g., Cameron Highlands" required>
-        </div>
-
-        <div class="form-group">
-          <label>Harvest Time</label>
-          <input type="text" id="productHarvest" placeholder="e.g., 2-3 days" required>
-        </div>
-
-        <button type="submit" class="btn" id="addProductBtn">Add Product</button>
-      </form>
-    </div>
-
-    <div class="card">
-      <h3 class="card-title">Your Products</h3>
-      <div id="productsList" class="product-list">
-        <p style="color: #6b7280;">Loading your products...</p>
       </div>
     </div>
   </div>
 
   <script type="module">
     import { auth, db } from './firebase-config.js';
-    import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-    import { collection, addDoc, query, where, getDocs, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+    import { onAuthStateChanged, signOut as fbSignOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+    import { collection, addDoc, getDocs, query, where, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
     let currentUser = null;
-    let userDoc = null;
+    let userData = null;
 
-    // Check authentication
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        currentUser = user;
-        document.getElementById('farmerEmail').textContent = user.email;
-        
-        // Get user data
-        const userDocRef = doc(db, 'users', user.uid);
-        const userSnapshot = await getDoc(userDocRef);
-        
-        if (userSnapshot.exists()) {
-          userDoc = userSnapshot.data();
-          document.getElementById('farmerName').textContent = userDoc.farmName || 'Farmer';
-        }
-
-        loadProducts();
-      } else {
-        window.location.href = 'login.html';
-      }
+    onAuthStateChanged(auth, async user => {
+      if (!user) { window.location.href = 'login.html'; return; }
+      currentUser = user;
+      const ud = await getDoc(doc(db, 'users', user.uid));
+      if (!ud.exists() || ud.data().role !== 'farmer') { window.location.href = 'marketplace.html'; return; }
+      userData = ud.data();
+      document.getElementById('farmerName').textContent = userData.farmName || 'My Farm';
+      loadProducts();
     });
 
-    // Add product
-    document.getElementById('addProductForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const btn = document.getElementById('addProductBtn');
-      btn.disabled = true;
-      btn.textContent = 'Adding...';
+    async function loadProducts() {
+      const q = query(collection(db, 'products'), where('farmerId', '==', currentUser.uid));
+      const snap = await getDocs(q);
+      const products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      document.getElementById('productCount').textContent = products.length;
+      document.getElementById('myProducts').innerHTML = products.length ? products.map(p => `
+        <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+          <div class="bg-gradient-to-br from-amber-50 to-green-50 flex items-center justify-center py-8 text-6xl">${p.emoji || '🌾'}</div>
+          <div class="p-4">
+            <h3 class="font-bold text-gray-800 mb-1">${p.name}</h3>
+            <div class="text-green-600 font-bold text-lg mb-1">RM ${p.price.toFixed(2)}/kg</div>
+            <div class="text-gray-400 text-sm">📍 ${p.location}</div>
+            <div class="text-gray-400 text-sm">⏰ ${p.harvestTime}</div>
+          </div>
+        </div>`).join('')
+      : '<div class="col-span-full text-center py-12 text-gray-400"><div class="text-5xl mb-3">🌱</div><p class="font-semibold">No products yet</p><p class="text-sm mt-1">Add your first product!</p></div>';
+    }
 
+    window.addProduct = async () => {
+      const name = document.getElementById('productName').value.trim();
+      const price = parseFloat(document.getElementById('productPrice').value);
+      const location = document.getElementById('productLocation').value.trim();
+      const harvestTime = document.getElementById('productHarvest').value.trim();
+      if (!name || !price || !location || !harvestTime) {
+        showMsg('Please fill in all required fields', 'error'); return;
+      }
+      const btn = document.getElementById('addBtn');
+      btn.disabled = true; btn.textContent = 'Adding...';
       try {
         await addDoc(collection(db, 'products'), {
-          name: document.getElementById('productName').value,
+          name, price, location, harvestTime,
           emoji: document.getElementById('productEmoji').value || '🌾',
-          price: parseFloat(document.getElementById('productPrice').value),
-          description: document.getElementById('productDescription').value,
-          location: document.getElementById('productLocation').value,
-          harvestTime: document.getElementById('productHarvest').value,
+          description: document.getElementById('productDesc').value,
           farmerId: currentUser.uid,
-          farmerName: userDoc.farmName || 'Farmer',
+          farmerName: userData.farmName,
           farmerEmail: currentUser.email,
-          createdAt: new Date(),
-          rating: 4.5 + Math.random() * 0.5 // Demo rating
+          rating: 4.5,
+          createdAt: new Date()
         });
-
-        showMessage('Product added successfully!', 'success');
-        document.getElementById('addProductForm').reset();
+        showMsg('Product added!', 'success');
+        ['productName','productEmoji','productPrice','productLocation','productHarvest','productDesc'].forEach(id => document.getElementById(id).value = '');
         loadProducts();
-      } catch (error) {
-        showMessage('Error adding product: ' + error.message, 'error');
-      }
-
-      btn.disabled = false;
-      btn.textContent = 'Add Product';
-    });
-
-    // Load farmer's products
-    async function loadProducts() {
-      const productsList = document.getElementById('productsList');
-      
-      try {
-        const q = query(collection(db, 'products'), where('farmerId', '==', currentUser.uid));
-        const snapshot = await getDocs(q);
-        
-        if (snapshot.empty) {
-          productsList.innerHTML = '<p style="color: #6b7280;">No products yet. Add your first product!</p>';
-          return;
-        }
-
-        productsList.innerHTML = '';
-        snapshot.forEach(doc => {
-          const product = doc.data();
-          const productCard = document.createElement('div');
-          productCard.className = 'product-item';
-          productCard.innerHTML = `
-            <div style="font-size: 48px; margin-bottom: 12px;">${product.emoji}</div>
-            <h3>${product.name}</h3>
-            <p>📍 ${product.location}</p>
-            <p>🌾 ${product.harvestTime}</p>
-            <div class="product-price">RM ${product.price.toFixed(2)}</div>
-            <p style="font-size: 12px; margin-top: 8px;">per kg</p>
-          `;
-          productsList.appendChild(productCard);
-        });
-      } catch (error) {
-        productsList.innerHTML = '<p style="color: #dc2626;">Error loading products</p>';
-      }
-    }
-
-    function showMessage(msg, type) {
-      const messageDiv = document.getElementById('message');
-      messageDiv.className = type;
-      messageDiv.textContent = msg;
-      messageDiv.style.display = 'block';
-      
-      setTimeout(() => {
-        messageDiv.style.display = 'none';
-      }, 3000);
-    }
-
-    window.logout = async () => {
-      await signOut(auth);
-      window.location.href = 'login.html';
+      } catch (e) { showMsg(e.message, 'error'); }
+      btn.disabled = false; btn.textContent = 'Add Product';
     };
+
+    function showMsg(text, type) {
+      const el = document.getElementById('formMsg');
+      el.textContent = text;
+      el.className = `mt-4 p-3 rounded-xl text-sm font-medium text-center ${type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`;
+      el.classList.remove('hidden');
+      setTimeout(() => el.classList.add('hidden'), 3000);
+    }
+
+    window.signOut = () => fbSignOut(auth).then(() => window.location.href = 'login.html');
   </script>
 </body>
 </html>

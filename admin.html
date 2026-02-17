@@ -4,279 +4,169 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard - Kebun Rakyat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background: linear-gradient(to bottom right, #fef3c7, #ffffff, #d1fae5); min-height: 100vh; padding: 24px; }
-    .container { max-width: 1400px; margin: 0 auto; }
-    .header { background: white; border-radius: 16px; padding: 32px; margin-bottom: 32px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); display: flex; justify-content: space-between; align-items: center; }
-    .header h1 { font-size: 32px; font-weight: 700; color: #111827; font-family: Georgia, serif; }
-    .btn-logout { padding: 12px 24px; background: #dc2626; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; }
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 32px; }
-    .stat-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); }
-    .stat-icon { width: 48px; height: 48px; background: linear-gradient(to bottom right, #dcfce7, #d1fae5); border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px; }
-    .stat-value { font-size: 36px; font-weight: 700; color: #111827; margin-bottom: 4px; }
-    .stat-label { font-size: 14px; color: #6b7280; font-weight: 500; }
-    .card { background: white; border-radius: 16px; padding: 32px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); margin-bottom: 24px; }
-    .card-title { font-size: 20px; font-weight: 700; color: #111827; margin-bottom: 24px; }
-    table { width: 100%; border-collapse: collapse; }
-    th { text-align: left; padding: 12px; border-bottom: 2px solid #e5e7eb; font-size: 14px; font-weight: 600; color: #6b7280; }
-    td { padding: 16px 12px; border-bottom: 1px solid #f3f4f6; color: #374151; }
-    .badge { display: inline-block; padding: 6px 12px; border-radius: 9999px; font-size: 12px; font-weight: 600; }
-    .badge-farmer { background: #dcfce7; color: #166534; }
-    .badge-customer { background: #dbeafe; color: #1e40af; }
-    .loading { text-align: center; padding: 48px; color: #6b7280; }
-    @media (max-width: 768px) { 
-      body { padding: 16px; }
-      .container { padding: 0; }
-      .header { padding: 20px 16px; margin-bottom: 20px; flex-direction: column; gap: 16px; align-items: flex-start; }
-      .header h1 { font-size: 24px; }
-      .header p { font-size: 14px; }
-      .btn-logout { padding: 10px 20px; font-size: 14px; align-self: stretch; }
-      .stats-grid { grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
-      .stat-card { padding: 16px; }
-      .stat-icon { width: 40px; height: 40px; font-size: 20px; margin-bottom: 12px; }
-      .stat-value { font-size: 28px; }
-      .stat-label { font-size: 13px; }
-      .card { padding: 20px 16px; margin-bottom: 20px; }
-      .card-title { font-size: 18px; margin-bottom: 16px; }
-      table { font-size: 13px; }
-      th { padding: 10px 8px; font-size: 12px; }
-      td { padding: 12px 8px; font-size: 13px; }
-      .badge { font-size: 11px; padding: 4px 10px; }
-      /* Make tables scrollable on mobile */
-      .card > div { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      table { min-width: 600px; }
-    }
-    @media (max-width: 768px) { .stats-grid { grid-template-columns: 1fr 1fr; } }
-  </style>
+  <style>body { font-family: 'Inter', sans-serif; }</style>
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <div>
-        <h1>🔒 Admin Dashboard</h1>
-        <p style="color: #6b7280; margin-top: 8px;">Ministry of Agriculture Analytics Portal</p>
-      </div>
-      <button class="btn-logout" onclick="logout()">Logout</button>
-    </div>
+<body class="bg-gray-50 min-h-screen">
 
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-icon">👥</div>
-        <div class="stat-value" id="totalUsers">--</div>
-        <div class="stat-label">Total Users</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">👨‍🌾</div>
-        <div class="stat-value" id="totalFarmers">--</div>
-        <div class="stat-label">Active Farmers</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">📦</div>
-        <div class="stat-value" id="totalProducts">--</div>
-        <div class="stat-label">Listed Products</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">🛒</div>
-        <div class="stat-value" id="totalOrders">--</div>
-        <div class="stat-label">Total Orders</div>
+  <!-- Nav -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white shadow-md">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        <div class="flex items-center gap-2 sm:gap-3">
+          <div class="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center text-lg sm:text-xl">🌱</div>
+          <div>
+            <div class="font-bold text-sm sm:text-base text-green-600" style="font-family: Georgia, serif;">Kebun Rakyat</div>
+            <div class="text-xs text-gray-400 font-semibold">Ministry Analytics Dashboard</div>
+          </div>
+        </div>
+        <button onclick="signOut()" class="px-4 py-2 border-2 border-gray-200 text-gray-600 font-semibold text-sm rounded-full hover:border-red-300 hover:text-red-500 transition-all">Sign Out</button>
       </div>
     </div>
+  </nav>
 
-    <div class="card">
-      <h3 class="card-title">Registered Users</h3>
-      <div id="usersTable">
-        <div class="loading">Loading user data...</div>
+  <div class="pt-16 sm:pt-20 container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+
+    <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 sm:mb-8" style="font-family: Georgia, serif;">Ministry Analytics</h1>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-8 sm:mb-10">
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-md text-center">
+        <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-600" id="totalUsers">—</div>
+        <div class="text-gray-500 text-sm sm:text-base mt-1">Total Users</div>
       </div>
-    </div>
-
-    <div class="card">
-      <h3 class="card-title">Products by Farm</h3>
-      <div id="productsTable">
-        <div class="loading">Loading product data...</div>
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-md text-center">
+        <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-amber-500" id="totalFarmers">—</div>
+        <div class="text-gray-500 text-sm sm:text-base mt-1">Farmers</div>
+      </div>
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-md text-center">
+        <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-blue-500" id="totalProducts">—</div>
+        <div class="text-gray-500 text-sm sm:text-base mt-1">Products</div>
+      </div>
+      <div class="bg-white rounded-2xl p-4 sm:p-6 shadow-md text-center">
+        <div class="text-2xl sm:text-3xl lg:text-4xl font-bold text-purple-500" id="totalOrders">—</div>
+        <div class="text-gray-500 text-sm sm:text-base mt-1">Orders</div>
       </div>
     </div>
 
-    <div class="card">
-      <h3 class="card-title">Recent Orders</h3>
-      <div id="ordersTable">
-        <div class="loading">Loading order data...</div>
+    <!-- Tabs -->
+    <div class="flex gap-2 sm:gap-3 mb-6 flex-wrap">
+      <button onclick="showTab('users')" class="tab-btn px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base bg-green-600 text-white transition-all" data-tab="users">Users</button>
+      <button onclick="showTab('products')" class="tab-btn px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all" data-tab="products">Products</button>
+      <button onclick="showTab('orders')" class="tab-btn px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all" data-tab="orders">Orders</button>
+    </div>
+
+    <!-- Tables -->
+    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+
+      <!-- Users Table -->
+      <div id="tab-users">
+        <div class="p-5 sm:p-6 border-b"><h2 class="font-bold text-gray-800 text-base sm:text-lg">All Users</h2></div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm sm:text-base" style="min-width: 500px;">
+            <thead class="bg-gray-50 text-gray-500 text-xs sm:text-sm font-semibold">
+              <tr><th class="px-4 sm:px-6 py-3 text-left">Email</th><th class="px-4 sm:px-6 py-3 text-left">Role</th><th class="px-4 sm:px-6 py-3 text-left">Farm Name</th><th class="px-4 sm:px-6 py-3 text-left">Joined</th></tr>
+            </thead>
+            <tbody id="usersBody" class="divide-y divide-gray-100"><tr><td colspan="4" class="text-center py-8 text-gray-400">Loading...</td></tr></tbody>
+          </table>
+        </div>
       </div>
+
+      <!-- Products Table -->
+      <div id="tab-products" class="hidden">
+        <div class="p-5 sm:p-6 border-b"><h2 class="font-bold text-gray-800 text-base sm:text-lg">All Products</h2></div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm sm:text-base" style="min-width: 500px;">
+            <thead class="bg-gray-50 text-gray-500 text-xs sm:text-sm font-semibold">
+              <tr><th class="px-4 sm:px-6 py-3 text-left">Product</th><th class="px-4 sm:px-6 py-3 text-left">Farmer</th><th class="px-4 sm:px-6 py-3 text-left">Price</th><th class="px-4 sm:px-6 py-3 text-left">Location</th></tr>
+            </thead>
+            <tbody id="productsBody" class="divide-y divide-gray-100"><tr><td colspan="4" class="text-center py-8 text-gray-400">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Orders Table -->
+      <div id="tab-orders" class="hidden">
+        <div class="p-5 sm:p-6 border-b"><h2 class="font-bold text-gray-800 text-base sm:text-lg">All Orders</h2></div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm sm:text-base" style="min-width: 600px;">
+            <thead class="bg-gray-50 text-gray-500 text-xs sm:text-sm font-semibold">
+              <tr><th class="px-4 sm:px-6 py-3 text-left">Order #</th><th class="px-4 sm:px-6 py-3 text-left">Customer</th><th class="px-4 sm:px-6 py-3 text-left">Total</th><th class="px-4 sm:px-6 py-3 text-left">Status</th><th class="px-4 sm:px-6 py-3 text-left">Date</th></tr>
+            </thead>
+            <tbody id="ordersBody" class="divide-y divide-gray-100"><tr><td colspan="5" class="text-center py-8 text-gray-400">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </div>
 
   <script type="module">
     import { auth, db } from './firebase-config.js';
-    import { onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-    import { collection, getDocs, query, where, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+    import { onAuthStateChanged, signOut as fbSignOut } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+    import { collection, getDocs, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
-    // Check authentication
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        // Check if admin by reading role from database
-        const userDoc = await getDoc(doc(db, 'users', user.uid));
-        
-        if (!userDoc.exists() || userDoc.data().role !== 'admin') {
-          alert('Access denied. Admin only.');
-          window.location.href = 'login.html';
-          return;
-        }
-        
-        loadDashboard();
-      } else {
-        window.location.href = 'login.html';
-      }
+    onAuthStateChanged(auth, async user => {
+      if (!user) { window.location.href = 'login.html'; return; }
+      const ud = await getDoc(doc(db, 'users', user.uid));
+      if (!ud.exists() || ud.data().role !== 'admin') { window.location.href = 'marketplace.html'; return; }
+      loadAll();
     });
 
-    async function loadDashboard() {
-      try {
-        // Load users
-        const usersSnapshot = await getDocs(collection(db, 'users'));
-        const users = [];
-        let farmerCount = 0;
-        
-        usersSnapshot.forEach(doc => {
-          const userData = doc.data();
-          users.push({...userData, id: doc.id});
-          if (userData.role === 'farmer') farmerCount++;
-        });
+    async function loadAll() {
+      const [users, products, orders] = await Promise.all([
+        getDocs(collection(db, 'users')),
+        getDocs(collection(db, 'products')),
+        getDocs(collection(db, 'orders'))
+      ]);
 
-        document.getElementById('totalUsers').textContent = users.length;
-        document.getElementById('totalFarmers').textContent = farmerCount;
+      const uList = users.docs.map(d => d.data());
+      const pList = products.docs.map(d => d.data());
+      const oList = orders.docs.map(d => d.data());
 
-        // Display users table
-        if (users.length > 0) {
-          let tableHTML = `
-            <table>
-              <thead>
-                <tr>
-                  <th>Email</th>
-                  <th>Role</th>
-                  <th>Farm Name</th>
-                  <th>Joined</th>
-                </tr>
-              </thead>
-              <tbody>
-          `;
-          
-          users.forEach(user => {
-            tableHTML += `
-              <tr>
-                <td style="font-weight: 600;">${user.email}</td>
-                <td><span class="badge badge-${user.role}">${user.role}</span></td>
-                <td>${user.farmName || '-'}</td>
-                <td style="font-size: 14px; color: #6b7280;">${user.createdAt ? new Date(user.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}</td>
-              </tr>
-            `;
-          });
-          
-          tableHTML += '</tbody></table>';
-          document.getElementById('usersTable').innerHTML = tableHTML;
-        }
+      document.getElementById('totalUsers').textContent = uList.length;
+      document.getElementById('totalFarmers').textContent = uList.filter(u => u.role === 'farmer').length;
+      document.getElementById('totalProducts').textContent = pList.length;
+      document.getElementById('totalOrders').textContent = oList.length;
 
-        // Load products
-        const productsSnapshot = await getDocs(collection(db, 'products'));
-        const products = [];
-        
-        productsSnapshot.forEach(doc => {
-          products.push({...doc.data(), id: doc.id});
-        });
+      document.getElementById('usersBody').innerHTML = uList.map(u => `
+        <tr class="hover:bg-gray-50 transition-colors">
+          <td class="px-4 sm:px-6 py-3 sm:py-4 text-gray-700">${u.email}</td>
+          <td class="px-4 sm:px-6 py-3 sm:py-4"><span class="px-2 py-1 rounded-full text-xs font-semibold ${u.role === 'farmer' ? 'bg-green-100 text-green-700' : u.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-600'}">${u.role}</span></td>
+          <td class="px-4 sm:px-6 py-3 sm:py-4 text-gray-500">${u.farmName || '—'}</td>
+          <td class="px-4 sm:px-6 py-3 sm:py-4 text-gray-400 text-xs sm:text-sm">${u.createdAt?.toDate?.()?.toLocaleDateString() || '—'}</td>
+        </tr>`).join('');
 
-        document.getElementById('totalProducts').textContent = products.length;
+      document.getElementById('productsBody').innerHTML = pList.map(p => `
+        <tr class="hover:bg-gray-50 transition-colors">
+          <td class="px-4 sm:px-6 py-3 sm:py-4"><span class="mr-2">${p.emoji || '🌾'}</span>${p.name}</td>
+          <td class="px-4 sm:px-6 py-3 sm:py-4 text-gray-500">${p.farmerName}</td>
+          <td class="px-4 sm:px-6 py-3 sm:py-4 font-semibold text-green-600">RM ${p.price.toFixed(2)}/kg</td>
+          <td class="px-4 sm:px-6 py-3 sm:py-4 text-gray-500">${p.location}</td>
+        </tr>`).join('');
 
-        // Display products table
-        if (products.length > 0) {
-          let tableHTML = `
-            <table>
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>Farmer</th>
-                  <th>Location</th>
-                  <th>Price</th>
-                  <th>Added</th>
-                </tr>
-              </thead>
-              <tbody>
-          `;
-          
-          products.forEach(product => {
-            tableHTML += `
-              <tr>
-                <td><span style="font-size: 20px; margin-right: 8px;">${product.emoji}</span> ${product.name}</td>
-                <td>${product.farmerName}</td>
-                <td>📍 ${product.location}</td>
-                <td style="font-weight: 700; color: #16a34a;">RM ${product.price.toFixed(2)}</td>
-                <td style="font-size: 14px; color: #6b7280;">${product.createdAt ? new Date(product.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}</td>
-              </tr>
-            `;
-          });
-          
-          tableHTML += '</tbody></table>';
-          document.getElementById('productsTable').innerHTML = tableHTML;
-        } else {
-          document.getElementById('productsTable').innerHTML = '<p style="color: #6b7280;">No products listed yet.</p>';
-        }
-
-        // Load orders
-        const ordersSnapshot = await getDocs(collection(db, 'orders'));
-        const orders = [];
-        let totalRevenue = 0;
-        
-        ordersSnapshot.forEach(doc => {
-          const orderData = doc.data();
-          orders.push({...orderData, id: doc.id});
-          totalRevenue += orderData.total || 0;
-        });
-
-        document.getElementById('totalOrders').textContent = orders.length;
-
-        // Display orders table
-        if (orders.length > 0) {
-          let tableHTML = `
-            <table>
-              <thead>
-                <tr>
-                  <th>Order ID</th>
-                  <th>Items</th>
-                  <th>Total</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-          `;
-          
-          orders.forEach(order => {
-            const itemsList = order.items.map(item => `${item.emoji} ${item.name}`).join(', ');
-            tableHTML += `
-              <tr>
-                <td style="font-weight: 600;">#${order.id.substring(0, 8)}</td>
-                <td>${itemsList}</td>
-                <td style="font-weight: 700; color: #16a34a;">RM ${order.total.toFixed(2)}</td>
-                <td><span class="badge badge-farmer">${order.status}</span></td>
-                <td style="font-size: 14px; color: #6b7280;">${order.createdAt ? new Date(order.createdAt.seconds * 1000).toLocaleString() : 'N/A'}</td>
-              </tr>
-            `;
-          });
-          
-          tableHTML += '</tbody></table>';
-          document.getElementById('ordersTable').innerHTML = tableHTML;
-        } else {
-          document.getElementById('ordersTable').innerHTML = '<p style="color: #6b7280;">No orders placed yet.</p>';
-        }
-
-      } catch (error) {
-        console.error('Error loading dashboard:', error);
-        alert('Error loading dashboard data: ' + error.message);
-      }
+      document.getElementById('ordersBody').innerHTML = oList.map(o => `
+        <tr class="hover:bg-gray-50 transition-colors">
+          <td class="px-4 sm:px-6 py-3 sm:py-4 font-mono text-xs sm:text-sm text-gray-600">${o.orderNumber}</td>
+          <td class="px-4 sm:px-6 py-3 sm:py-4"><div class="font-semibold text-gray-700">${o.customerName}</div><div class="text-gray-400 text-xs">${o.customerEmail}</div></td>
+          <td class="px-4 sm:px-6 py-3 sm:py-4 font-bold text-green-600">RM ${o.total.toFixed(2)}</td>
+          <td class="px-4 sm:px-6 py-3 sm:py-4"><span class="px-2 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 capitalize">${o.status}</span></td>
+          <td class="px-4 sm:px-6 py-3 sm:py-4 text-gray-400 text-xs sm:text-sm">${o.createdAt?.toDate?.()?.toLocaleDateString() || '—'}</td>
+        </tr>`).join('');
     }
 
-    window.logout = async () => {
-      await signOut(auth);
-      window.location.href = 'login.html';
-    };
+    window.signOut = () => fbSignOut(auth).then(() => window.location.href = 'login.html');
+  </script>
+  <script>
+    function showTab(tab) {
+      ['users','products','orders'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== tab);
+        const btn = document.querySelector(`[data-tab="${t}"]`);
+        if (t === tab) { btn.className = 'tab-btn px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base bg-green-600 text-white transition-all'; }
+        else { btn.className = 'tab-btn px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-sm sm:text-base bg-gray-100 text-gray-600 hover:bg-gray-200 transition-all'; }
+      });
+    }
   </script>
 </body>
 </html>

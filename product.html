@@ -4,225 +4,117 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product - Kebun Rakyat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background: linear-gradient(to bottom right, #fef3c7, #ffffff, #d1fae5); }
-    nav { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); padding: 16px 24px; }
-    .nav-content { max-width: 1280px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .logo-icon { width: 48px; height: 48px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
-    .logo-text h1 { font-size: 24px; font-weight: 700; background: linear-gradient(to right, #15803d, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-family: Georgia, serif; }
-    .logo-text p { font-size: 10px; color: #16a34a; font-weight: 600; letter-spacing: 2px; }
-    .btn { padding: 10px 24px; border-radius: 9999px; font-weight: 600; text-decoration: none; background: linear-gradient(to right, #16a34a, #10b981); color: white; display: inline-block; }
-    .container { max-width: 1280px; margin: 0 auto; padding: 120px 24px 80px; }
-    .product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
-    .product-image { background: linear-gradient(to bottom right, #fef3c7, #d1fae5); border-radius: 24px; padding: 80px; text-align: center; font-size: 160px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); }
-    .badge { display: inline-block; padding: 8px 16px; background: #16a34a; color: white; border-radius: 9999px; font-size: 12px; font-weight: 700; margin-right: 8px; }
-    .badge-stock { background: #dcfce7; color: #15803d; }
-    h1 { font-size: 42px; font-weight: 700; color: #111827; margin: 16px 0 24px; font-family: Georgia, serif; }
-    .rating { display: flex; align-items: center; gap: 8px; font-size: 16px; margin-bottom: 24px; }
-    .price { font-size: 48px; font-weight: 700; color: #16a34a; margin-bottom: 8px; }
-    .unit { font-size: 18px; color: #6b7280; margin-bottom: 32px; }
-    .farmer-box { background: #dcfce7; border-radius: 16px; padding: 24px; margin-bottom: 32px; }
-    .farmer-info { display: flex; align-items: center; gap: 16px; }
-    .farmer-avatar { width: 64px; height: 64px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; font-weight: 700; }
-    .btn-cart { padding: 20px 40px; background: linear-gradient(to right, #16a34a, #10b981); color: white; border: none; border-radius: 12px; font-weight: 700; font-size: 18px; cursor: pointer; width: 100%; margin-top: 24px; transition: transform 0.3s; }
-    .btn-cart:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(22, 163, 74, 0.3); }
-    .loading { text-align: center; padding: 80px; color: #6b7280; }
-    .error { text-align: center; padding: 80px; color: #dc2626; }
-    footer { background: #111827; color: white; padding: 48px 24px; text-align: center; margin-top: 80px; }
-    @media (max-width: 768px) { 
-      nav { padding: 12px 16px; }
-      .nav-content { padding: 0; }
-      .logo-text h1 { font-size: 20px; }
-      .logo-icon { width: 40px; height: 40px; font-size: 20px; }
-      .btn { padding: 8px 16px; font-size: 14px; }
-      .container { padding: 80px 16px 40px; }
-      .product-grid { grid-template-columns: 1fr; gap: 32px; }
-      .product-image { padding: 60px; font-size: 120px; }
-      h1 { font-size: 28px; }
-      .rating { font-size: 14px; }
-      .price { font-size: 36px; }
-      .unit { font-size: 16px; }
-      .farmer-box { padding: 20px; }
-      .farmer-avatar { width: 56px; height: 56px; font-size: 20px; }
-      .farmer-info div:first-child { font-size: 16px; }
-      .btn-cart { padding: 16px 32px; font-size: 16px; }
-      .badge { font-size: 11px; padding: 6px 10px; }
-      .info-card h3 { font-size: 20px; }
-      .info-card p { font-size: 15px; }
-      .info-card h4 { font-size: 16px; }
-      .info-card ul { font-size: 14px; }
-      .loading, .error { padding: 60px 20px; }
-      .loading h2, .error h2 { font-size: 24px; }
-    }
-    @media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; } }
+    body { font-family: 'Inter', sans-serif; }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
   </style>
 </head>
-<body>
-  <nav>
-    <div class="nav-content">
-      <a href="index.html" class="logo">
-        <div class="logo-icon">🌱</div>
-        <div class="logo-text"><h1>Kebun Rakyat</h1><p>PASARAN PETANI</p></div>
-      </a>
-      <a href="marketplace.html" class="btn">← Back to Marketplace</a>
+<body class="bg-gradient-to-br from-amber-50 via-white to-green-50 min-h-screen">
+
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        <a href="index.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div class="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center text-lg sm:text-xl">🌱</div>
+          <div class="hidden sm:flex flex-col leading-tight">
+            <span class="font-bold text-lg sm:text-xl text-green-600" style="font-family: Georgia, serif;">Kebun Rakyat</span>
+            <span class="text-[9px] text-green-600 font-semibold tracking-widest">PASARAN PETANI</span>
+          </div>
+        </a>
+        <ul class="hidden lg:flex items-center gap-8">
+          <li><a href="marketplace.html" class="text-gray-600 hover:text-green-600 font-medium transition-colors">Marketplace</a></li>
+          <li><a href="about.html" class="text-gray-600 hover:text-green-600 font-medium transition-colors">About Us</a></li>
+        </ul>
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="cart.html" class="relative inline-flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-green-600 to-green-500 text-white font-semibold text-sm rounded-full">
+            🛒 <span id="cartCount" class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+          </a>
+          <button id="mobile-menu-btn" class="hamburger lg:hidden flex flex-col gap-1.5 p-2" onclick="toggleMenu()">
+            <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300"></span>
+            <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300"></span>
+            <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div id="mobile-menu" class="hidden lg:hidden bg-gradient-to-br from-green-600 to-green-500 shadow-lg">
+      <ul class="container mx-auto px-4 py-4 space-y-1">
+        <li><a href="index.html" class="block text-white font-semibold text-base py-3 px-3 rounded-lg hover:bg-white/10">Home</a></li>
+        <li><a href="marketplace.html" class="block text-white font-semibold text-base py-3 px-3 rounded-lg hover:bg-white/10">Marketplace</a></li>
+        <li><a href="cart.html" class="block text-white font-semibold text-base py-3 px-3 rounded-lg hover:bg-white/10">Cart</a></li>
+      </ul>
     </div>
   </nav>
 
-  <div class="container">
-    <div style="font-size: 14px; color: #6b7280; margin-bottom: 24px;">
-      <a href="index.html" style="color: #6b7280; text-decoration: none;">Home</a> / 
-      <a href="marketplace.html" style="color: #6b7280; text-decoration: none;">Marketplace</a> / 
-      <span style="color: #111827; font-weight: 600;" id="breadcrumb">Product</span>
-    </div>
-
-    <div id="productContent">
-      <div class="loading">Loading product details...</div>
+  <div class="pt-16 sm:pt-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10">
+      <div class="mb-4 sm:mb-6">
+        <a href="marketplace.html" class="text-green-600 hover:text-green-700 font-semibold text-sm sm:text-base">← Back to Marketplace</a>
+      </div>
+      <div id="productContent" class="text-center py-20 text-gray-400 text-lg">Loading product...</div>
     </div>
   </div>
-
-  <footer>
-    <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 16px;">
-      <div class="logo-icon">🌱</div><h3 style="font-size: 24px; font-family: Georgia, serif;">Kebun Rakyat</h3>
-    </div>
-    <p style="color: #9ca3af;">Menghubungkan petani dan pembeli untuk masa depan yang lestari</p>
-  </footer>
 
   <script type="module">
     import { db } from './firebase-config.js';
     import { doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
 
-    // Get product ID from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const productId = urlParams.get('id');
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const id = new URLSearchParams(window.location.search).get('id');
+    document.getElementById('cartCount').textContent = new Set(cart.map(i => i.id)).size;
 
-    if (!productId) {
-      document.getElementById('productContent').innerHTML = `
-        <div class="error">
-          <h2 style="font-size: 32px; margin-bottom: 16px;">Product Not Found</h2>
-          <p>No product ID provided.</p>
-          <a href="marketplace.html" class="btn" style="margin-top: 24px; display: inline-block;">Back to Marketplace</a>
-        </div>
-      `;
-    } else {
-      loadProduct(productId);
-    }
-
-    async function loadProduct(productId) {
-      try {
-        const productDoc = await getDoc(doc(db, 'products', productId));
-        
-        if (!productDoc.exists()) {
-          document.getElementById('productContent').innerHTML = `
-            <div class="error">
-              <h2 style="font-size: 32px; margin-bottom: 16px;">Product Not Found</h2>
-              <p>This product does not exist or has been removed.</p>
-              <a href="marketplace.html" class="btn" style="margin-top: 24px; display: inline-block;">Back to Marketplace</a>
-            </div>
-          `;
-          return;
-        }
-
-        const product = productDoc.data();
-        
-        // Update breadcrumb
-        document.getElementById('breadcrumb').textContent = product.name;
-        document.title = `${product.name} - Kebun Rakyat`;
-
-        // Render product
+    if (!id) { document.getElementById('productContent').innerHTML = '<p class="text-red-400 text-lg">Product not found</p>'; }
+    else {
+      getDoc(doc(db, 'products', id)).then(d => {
+        if (!d.exists()) { document.getElementById('productContent').innerHTML = '<p class="text-red-400 text-lg">Product not found</p>'; return; }
+        const p = { id: d.id, ...d.data() };
+        const emoji = p.emoji || '🌾';
+        const reviewCount = Math.floor(Math.random() * 150 + 30);
+        document.title = `${p.name} - Kebun Rakyat`;
         document.getElementById('productContent').innerHTML = `
-          <div class="product-grid">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-14 items-start">
+            <div class="bg-gradient-to-br from-amber-50 to-green-50 rounded-2xl flex items-center justify-center py-16 sm:py-20 text-8xl sm:text-9xl">${emoji}</div>
             <div>
-              <div class="product-image">${product.emoji || '🌾'}</div>
-            </div>
-
-            <div>
-              <div style="margin-bottom: 16px;">
-                <span class="badge">🛡️ Verified Farmer</span>
-                <span class="badge badge-stock">In Stock</span>
+              <h1 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-3" style="font-family: Georgia, serif;">${p.name}</h1>
+              <div class="flex flex-wrap gap-2 mb-5">
+                <span class="bg-green-50 text-green-700 text-sm font-semibold px-3 py-1.5 rounded-lg">⏰ ${p.harvestTime}</span>
+                <span class="bg-gray-50 text-gray-600 text-sm font-semibold px-3 py-1.5 rounded-lg">📍 ${p.location}</span>
               </div>
-
-              <h1>${product.name}</h1>
-
-              <div class="rating">
-                <span>⭐⭐⭐⭐⭐</span>
-                <span style="font-weight: 700;">${product.rating ? product.rating.toFixed(1) : '4.5'}</span>
-                <span style="color: #6b7280;">(${Math.floor(Math.random() * 200)} reviews)</span>
+              <div class="flex items-center gap-2 text-base font-semibold text-gray-700 mb-5">⭐ ${(p.rating || 4.5).toFixed(1)} <span class="text-gray-400 font-normal">(${reviewCount} reviews)</span></div>
+              <p class="text-gray-500 text-base sm:text-lg leading-relaxed mb-6">${p.description || 'Fresh quality produce directly from the farm.'}</p>
+              <div class="bg-green-50 rounded-2xl p-5 mb-6 flex items-center gap-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center text-xl">🌱</div>
+                <div><div class="font-bold text-gray-800">${p.farmerName}</div><div class="text-gray-500 text-sm">${p.farmerEmail}</div></div>
               </div>
-
-              <div class="price">RM ${product.price.toFixed(2)}</div>
-              <div class="unit">per kg</div>
-
-              <div class="farmer-box">
-                <div style="font-weight: 600; color: #111827; margin-bottom: 16px;">Sold by:</div>
-                <div class="farmer-info">
-                  <div class="farmer-avatar">${product.farmerName ? product.farmerName.substring(0, 2).toUpperCase() : 'FM'}</div>
-                  <div>
-                    <div style="font-weight: 700; color: #111827; font-size: 18px;">${product.farmerName || 'Local Farmer'}</div>
-                    <div style="color: #6b7280;">📍 ${product.location}</div>
-                  </div>
-                </div>
-              </div>
-
-              <div style="margin-bottom: 24px;">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-                  <span style="font-size: 20px;">🌾</span>
-                  <span style="color: #374151;"><strong>Expected Harvest:</strong> ${product.harvestTime}</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-                  <span style="font-size: 20px;">🚚</span>
-                  <span style="color: #374151;">Delivery in 1-2 days after harvest</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-                  <span style="font-size: 20px;">⏰</span>
-                  <span style="color: #374151;">Farm-fresh guarantee</span>
-                </div>
-                <div style="display: flex; align-items: center; gap: 12px;">
-                  <span style="font-size: 20px;">🛡️</span>
-                  <span style="color: #374151;">Quality guaranteed or money back</span>
-                </div>
-              </div>
-
-              <button class="btn-cart" onclick="addToCart('${productId}', '${product.name}', ${product.price}, '${product.emoji || '🌾'}')">
-                🛒 Add to Cart
-              </button>
-
-              <div style="background: white; border-radius: 16px; padding: 32px; margin-top: 32px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
-                <h3 style="font-size: 24px; font-weight: 700; color: #111827; margin-bottom: 16px;">Product Details</h3>
-                <p style="color: #6b7280; line-height: 1.8; margin-bottom: 24px;">
-                  ${product.description || 'Fresh, quality produce from local farmers. Harvested with care and delivered to your doorstep.'}
-                </p>
-                <h4 style="font-size: 18px; font-weight: 700; color: #111827; margin-bottom: 12px;">Key Features:</h4>
-                <ul style="color: #374151; line-height: 2; margin-left: 24px;">
-                  <li>100% Fresh from local farms</li>
-                  <li>Harvested within 24-48 hours</li>
-                  <li>No middlemen - direct from farmer</li>
-                  <li>Quality guaranteed</li>
-                </ul>
+              <div class="border-t pt-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div><div class="text-3xl sm:text-4xl font-bold text-green-600">RM ${p.price.toFixed(2)}</div><div class="text-gray-400 text-sm">per kg</div></div>
+                <button id="addCartBtn" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}" data-emoji="${emoji}"
+                  class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 text-white font-bold text-base sm:text-lg rounded-xl hover:shadow-lg active:scale-95 transition-all">🛒 Add to Cart</button>
               </div>
             </div>
-          </div>
-        `;
+          </div>`;
 
-      } catch (error) {
-        document.getElementById('productContent').innerHTML = `
-          <div class="error">
-            <h2 style="font-size: 32px; margin-bottom: 16px;">Error Loading Product</h2>
-            <p>${error.message}</p>
-            <a href="marketplace.html" class="btn" style="margin-top: 24px; display: inline-block;">Back to Marketplace</a>
-          </div>
-        `;
-      }
+        // Attach event listener after innerHTML is set — no inline onclick needed
+        document.getElementById('addCartBtn').addEventListener('click', function() {
+          cart.push({ id: this.dataset.id, name: this.dataset.name, price: parseFloat(this.dataset.price), emoji: this.dataset.emoji });
+          localStorage.setItem('cart', JSON.stringify(cart));
+          document.getElementById('cartCount').textContent = new Set(cart.map(i => i.id)).size;
+          this.textContent = '✓ Added!';
+          this.classList.add('bg-green-700');
+          setTimeout(() => { this.textContent = '🛒 Add to Cart'; this.classList.remove('bg-green-700'); }, 2000);
+        });
+      });
     }
-
-    window.addToCart = (id, name, price, emoji) => {
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.push({ id, name, price, emoji });
-      localStorage.setItem('cart', JSON.stringify(cart));
-      alert(`${emoji} ${name} added to cart!`);
-    };
+  </script>
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+      document.getElementById('mobile-menu-btn').classList.toggle('active');
+    }
   </script>
 </body>
 </html>

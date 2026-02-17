@@ -1,294 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Us - Kebun Rakyat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-    body { background: linear-gradient(to bottom right, #fef3c7, #ffffff, #d1fae5); }
-    
-    /* Navigation - Works on ALL screen sizes */
-    nav { 
-      background: rgba(255, 255, 255, 0.95); 
-      backdrop-filter: blur(10px); 
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
-      padding: 12px 16px; 
-    }
-    .nav-content { 
-      max-width: 1280px; 
-      margin: 0 auto; 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      gap: 12px; 
-    }
-    .logo { 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-      text-decoration: none; 
-      flex-shrink: 0;
-    }
-    .logo-icon { 
-      width: 36px; 
-      height: 36px; 
-      background: linear-gradient(to bottom right, #16a34a, #10b981); 
-      border-radius: 10px; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      font-size: 18px; 
-      flex-shrink: 0;
-    }
-    .logo-text h1 { 
-      font-size: 16px; 
-      font-weight: 700; 
-      background: linear-gradient(to right, #15803d, #059669); 
-      -webkit-background-clip: text; 
-      -webkit-text-fill-color: transparent; 
-      font-family: Georgia, serif; 
-      white-space: nowrap;
-    }
-    .logo-text p { 
-      font-size: 7px; 
-      color: #16a34a; 
-      font-weight: 600; 
-      letter-spacing: 1px; 
-      white-space: nowrap;
-    }
-    .nav-links { 
-      display: none; 
-    }
-    .btn { 
-      padding: 8px 14px; 
-      border-radius: 20px; 
-      font-weight: 600; 
-      text-decoration: none; 
-      background: linear-gradient(to right, #16a34a, #10b981); 
-      color: white; 
-      display: inline-flex; 
-      align-items: center; 
-      min-height: 40px; 
-      font-size: 14px; 
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    
-    @media (max-width: 374px) {
-      nav { padding: 10px 12px; }
-      .logo-icon { width: 32px; height: 32px; font-size: 16px; }
-      .logo-text h1 { font-size: 14px; }
-      .logo-text p { font-size: 6px; }
-      .btn { padding: 6px 10px; font-size: 13px; min-height: 36px; }
-    }
-    
-    @media (min-width: 375px) and (max-width: 639px) {
-      .logo-icon { width: 38px; height: 38px; font-size: 19px; }
-      .logo-text h1 { font-size: 17px; }
-    }
-    
-    @media (min-width: 640px) and (max-width: 767px) {
-      nav { padding: 14px 20px; }
-      .logo-icon { width: 42px; height: 42px; font-size: 21px; }
-      .logo-text h1 { font-size: 19px; }
-      .logo-text p { font-size: 8px; }
-      .btn { padding: 9px 16px; font-size: 15px; min-height: 42px; }
-    }
-    
-    @media (min-width: 768px) and (max-width: 1023px) {
-      nav { padding: 14px 24px; }
-      .nav-content { gap: 20px; }
-      .logo-icon { width: 44px; height: 44px; font-size: 22px; }
-      .logo-text h1 { font-size: 21px; }
-      .logo-text p { font-size: 9px; }
-      
-      .nav-links { 
-        display: flex; 
-        gap: 16px; 
-        align-items: center; 
-      }
-      .nav-links a { 
-        color: #374151; 
-        text-decoration: none; 
-        font-weight: 500; 
-        font-size: 14px; 
-        white-space: nowrap;
-      }
-      
-      .btn { padding: 10px 18px; font-size: 15px; }
-    }
-    
-    @media (min-width: 1024px) {
-      nav { padding: 16px 24px; }
-      .nav-content { gap: 32px; }
-      .logo-icon { width: 48px; height: 48px; font-size: 24px; border-radius: 12px; }
-      .logo-text h1 { font-size: 24px; }
-      .logo-text p { font-size: 10px; letter-spacing: 2px; }
-      
-      .nav-links { 
-        display: flex; 
-        gap: 28px; 
-        align-items: center; 
-      }
-      .nav-links a { 
-        color: #374151; 
-        text-decoration: none; 
-        font-weight: 500; 
-        font-size: 15px; 
-        transition: color 0.2s;
-        white-space: nowrap;
-      }
-      .nav-links a:hover { 
-        color: #16a34a; 
-      }
-      
-      .btn { padding: 10px 24px; font-size: 16px; min-height: 44px; }
-    }
-    
-    /* Hero Banner - Mobile First */
-    .hero-banner { background: linear-gradient(to right, #16a34a, #10b981); color: white; padding: 90px 16px 56px; text-align: center; }
-    .hero-banner h1 { font-size: 36px; font-weight: 700; margin-bottom: 20px; font-family: Georgia, serif; line-height: 1.2; }
-    .hero-banner p { font-size: 18px; color: #d1fae5; max-width: 800px; margin: 0 auto; line-height: 1.6; }
-    
-    /* Container */
-    .container { max-width: 1280px; margin: 0 auto; padding: 48px 16px; }
-    
-    /* Cards - Mobile First (1 column) */
-    .grid-2 { display: grid; grid-template-columns: 1fr; gap: 24px; }
-    .card { background: white; border-radius: 20px; padding: 28px 20px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12); }
-    .card-icon { width: 64px; height: 64px; background: linear-gradient(to bottom right, #16a34a, #10b981); border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 20px; }
-    .card h2 { font-size: 26px; font-weight: 700; color: #111827; margin-bottom: 14px; font-family: Georgia, serif; }
-    .card p { font-size: 17px; color: #6b7280; line-height: 1.7; }
-    
-    /* Section Titles */
-    .section-title { font-size: 32px; font-weight: 700; color: #111827; text-align: center; margin-bottom: 14px; font-family: Georgia, serif; }
-    .section-subtitle { font-size: 17px; color: #6b7280; text-align: center; margin-bottom: 48px; line-height: 1.6; }
-    
-    /* Values Grid - Mobile First (1 column) */
-    .values-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
-    .value-card { background: white; border-radius: 20px; padding: 28px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); text-align: center; }
-    .value-icon { width: 64px; height: 64px; background: linear-gradient(to bottom right, #dcfce7, #d1fae5); border-radius: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 18px; }
-    .value-card h3 { font-size: 20px; font-weight: 700; color: #111827; margin-bottom: 12px; }
-    .value-card p { font-size: 15px; color: #6b7280; line-height: 1.6; }
-    
-    /* Footer */
-    footer { background: #111827; color: white; padding: 40px 16px; text-align: center; }
-    .footer-logo { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 20px; }
-    .footer-logo h3 { font-size: 22px; font-family: Georgia, serif; }
-    
-    /* Tablet (640px+) */
-    @media (min-width: 640px) {
-      .hero-banner { padding: 100px 20px 64px; }
-      .hero-banner h1 { font-size: 44px; }
-      .hero-banner p { font-size: 20px; }
-      .container { padding: 56px 20px; }
-      .values-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-    }
-    
-    /* Desktop (1024px+) */
-    @media (min-width: 1024px) {
-      nav { padding: 16px 24px; }
-      .logo-icon { width: 48px; height: 48px; font-size: 24px; }
-      .logo-text h1 { font-size: 24px; }
-      .logo-text p { font-size: 10px; letter-spacing: 2px; }
-      .nav-links { display: flex; gap: 28px; align-items: center; }
-      .nav-links a { color: #374151; text-decoration: none; font-weight: 500; font-size: 15px; }
-      .btn { font-size: 16px; }
-      
-      .hero-banner { padding: 140px 24px 96px; }
-      .hero-banner h1 { font-size: 60px; }
-      .hero-banner p { font-size: 24px; }
-      
-      .container { padding: 80px 24px; }
-      .grid-2 { grid-template-columns: 1fr 1fr; gap: 48px; }
-      .card { padding: 48px; }
-      .card h2 { font-size: 36px; margin-bottom: 18px; }
-      .card p { font-size: 19px; }
-      
-      .section-title { font-size: 48px; margin-bottom: 18px; }
-      .section-subtitle { font-size: 21px; margin-bottom: 72px; }
-      
-      .values-grid { grid-template-columns: repeat(4, 1fr); gap: 32px; }
-      .value-card { padding: 36px; }
-      .value-card h3 { font-size: 22px; }
-      .value-card p { font-size: 16px; }
-      
-      footer { padding: 56px 24px; }
-    }
+    body { font-family: 'Inter', sans-serif; }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
   </style>
 </head>
-<body>
-  <nav>
-    <div class="nav-content">
-      <a href="index.html" class="logo">
-        <div class="logo-icon">🌱</div>
-        <div class="logo-text"><h1>Kebun Rakyat</h1><p>PASARAN PETANI</p></div>
-      </a>
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="marketplace.html">Marketplace</a>
-        <a href="about.html" style="color: #16a34a; font-weight: 700;">About Us</a>
-        <a href="dashboard.html">For Farmers</a>
+<body class="bg-gradient-to-br from-amber-50 via-white to-green-50 min-h-screen">
+
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md shadow-md">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        <a href="index.html" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          <div class="w-9 h-9 sm:w-11 sm:h-11 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center text-lg sm:text-xl flex-shrink-0">🌱</div>
+          <div class="hidden sm:flex flex-col leading-tight">
+            <span class="font-bold text-lg sm:text-xl text-green-600" style="font-family: Georgia, serif;">Kebun Rakyat</span>
+            <span class="text-[9px] text-green-600 font-semibold tracking-widest">PASARAN PETANI</span>
+          </div>
+        </a>
+        <ul class="hidden lg:flex items-center gap-8">
+          <li><a href="index.html" class="text-gray-600 hover:text-green-600 font-medium transition-colors">Home</a></li>
+          <li><a href="marketplace.html" class="text-gray-600 hover:text-green-600 font-medium transition-colors">Marketplace</a></li>
+          <li><a href="about.html" class="text-green-600 font-semibold transition-colors">About Us</a></li>
+          <li><a href="dashboard.html" class="text-gray-600 hover:text-green-600 font-medium transition-colors">For Farmers</a></li>
+        </ul>
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="login.html" class="hidden sm:inline-flex items-center px-4 py-2 text-green-600 font-semibold text-sm hover:bg-green-50 rounded-full transition-colors">Sign In</a>
+          <a href="login.html" class="inline-flex items-center px-4 sm:px-5 py-2 bg-gradient-to-r from-green-600 to-green-500 text-white font-semibold text-sm rounded-full hover:shadow-lg transition-all">Get Started</a>
+          <button id="mobile-menu-btn" class="hamburger lg:hidden flex flex-col gap-1.5 p-2" onclick="toggleMenu()">
+            <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300"></span>
+            <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300"></span>
+            <span class="block w-5 h-0.5 bg-gray-700 transition-all duration-300"></span>
+          </button>
+        </div>
       </div>
-      <a href="login.html" class="btn">Get Started</a>
+    </div>
+    <div id="mobile-menu" class="hidden lg:hidden bg-gradient-to-br from-green-600 to-green-500 shadow-lg">
+      <ul class="container mx-auto px-4 py-4 space-y-1">
+        <li><a href="index.html" class="block text-white font-semibold text-base py-3 px-3 rounded-lg hover:bg-white/10 transition-colors">Home</a></li>
+        <li><a href="marketplace.html" class="block text-white font-semibold text-base py-3 px-3 rounded-lg hover:bg-white/10 transition-colors">Marketplace</a></li>
+        <li><a href="about.html" class="block text-white font-semibold text-base py-3 px-3 rounded-lg hover:bg-white/10 transition-colors">About Us</a></li>
+        <li><a href="dashboard.html" class="block text-white font-semibold text-base py-3 px-3 rounded-lg hover:bg-white/10 transition-colors">For Farmers</a></li>
+        <li><a href="login.html" class="block text-white font-semibold text-base py-3 px-3 rounded-lg hover:bg-white/10 transition-colors">Sign In</a></li>
+      </ul>
     </div>
   </nav>
 
-  <div class="hero-banner">
-    <h1>About Kebun Rakyat</h1>
-    <p>Empowering farmers, connecting communities, and building a sustainable food ecosystem for Malaysia.</p>
-  </div>
-
-  <div class="container">
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-icon">🎯</div>
-        <h2>Our Mission</h2>
-        <p>To create a transparent, farmer-first marketplace that eliminates middlemen, ensures fair prices for producers, and delivers fresh, quality produce directly to Malaysian consumers.</p>
-      </div>
-      <div class="card">
-        <div class="card-icon">👁️</div>
-        <h2>Our Vision</h2>
-        <p>To become Malaysia's leading agricultural marketplace, where every farmer has direct market access and every buyer enjoys farm-fresh produce at fair prices.</p>
-      </div>
+  <!-- Hero Banner -->
+  <div class="bg-gradient-to-r from-green-600 to-green-400 text-white pt-28 sm:pt-36 pb-14 sm:pb-20 text-center">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4" style="font-family: Georgia, serif;">About Kebun Rakyat</h1>
+      <p class="text-base sm:text-lg lg:text-xl text-green-100 max-w-2xl mx-auto leading-relaxed">Empowering farmers, connecting communities, and building a sustainable food ecosystem for Malaysia.</p>
     </div>
   </div>
 
-  <div class="container">
-    <h2 class="section-title">Our Values</h2>
-    <p class="section-subtitle">The principles that guide everything we do</p>
-    <div class="values-grid">
-      <div class="value-card">
-        <div class="value-icon">🤝</div>
-        <h3>Fairness</h3>
-        <p>Fair prices for farmers, fair prices for buyers, no hidden fees or middlemen taking cuts.</p>
-      </div>
-      <div class="value-card">
-        <div class="value-icon">🔍</div>
-        <h3>Transparency</h3>
-        <p>Complete visibility into product origins, farming practices, and pricing structures.</p>
-      </div>
-      <div class="value-card">
-        <div class="value-icon">🌱</div>
-        <h3>Sustainability</h3>
-        <p>Supporting sustainable farming practices that protect our environment for future generations.</p>
-      </div>
-      <div class="value-card">
-        <div class="value-icon">💚</div>
-        <h3>Community</h3>
-        <p>Building strong connections between farmers and buyers to strengthen local food systems.</p>
+  <!-- Mission & Vision -->
+  <section class="py-12 sm:py-16 lg:py-20">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
+        <div class="bg-white rounded-2xl p-6 sm:p-8 lg:p-10 shadow-lg">
+          <div class="w-14 h-14 bg-gradient-to-br from-green-600 to-green-400 rounded-2xl flex items-center justify-center text-2xl mb-5">🎯</div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4" style="font-family: Georgia, serif;">Our Mission</h2>
+          <p class="text-gray-600 leading-relaxed text-base sm:text-lg">To create a transparent, farmer-first marketplace that eliminates middlemen, ensures fair prices for producers, and delivers fresh quality produce directly to Malaysian consumers.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 sm:p-8 lg:p-10 shadow-lg">
+          <div class="w-14 h-14 bg-gradient-to-br from-green-600 to-green-400 rounded-2xl flex items-center justify-center text-2xl mb-5">👁️</div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-4" style="font-family: Georgia, serif;">Our Vision</h2>
+          <p class="text-gray-600 leading-relaxed text-base sm:text-lg">To become Malaysia's leading agricultural marketplace, where every farmer has direct market access and every buyer enjoys farm-fresh produce at fair prices.</p>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <footer>
-    <div class="footer-logo">
-      <div class="logo-icon">🌱</div>
-      <h3>Kebun Rakyat</h3>
+  <!-- Values -->
+  <section class="py-12 sm:py-16 lg:py-20 bg-white/60">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-bold text-center text-gray-800 mb-4" style="font-family: Georgia, serif;">Our Values</h2>
+      <p class="text-gray-500 text-center mb-10 sm:mb-14 text-base sm:text-lg">The principles that guide everything we do</p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+        <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-md text-center">
+          <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4">🤝</div>
+          <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-3">Fairness</h3>
+          <p class="text-gray-500 text-sm sm:text-base leading-relaxed">Fair prices for farmers and buyers. No hidden fees or middlemen taking cuts.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-md text-center">
+          <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4">🔍</div>
+          <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-3">Transparency</h3>
+          <p class="text-gray-500 text-sm sm:text-base leading-relaxed">Complete visibility into product origins, farming practices, and pricing.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-md text-center">
+          <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4">🌱</div>
+          <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-3">Sustainability</h3>
+          <p class="text-gray-500 text-sm sm:text-base leading-relaxed">Supporting farming practices that protect our environment for future generations.</p>
+        </div>
+        <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-md text-center">
+          <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center text-2xl mx-auto mb-4">💚</div>
+          <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-3">Community</h3>
+          <p class="text-gray-500 text-sm sm:text-base leading-relaxed">Building strong connections between farmers and buyers to strengthen local food systems.</p>
+        </div>
+      </div>
     </div>
-    <p style="color: #9ca3af; font-size: 15px;">Menghubungkan petani dan pembeli untuk masa depan yang lestari</p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-10 sm:py-14">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center">🌱</div>
+          <div><div class="font-bold text-lg" style="font-family: Georgia, serif;">Kebun Rakyat</div><div class="text-gray-400 text-xs tracking-widest">PASARAN PETANI</div></div>
+        </div>
+        <div class="flex flex-wrap justify-center gap-4 sm:gap-8 text-sm text-gray-400">
+          <a href="marketplace.html" class="hover:text-green-400 transition-colors">Marketplace</a>
+          <a href="about.html" class="hover:text-green-400 transition-colors">About Us</a>
+          <a href="login.html" class="hover:text-green-400 transition-colors">For Farmers</a>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-8 pt-6 text-center text-gray-500 text-sm">© 2026 Kebun Rakyat. Hak cipta terpelihara.</div>
+    </div>
   </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById('mobile-menu').classList.toggle('hidden');
+      document.getElementById('mobile-menu-btn').classList.toggle('active');
+    }
+    document.querySelectorAll('#mobile-menu a').forEach(l => l.addEventListener('click', () => {
+      document.getElementById('mobile-menu').classList.add('hidden');
+      document.getElementById('mobile-menu-btn').classList.remove('active');
+    }));
+  </script>
 </body>
 </html>
